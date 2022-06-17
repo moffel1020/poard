@@ -54,10 +54,6 @@ int main()
 	Ebo ebo = Ebo(indices, sizeof(indices));
 	ebo.Bind();
 
-
-	unsigned int xPosLocation = glGetUniformLocation(shader.id, "uX");
-	glUniform1f(xPosLocation, 0.0f);
-
 	glViewport(0, 0, window->height, window->height);
 
 	shader.Activate();
