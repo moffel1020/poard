@@ -75,3 +75,18 @@ void Shader::Delete()
 {
     glDeleteProgram(id);
 }
+
+unsigned int Shader::GetUniformLocation(const char* name)
+{
+    return glGetUniformLocation(id, name);
+}
+
+void Shader::UploadFloat(const char* name, float f)
+{
+    glUniform1f(GetUniformLocation(name), f);
+}
+
+void Shader::UploadVec3(const char* name, glm::vec3& vec3)
+{
+    glUniform3f(GetUniformLocation(name), vec3.x, vec3.y, vec3.z);
+}
