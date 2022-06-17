@@ -37,6 +37,7 @@ void Window::ChangeTitle(std::string title)
 
 void Window::framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
+    // TODO: actually update width and height variables of window
     std::cout << "changing viewport to: " << width << " " << height << std::endl;
     glViewport(0, 0, width, height);
 }

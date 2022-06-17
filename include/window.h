@@ -11,7 +11,7 @@ public:
     const char *title;
     bool fullscreen;
 
-    Window(int width, int height, int refreshRate, const char *title, bool fullscreen);
+    explicit Window(int width, int height, int refreshRate, const char *title, bool fullscreen);
     void ChangeTitle(std::string title);
     void Initialize();
     void Close();
