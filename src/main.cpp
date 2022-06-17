@@ -70,9 +70,6 @@ int main()
 		ebo.Bind();
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-		if (Input::isKeyDown(GLFW_KEY_E))
-			glUniform1f(xPosLocation, 0.5f);
-
 		glfwSwapBuffers(window->GLwindow);
 		glfwPollEvents();
 	}
