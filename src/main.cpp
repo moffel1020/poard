@@ -3,6 +3,8 @@
 #include "window.h"
 #include "input.h"
 #include "buffers.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb/stb_image.h"
 
 
 int main()
@@ -43,6 +45,15 @@ int main()
         0, 1, 2,
         0, 2, 3
     };
+
+    GLfloat texCoords[] = 
+    {
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f
+    };
+
 
     Shader shader = Shader("../res/shader/vertex.glsl", "../res/shader/fragment.glsl");
 
