@@ -27,7 +27,7 @@ int main()
 
 	std::cout << "opengl version " << glGetString(GL_VERSION) << "\n" << std::endl;
 
-
+	
 
 	GLfloat vertices[] = 
 	{	//coords				//colors
@@ -56,7 +56,10 @@ int main()
 
 	glViewport(0, 0, window->height, window->height);
 
+
+	glm::mat4 trans = glm::mat4(1.0f);
 	shader.Activate();
+	shader.UploadMat4("transform", trans);
 	while (!glfwWindowShouldClose(window->GLwindow))
 	{
 

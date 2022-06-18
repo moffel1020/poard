@@ -90,3 +90,8 @@ void Shader::UploadVec3(const char* name, glm::vec3& vec3)
 {
     glUniform3f(GetUniformLocation(name), vec3.x, vec3.y, vec3.z);
 }
+
+void Shader::UploadMat4(const char* name, glm::mat4& mat4)
+{
+    glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat4));
+}
