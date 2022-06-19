@@ -65,6 +65,7 @@ int main()
     // textures
     // load texture TODO: check to see if image is not null
     int width, height, nrChannels;
+    stbi_set_flip_vertically_on_load(true);
     unsigned char* image_data = stbi_load("../res/texture/wood_texture.jpg", &width, &height, &nrChannels, 0);
 
     // gen buffers
