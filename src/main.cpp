@@ -3,8 +3,7 @@
 #include "window.h"
 #include "input.h"
 #include "buffers.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb/stb_image.h"
+#include "texture.h"
 
 
 int main()
@@ -61,36 +60,10 @@ int main()
     shader.Activate();
     shader.UploadMat4("transform", trans);
     
-
-    // textures
-    // load texture TODO: check to see if image is not null
-    int width, height, nrChannels;
-    stbi_set_flip_vertically_on_load(true);
-    unsigned char* image_data = stbi_load("../res/texture/wood_texture.jpg", &width, &height, &nrChannels, 0);
-
-    // gen buffers
-    unsigned int texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-    // set parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    // create texture and mipmap
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image_data);
-    glGenerateMipmap(GL_TEXTURE_2D);
-
-    // free texture
-    stbi_image_free(image_data);
-
-    // link
+    Texture tex = Texture("../res/texture/wood_texture.jpg");
     vao.LinkAttrib(vbo, 2, 2, GL_FLOAT, sizeof(float) * 8, (void*)(sizeof(float) * 6));
 
-    // use texture
-    glBindTexture(GL_TEXTURE_2D, texture);
+    tex.Bind();
 
     glViewport(0, 0, window->height, window->height);
     while (!glfwWindowShouldClose(window->GLwindow))
