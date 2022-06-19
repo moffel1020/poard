@@ -19,7 +19,7 @@ void Vbo::Unbind()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void Vbo::Delete()
+Vbo::~Vbo()
 {
     glDeleteBuffers(1, &id);
 }
@@ -43,7 +43,7 @@ void Ebo::Unbind()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void Ebo::Delete()
+Ebo::~Ebo()
 {
     glDeleteBuffers(1, &id);
 }
@@ -56,7 +56,7 @@ Vao::Vao()
     glGenVertexArrays(1, &id);
 }
 
-void Vao::LinkAttrib(Vbo vbo, GLuint location, GLuint size, GLenum type, GLsizeiptr stride, void* offset)
+void Vao::LinkAttrib(Vbo& vbo, GLuint location, GLuint size, GLenum type, GLsizeiptr stride, void* offset)
 {
     vbo.Bind();
     glVertexAttribPointer(location, size, type, GL_FALSE, stride, offset);
@@ -74,7 +74,7 @@ void Vao::Unbind()
     glBindVertexArray(0);
 }
 
-void Vao::Delete()
+Vao::~Vao()
 {
     glDeleteVertexArrays(1, &id);
 }

@@ -106,9 +106,6 @@ int main()
         glfwPollEvents();
     }
 
-    vao.Delete();
-    vbo.Delete();
-    ebo.Delete();
     shader.Delete();
 
     window->Destroy();

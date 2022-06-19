@@ -6,10 +6,10 @@ class Vbo
 public:
     unsigned int id;
     Vbo(GLfloat* vertices, GLsizeiptr size);
+    ~Vbo();
 
     void Bind();
     void Unbind();
-    void Delete();
 };
 
 
@@ -18,10 +18,10 @@ class Ebo
 public:
     unsigned int id;
     Ebo(GLuint* indices, GLsizeiptr size);
+    ~Ebo();
 
     void Bind();
     void Unbind();
-    void Delete();
 };
 
 
@@ -30,9 +30,9 @@ class Vao
 public:
     unsigned int id;
     Vao();
-    void LinkAttrib(Vbo vbo, GLuint layout, GLuint size, GLenum type, GLsizeiptr stride, void* offset);
+    ~Vao();
 
+    void LinkAttrib(Vbo& vbo, GLuint layout, GLuint size, GLenum type, GLsizeiptr stride, void* offset);
     void Bind();
     void Unbind();
-    void Delete();
 };
