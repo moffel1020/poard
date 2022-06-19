@@ -109,7 +109,6 @@ int main()
 
     shader.Delete();
 
-    window->Destroy();
     glfwTerminate();
     return 0;
 }

@@ -46,11 +46,7 @@ void Window::Close()
     glfwSetWindowShouldClose(GLwindow, true);
 }
 
-void Window::Destroy()
+Window::~Window()
 {
-    if (GLwindow != nullptr)
-    {
-        glfwDestroyWindow(this->GLwindow);
-        delete this;
-    }
+    glfwDestroyWindow(this->GLwindow);
 }
