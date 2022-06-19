@@ -107,8 +107,6 @@ int main()
         glfwPollEvents();
     }
 
-    shader.Delete();
-
     glfwTerminate();
     return 0;
 }

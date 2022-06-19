@@ -8,8 +8,8 @@ class Shader
 public:
     unsigned int id;
     Shader(const char* vertFilepath, const char* fragFilepath);
+    ~Shader();
     void Activate();
-    void Delete();
     unsigned int GetUniformLocation(const char* name);
     void UploadFloat(const char* name, float f);
     void UploadVec3(const char* name, glm::vec3& vec3);
