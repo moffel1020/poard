@@ -32,7 +32,7 @@ public:
     Vao();
     ~Vao();
 
-    void LinkAttrib(Vbo& vbo, GLuint layout, GLuint size, GLenum type, GLsizeiptr stride, void* offset);
+    void AddBuffer(Vbo& vbo, GLuint layout, GLuint size, GLenum type, GLsizeiptr stride, void* offset);
     void Bind();
     void Unbind();
 };

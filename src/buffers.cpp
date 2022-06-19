@@ -56,7 +56,7 @@ Vao::Vao()
     glGenVertexArrays(1, &id);
 }
 
-void Vao::LinkAttrib(Vbo& vbo, GLuint location, GLuint size, GLenum type, GLsizeiptr stride, void* offset)
+void Vao::AddBuffer(Vbo& vbo, GLuint location, GLuint size, GLenum type, GLsizeiptr stride, void* offset)
 {
     vbo.Bind();
     glVertexAttribPointer(location, size, type, GL_FALSE, stride, offset);
