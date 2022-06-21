@@ -14,7 +14,7 @@ int main()
         return -1;
     }
 
-    Window *window = new Window(1080, 720, 144, "poard", false);
+    Window *window = new Window(1080, 720, "poard", false);
     window->Initialize();
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -95,6 +95,8 @@ int main()
     vao.AddBuffer(vbo, 0, 3, GL_FLOAT, sizeof(float) * 5, (void*)0);
     vao.AddBuffer(vbo, 1, 2, GL_FLOAT, sizeof(float) * 5, (void*)(sizeof(float) * 3));
 
+    float angle;
+
     glViewport(0, 0, window->width, window->height);
     while (!glfwWindowShouldClose(window->GLwindow))
     {
@@ -103,9 +105,6 @@ int main()
         shader.Activate();
         tex.Bind();
         vao.Bind();
-        shader.UploadMat4("model", model);
-        shader.UploadMat4("projection", proj);
-        shader.UploadMat4("view", view);
 
         if (Input::isKeyDown(GLFW_KEY_W))
             model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.001f));
@@ -122,6 +121,12 @@ int main()
             model = glm::rotate(model, glm::radians(0.05f), glm::vec3(1.0f, 0.0f, 0.0f));
 
 
+        angle = glfwGetTime() * 0.01f;
+        model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 1.0f, 0.0f));
+
+        shader.UploadMat4("model", model);
+        shader.UploadMat4("projection", proj);
+        shader.UploadMat4("view", view);
         
         glDrawArrays(GL_TRIANGLES, 0, 36);
 

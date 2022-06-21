@@ -2,11 +2,10 @@
 #include "window.h"
 
 
-Window::Window(int width, int height, int refreshRate, const char *title, bool fullscreen)
+Window::Window(int width, int height, const char *title, bool fullscreen)
 {
     this->width = width;
     this->height = height;
-    this->refreshRate = refreshRate;
     this->title = title;
     this->fullscreen = fullscreen;
 }
