@@ -5,6 +5,8 @@
 #include "buffers.h"
 #include "texture.h"
 
+#include "math.h"
+
 
 int main() 
 {
@@ -75,13 +77,12 @@ int main()
 
     glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 proj = glm::perspective(glm::radians(70.0f), (float)window->width / (float)window->height, 0.1f, 100.0f);
-    glm::mat4 view = glm::mat4(1.0f);
-
-    glm::vec3 camPos = glm::vec3(0.0f, 0.0f, 0.0f);
-    glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
+    glm::mat4 view;
+    glm::vec3 camTarget = glm::vec3(0.0f, 0.0f, 0.0f);
+    glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 
     shader.Activate();
-    Texture tex = Texture("../res/texture/wood_texture.jpg");
+    Texture tex = Texture("D:/Users/thomas schaap/Pictures/aids/awdasda.png");
 
     Vao vao = Vao();
     vao.Bind();
@@ -100,6 +101,8 @@ int main()
     {
         float time1 = glfwGetTime();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        view = glm::lookAt(glm::vec3(cos(glfwGetTime()) * 2.0f, 1.0f, sin(glfwGetTime()) * 2.0f), camTarget, up);
 
         shader.Activate();
         tex.Bind();

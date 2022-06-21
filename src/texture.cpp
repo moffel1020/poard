@@ -9,7 +9,7 @@ Texture::Texture(const char* file)
     unsigned char* image_data = stbi_load(file, &width, &height, &comp, 0);
 
     if (!image_data) {
-        std::cout << "Texture " << file << "failed to load" << std::endl;
+        std::cout << "Texture " << file << " failed to load" << std::endl;
         return;
     }
 
@@ -21,9 +21,12 @@ Texture::Texture(const char* file)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image_data);
-    glGenerateMipmap(GL_TEXTURE_2D);
+    if (comp == 3)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image_data);
+    else if (comp == 4)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
 
+    glGenerateMipmap(GL_TEXTURE_2D);
     stbi_image_free(image_data);
 }
 
