@@ -13,8 +13,7 @@ namespace Input
 
     void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
     {
-        if (action == GLFW_RELEASE)
-        {
+        if (action == GLFW_RELEASE) {
             pressedKeys[key] = false;
             return;
         }

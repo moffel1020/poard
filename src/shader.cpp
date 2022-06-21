@@ -8,10 +8,10 @@ std::string Shader::ParseShader(const char* filepath)
     std::ifstream file(filepath);
     std::string shader;
     std::string line;
+    
     while (getline(file, line))
-    {
         shader += line + "\n";
-    }
+
     return shader;
 }
 
@@ -29,8 +29,7 @@ unsigned int Shader::CompileShader(unsigned int type, const std::string& filePat
     int compiledSuccesfully;
 
     glGetShaderiv(shaderID, GL_COMPILE_STATUS, &compiledSuccesfully);
-    if(compiledSuccesfully == GL_FALSE)
-    {
+    if (compiledSuccesfully == GL_FALSE) {
         glGetShaderInfoLog(shaderID, 1024, NULL, info);
         std::cout << "Shader " << filePath << " failed to compile\n" << info << std::endl;
     }
@@ -53,8 +52,7 @@ Shader::Shader(const char* vertFilepath, const char* fragFilepath)
     int linkingSuccesfull;
     char info[1024];
     glGetProgramiv(id, GL_LINK_STATUS, &linkingSuccesfull);
-    if(linkingSuccesfull == GL_FALSE)
-    {
+    if (linkingSuccesfull == GL_FALSE) {
         glGetShaderInfoLog(id, 1024, NULL, info);
         std::cout << "Shader " << vertFilepath << " and " << fragFilepath << " failed to link\n" << info << std::endl;
         glDeleteProgram(id);

@@ -20,11 +20,11 @@ void Window::Initialize()
     GLwindow = glfwCreateWindow(width, height, title, monitor, nullptr);
     glfwSetFramebufferSizeCallback(this->GLwindow, Window::framebuffer_size_callback);
 
-    if (GLwindow == nullptr)
-    {
+    if (GLwindow == nullptr) {
         printf("Failed to create window\n");
         glfwTerminate();
     }
+    
     glfwMakeContextCurrent(GLwindow);
 }
 

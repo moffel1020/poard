@@ -6,10 +6,9 @@
 #include "texture.h"
 
 
-int main()
+int main() 
 {
-    if (!glfwInit())
-    {
+    if (!glfwInit()) {
         printf("failed to initialize GLFW\n");
         return -1;
     }
@@ -17,8 +16,7 @@ int main()
     Window *window = new Window(1080, 720, "poard", false);
     window->Initialize();
 
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cout << "Failed to initialize glad";
         glfwTerminate();
         return -1;
@@ -95,11 +93,14 @@ int main()
     vao.AddBuffer(vbo, 0, 3, GL_FLOAT, sizeof(float) * 5, (void*)0);
     vao.AddBuffer(vbo, 1, 2, GL_FLOAT, sizeof(float) * 5, (void*)(sizeof(float) * 3));
 
-    float angle;
 
+    float previousTime = glfwGetTime();
+    int framecount = 0;
     glViewport(0, 0, window->width, window->height);
     while (!glfwWindowShouldClose(window->GLwindow))
     {
+        
+        float time1 = glfwGetTime();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         shader.Activate();
@@ -120,18 +121,23 @@ int main()
         if (Input::isKeyDown(GLFW_KEY_DOWN))
             model = glm::rotate(model, glm::radians(0.05f), glm::vec3(1.0f, 0.0f, 0.0f));
 
-
-        angle = glfwGetTime() * 0.01f;
-        model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 1.0f, 0.0f));
-
         shader.UploadMat4("model", model);
         shader.UploadMat4("projection", proj);
         shader.UploadMat4("view", view);
         
         glDrawArrays(GL_TRIANGLES, 0, 36);
-
+        
         glfwSwapBuffers(window->GLwindow);
         glfwPollEvents();
+
+
+        framecount += 1;
+        float time = glfwGetTime();
+        if (time - previousTime >= 1) {
+            window->ChangeTitle("poard | fps: " + std::to_string(framecount));
+            previousTime = time;
+            framecount = 0;
+        }
     }
 
     glfwTerminate();
