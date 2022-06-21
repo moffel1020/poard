@@ -82,7 +82,7 @@ int main()
     glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 
     shader.Activate();
-    Texture tex = Texture("D:/Users/thomas schaap/Pictures/aids/awdasda.png");
+    Texture tex = Texture("../res/texture/crate.jpg");
 
     Vao vao = Vao();
     vao.Bind();
