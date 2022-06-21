@@ -14,7 +14,7 @@ int main()
         return -1;
     }
 
-    Window *window = new Window(720, 720, 144, "poard", false);
+    Window *window = new Window(1080, 720, 144, "poard", false);
     window->Initialize();
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -24,9 +24,8 @@ int main()
         return -1;
     }
 
-    Input::Initialize(window->GLwindow);
-
     std::cout << "opengl version " << glGetString(GL_VERSION) << "\n" << std::endl;
+    Input::Initialize(window->GLwindow);
 
     
     float vertices[] = {
@@ -96,7 +95,7 @@ int main()
     vao.AddBuffer(vbo, 0, 3, GL_FLOAT, sizeof(float) * 5, (void*)0);
     vao.AddBuffer(vbo, 1, 2, GL_FLOAT, sizeof(float) * 5, (void*)(sizeof(float) * 3));
 
-    glViewport(0, 0, window->height, window->height);
+    glViewport(0, 0, window->width, window->height);
     while (!glfwWindowShouldClose(window->GLwindow))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -112,11 +111,18 @@ int main()
             model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.001f));
         if (Input::isKeyDown(GLFW_KEY_S))
             model = glm::translate(model, glm::vec3(0.0f, 0.0f, -0.001f));
+
         if (Input::isKeyDown(GLFW_KEY_LEFT))
             model = glm::rotate(model, glm::radians(-0.05f), glm::vec3(0.0f, 1.0f, 0.0f));
         if (Input::isKeyDown(GLFW_KEY_RIGHT))
             model = glm::rotate(model, glm::radians(0.05f), glm::vec3(0.0f, 1.0f, 0.0f));
+        if (Input::isKeyDown(GLFW_KEY_UP))
+            model = glm::rotate(model, glm::radians(-0.05f), glm::vec3(1.0f, 0.0f, 0.0f));
+        if (Input::isKeyDown(GLFW_KEY_DOWN))
+            model = glm::rotate(model, glm::radians(0.05f), glm::vec3(1.0f, 0.0f, 0.0f));
 
+
+        
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         glfwSwapBuffers(window->GLwindow);
