@@ -26,6 +26,7 @@ int main()
 
     std::cout << "opengl version " << glGetString(GL_VERSION) << "\n" << std::endl;
     Input::Initialize(window->GLwindow);
+    glEnable(GL_DEPTH_TEST);
 
     
     float vertices[] = {
@@ -72,7 +73,6 @@ int main()
         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
 
-    glEnable(GL_DEPTH_TEST);
     Shader shader = Shader("../res/shader/vertex.glsl", "../res/shader/fragment.glsl");
 
     glm::mat4 model = glm::mat4(1.0f);
