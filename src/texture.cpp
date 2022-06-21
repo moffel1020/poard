@@ -6,7 +6,7 @@
 Texture::Texture(const char* file)
 {
     stbi_set_flip_vertically_on_load(true);
-    unsigned char* image_data = stbi_load("../res/texture/wood_texture.jpg", &width, &height, &comp, 0);
+    unsigned char* image_data = stbi_load(file, &width, &height, &comp, 0);
 
     glGenTextures(1, &id);
     glBindTexture(GL_TEXTURE_2D, id);

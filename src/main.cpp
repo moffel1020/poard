@@ -29,20 +29,48 @@ int main()
     std::cout << "opengl version " << glGetString(GL_VERSION) << "\n" << std::endl;
 
     
+    float vertices[] = {
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+        0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
-    GLfloat vertices[] = 
-    {	//coords				//colors            // texture coords
-        -0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,   0.0f, 0.0f,
-        0.5f,  -0.5f, 0.0f,		0.0f, 0.5f, 0.5f,   1.0f, 0.0f,
-        0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,   1.0f, 1.0f,
-        -0.5f, 0.5f, 0.0f,		0.0f, 0.5f, 0.5f,   0.0f, 1.0f
-    };
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+        0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+        0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
 
-    // Indices for vertices order
-    GLuint indices[] =
-    {
-        0, 1, 2,
-        0, 2, 3
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
 
     glEnable(GL_DEPTH_TEST);
@@ -52,7 +80,6 @@ int main()
     glm::mat4 proj = glm::perspective(glm::radians(70.0f), (float)window->width / (float)window->height, 0.1f, 100.0f);
     glm::mat4 view = glm::mat4(1.0f);
 
-    model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
     view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f)); 
 
     shader.Activate();
@@ -64,12 +91,10 @@ int main()
     vao.Bind();
 
     Vbo vbo = Vbo(vertices, sizeof(vertices));
-    Ebo ebo = Ebo(indices, sizeof(indices));
     Texture tex = Texture("../res/texture/wood_texture.jpg");
 
-    vao.AddBuffer(vbo, 0, 3, GL_FLOAT, sizeof(float) * 8, (void*)0);
-    vao.AddBuffer(vbo, 1, 3, GL_FLOAT, sizeof(float) * 8, (void*)(sizeof(float) * 3));
-    vao.AddBuffer(vbo, 2, 2, GL_FLOAT, sizeof(float) * 8, (void*)(sizeof(float) * 6));
+    vao.AddBuffer(vbo, 0, 3, GL_FLOAT, sizeof(float) * 5, (void*)0);
+    vao.AddBuffer(vbo, 1, 2, GL_FLOAT, sizeof(float) * 5, (void*)(sizeof(float) * 3));
 
     glViewport(0, 0, window->height, window->height);
     while (!glfwWindowShouldClose(window->GLwindow))
@@ -79,12 +104,20 @@ int main()
         shader.Activate();
         tex.Bind();
         vao.Bind();
-        ebo.Bind();
         shader.UploadMat4("model", model);
         shader.UploadMat4("projection", proj);
         shader.UploadMat4("view", view);
 
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        if (Input::isKeyDown(GLFW_KEY_W))
+            model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.001f));
+        if (Input::isKeyDown(GLFW_KEY_S))
+            model = glm::translate(model, glm::vec3(0.0f, 0.0f, -0.001f));
+        if (Input::isKeyDown(GLFW_KEY_LEFT))
+            model = glm::rotate(model, glm::radians(-0.05f), glm::vec3(0.0f, 1.0f, 0.0f));
+        if (Input::isKeyDown(GLFW_KEY_RIGHT))
+            model = glm::rotate(model, glm::radians(0.05f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
         glfwSwapBuffers(window->GLwindow);
         glfwPollEvents();
