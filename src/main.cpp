@@ -45,11 +45,20 @@ int main()
         0, 2, 3
     };
 
-
+    glEnable(GL_DEPTH_TEST);
     Shader shader = Shader("../res/shader/vertex.glsl", "../res/shader/fragment.glsl");
-    glm::mat4 trans = glm::mat4(1.0f);
+
+    glm::mat4 model = glm::mat4(1.0f);
+    glm::mat4 proj = glm::perspective(glm::radians(70.0f), (float)window->width / (float)window->height, 0.1f, 100.0f);
+    glm::mat4 view = glm::mat4(1.0f);
+
+    model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f)); 
+
     shader.Activate();
-    shader.UploadMat4("transform", trans);
+    shader.UploadMat4("model", model);
+    shader.UploadMat4("projection", proj);
+    shader.UploadMat4("view", view);
 
     Vao vao = Vao();
     vao.Bind();
@@ -65,13 +74,16 @@ int main()
     glViewport(0, 0, window->height, window->height);
     while (!glfwWindowShouldClose(window->GLwindow))
     {
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         shader.Activate();
         tex.Bind();
         vao.Bind();
         ebo.Bind();
-        shader.UploadMat4("transform", trans);
+        shader.UploadMat4("model", model);
+        shader.UploadMat4("projection", proj);
+        shader.UploadMat4("view", view);
+
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         glfwSwapBuffers(window->GLwindow);
