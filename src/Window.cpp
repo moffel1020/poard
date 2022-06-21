@@ -21,7 +21,7 @@ void Window::Initialize()
     glfwSetFramebufferSizeCallback(this->GLwindow, Window::framebuffer_size_callback);
 
     if (GLwindow == nullptr) {
-        printf("Failed to create window\n");
+        std::cout << "Failed to create window" << std::endl;
         glfwTerminate();
     }
     
