@@ -1,7 +1,4 @@
 #pragma once
-#include <fstream>
-#include "core.h"
-
 
 class Shader
 {

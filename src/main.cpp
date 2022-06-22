@@ -15,7 +15,7 @@ int main()
         return -1;
     }
 
-    Window *window = new Window(1080, 720, "poard", false, true);
+    Window *window = new Window(1280, 720, "poard", false, true);
     window->Initialize();
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {

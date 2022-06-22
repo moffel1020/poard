@@ -1,5 +1,4 @@
 #pragma once
-#include "core.h"
 
 class Window
 {
@@ -22,4 +21,3 @@ private:
     bool lockCursor;
     static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 };
-
