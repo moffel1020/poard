@@ -2,24 +2,24 @@
 #include "buffers.h"
 
 // vbo
-Vbo::Vbo(GLfloat* vertices, GLsizeiptr size)
+VertexBuffer::VertexBuffer(GLfloat* vertices, GLsizeiptr size)
 {
     glGenBuffers(1, &id);
     glBindBuffer(GL_ARRAY_BUFFER, id);
     glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 }
 
-void Vbo::Bind()
+void VertexBuffer::bind()
 {
     glBindBuffer(GL_ARRAY_BUFFER, id);
 }
 
-void Vbo::Unbind()
+void VertexBuffer::unbind()
 {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-Vbo::~Vbo()
+VertexBuffer::~VertexBuffer()
 {
     glDeleteBuffers(1, &id);
 }
@@ -27,23 +27,23 @@ Vbo::~Vbo()
 
 
 // ebo
-Ebo::Ebo(GLuint* indices, GLsizeiptr size)
+IndexBuffer::IndexBuffer(GLuint* indices, GLsizeiptr size)
 {
     glGenBuffers(1, &id);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
 }
-void Ebo::Bind()
+void IndexBuffer::bind()
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
 }
 
-void Ebo::Unbind()
+void IndexBuffer::unbind()
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-Ebo::~Ebo()
+IndexBuffer::~IndexBuffer()
 {
     glDeleteBuffers(1, &id);
 }
@@ -51,30 +51,31 @@ Ebo::~Ebo()
 
 
 // vao
-Vao::Vao()
+VertexArray::VertexArray()
 {
     glGenVertexArrays(1, &id);
 }
 
-void Vao::AddBuffer(Vbo& vbo, GLuint location, GLuint size, GLenum type, GLsizeiptr stride, void* offset)
+void VertexArray::addBuffer(VertexBuffer& vbo, GLuint location, GLuint size, GLenum type, GLsizeiptr stride, void* offset)
 {
-    vbo.Bind();
+    bind();
+    vbo.bind();
     glVertexAttribPointer(location, size, type, GL_FALSE, stride, offset);
     glEnableVertexAttribArray(location);
-    vbo.Unbind();
+    vbo.unbind();
 }
 
-void Vao::Bind()
+void VertexArray::bind()
 {
     glBindVertexArray(id);
 }
 
-void Vao::Unbind()
+void VertexArray::unbind()
 {
     glBindVertexArray(0);
 }
 
-Vao::~Vao()
+VertexArray::~VertexArray()
 {
     glDeleteVertexArrays(1, &id);
 }

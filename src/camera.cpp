@@ -12,17 +12,14 @@ Camera::Camera(float fov, glm::vec3 position, glm::vec3 direction, float yaw, fl
     this-> up = up;
 }
 
-void Camera::Rotate(float yawAngle, float pitchAngle)
+void Camera::rotate(float yawAngle, float pitchAngle)
 {
     yaw += yawAngle;
     pitch += pitchAngle;
-
-    if (pitch > 89.9f) pitch = 89.9f;
-    else if (pitch < -89.9f) pitch = -89.9f;
-    Update();
+    update();
 }
 
-void Camera::Move(Direction dir, float distance)
+void Camera::move(Direction dir, float distance)
 {
     switch (dir) {
         case FORWARD:
@@ -39,7 +36,7 @@ void Camera::Move(Direction dir, float distance)
             break;
     }
 
-    Update();
+    update();
 }
 
 void Camera::setPosition(float x, float y, float z)
@@ -47,10 +44,10 @@ void Camera::setPosition(float x, float y, float z)
     position.x += x;
     position.y += y;
     position.z += z;
-    Update();
+    update();
 }
 
-void Camera::Update()
+void Camera::update()
 {
     direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
     direction.y = sin(glm::radians(pitch));

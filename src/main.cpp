@@ -15,8 +15,7 @@ int main()
         return -1;
     }
 
-    Window *window = new Window(1280, 720, "poard", false, true);
-    window->Initialize();
+    Window *window = new Window(1080, 720, "poard", false, true);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cout << "Failed to initialize glad";
@@ -25,7 +24,7 @@ int main()
     }
 
     std::cout << "opengl version " << glGetString(GL_VERSION) << "\n" << std::endl;
-    Input::Initialize(window->GLwindow);
+    Input::initialize(window->GLwindow);
     glEnable(GL_DEPTH_TEST);
 
     
@@ -82,16 +81,14 @@ int main()
     float speed = 0.001f;
     float sensitivity = 0.1f;
 
-    shader.Activate();
+    shader.activate();
     Texture tex = Texture("../res/texture/crate.jpg");
 
-    Vao vao = Vao();
-    vao.Bind();
+    VertexArray vao = VertexArray();
+    VertexBuffer vbo = VertexBuffer(vertices, sizeof(vertices));
 
-    Vbo vbo = Vbo(vertices, sizeof(vertices));
-
-    vao.AddBuffer(vbo, 0, 3, GL_FLOAT, sizeof(float) * 5, (void*)0);
-    vao.AddBuffer(vbo, 1, 2, GL_FLOAT, sizeof(float) * 5, (void*)(sizeof(float) * 3));
+    vao.addBuffer(vbo, 0, 3, GL_FLOAT, sizeof(float) * 5, (void*)0);
+    vao.addBuffer(vbo, 1, 2, GL_FLOAT, sizeof(float) * 5, (void*)(sizeof(float) * 3));
 
 
     int framecount = 0;
@@ -104,23 +101,23 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         if (Input::isKeyDown(GLFW_KEY_W))
-            cam.Move(FORWARD, speed);
+            cam.move(FORWARD, speed);
         if (Input::isKeyDown(GLFW_KEY_S))
-            cam.Move(BACKWARD, speed);
+            cam.move(BACKWARD, speed);
         if (Input::isKeyDown(GLFW_KEY_D))
-            cam.Move(RIGHT, speed);
+            cam.move(RIGHT, speed);
         if (Input::isKeyDown(GLFW_KEY_A))
-            cam.Move(LEFT, speed);
+            cam.move(LEFT, speed);
 
-        cam.Rotate(Input::getMouseXOffset() * sensitivity, Input::getMouseYOffset() * sensitivity);
+        cam.rotate(Input::getMouseXOffset() * sensitivity, Input::getMouseYOffset() * sensitivity);
 
-        shader.Activate();
-        tex.Bind();
-        vao.Bind();
+        shader.activate();
+        tex.bind();
+        vao.bind();
 
-        shader.UploadMat4("uModel", model);
-        shader.UploadMat4("uProjection", proj);
-        shader.UploadMat4("uView", cam.viewMatrix);
+        shader.uploadMat4("uModel", model);
+        shader.uploadMat4("uProjection", proj);
+        shader.uploadMat4("uView", cam.viewMatrix);
         
         glDrawArrays(GL_TRIANGLES, 0, 36);
         
@@ -130,7 +127,7 @@ int main()
         framecount += 1;
         float time = glfwGetTime();
         if (time - previousTime >= 1) {
-            window->ChangeTitle("poard | fps: " + std::to_string(framecount));
+            window->changeTitle("poard | fps: " + std::to_string(framecount));
             previousTime = time;
             framecount = 0;
         }
