@@ -4,11 +4,11 @@ class Texture
 {
 public:
     Texture(const char* file);
-    void Bind();
-    void Unbind();
+    void bind();
+    void unbind();
 
 private:
-    unsigned int id;
+    uint32_t id;
     int width;
     int height;
     int comp;

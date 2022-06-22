@@ -3,7 +3,7 @@
 #include "shader.h"
 
 
-std::string Shader::ParseShader(const char* filepath)
+std::string Shader::parseShader(const char* filepath)
 {
     std::ifstream file(filepath);
     std::string shader;
@@ -15,9 +15,9 @@ std::string Shader::ParseShader(const char* filepath)
     return shader;
 }
 
-unsigned int Shader::CompileShader(unsigned int type, const std::string& filePath)
+unsigned int Shader::compileShader(unsigned int type, const std::string& filePath)
 {
-    std::string source = ParseShader(filePath.c_str());
+    std::string source = parseShader(filePath.c_str());
     unsigned int shaderID = glCreateShader(type);
     const char* src = source.c_str();
     glShaderSource(shaderID, 1, &src, nullptr);
@@ -41,8 +41,8 @@ unsigned int Shader::CompileShader(unsigned int type, const std::string& filePat
 Shader::Shader(const char* vertFilepath, const char* fragFilepath)
 {
     this->id = glCreateProgram();
-    unsigned int vs = CompileShader(GL_VERTEX_SHADER, vertFilepath);
-    unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, fragFilepath);
+    unsigned int vs = compileShader(GL_VERTEX_SHADER, vertFilepath);
+    unsigned int fs = compileShader(GL_FRAGMENT_SHADER, fragFilepath);
 
     glAttachShader(id, vs);
     glAttachShader(id, fs);
@@ -64,7 +64,7 @@ Shader::Shader(const char* vertFilepath, const char* fragFilepath)
     glDeleteShader(fs);
 }
 
-void Shader::Activate()
+void Shader::activate()
 {
     glUseProgram(id);
 }
@@ -74,22 +74,22 @@ Shader::~Shader()
     glDeleteProgram(id);
 }
 
-unsigned int Shader::GetUniformLocation(const char* name)
+unsigned int Shader::getUniformLocation(const char* name)
 {
     return glGetUniformLocation(id, name);
 }
 
-void Shader::UploadFloat(const char* name, float f)
+void Shader::uploadFloat(const char* name, float f)
 {
-    glUniform1f(GetUniformLocation(name), f);
+    glUniform1f(getUniformLocation(name), f);
 }
 
-void Shader::UploadVec3(const char* name, glm::vec3& vec3)
+void Shader::uploadVec3(const char* name, glm::vec3& vec3)
 {
-    glUniform3f(GetUniformLocation(name), vec3.x, vec3.y, vec3.z);
+    glUniform3f(getUniformLocation(name), vec3.x, vec3.y, vec3.z);
 }
 
-void Shader::UploadMat4(const char* name, glm::mat4& mat4)
+void Shader::uploadMat4(const char* name, glm::mat4& mat4)
 {
-    glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat4));
+    glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat4));
 }

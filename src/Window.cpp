@@ -2,17 +2,13 @@
 #include "window.h"
 
 
-Window::Window(int width, int height, const char *title, bool fullscreen, bool lockCursor)
+Window::Window(uint32_t width, uint32_t height, const char *title, bool fullscreen, bool lockCursor)
 {
     this->width = width;
     this->height = height;
     this->title = title;
     this->fullscreen = fullscreen;
-    this->lockCursor = lockCursor;
-}
 
-void Window::Initialize()
-{
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -28,11 +24,11 @@ void Window::Initialize()
     
     glfwMakeContextCurrent(GLwindow);
 
-    if (lockCursor) LockCursor();
-    else ShowCursor();
+    if (lockCursor) this->lockCursor();
+    else showCursor();
 }
 
-void Window::ChangeTitle(std::string title)
+void Window::changeTitle(std::string title)
 {
     glfwSetWindowTitle(GLwindow, title.c_str());
     this->title = title.c_str();
@@ -44,7 +40,7 @@ void Window::framebuffer_size_callback(GLFWwindow* window, int width, int height
     glViewport(0, 0, width, height);
 }
 
-void Window::Close()
+void Window::close()
 {
     glfwSetWindowShouldClose(GLwindow, true);
 }
@@ -54,14 +50,12 @@ Window::~Window()
     glfwDestroyWindow(GLwindow);
 }
 
-void Window::LockCursor()
+void Window::lockCursor()
 {
     glfwSetInputMode(GLwindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    lockCursor = true;
 }
 
-void Window::ShowCursor()
+void Window::showCursor()
 {
     glfwSetInputMode(GLwindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-    lockCursor = false;
 }

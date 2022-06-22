@@ -5,21 +5,17 @@ class Window
 {
 public:
     GLFWwindow *GLwindow;
-    int width;
-    int height;
-    int refreshRate;
+    uint32_t width;
+    uint32_t height;
     const char *title;
     bool fullscreen;
 
-    explicit Window(int width, int height, const char *title, bool fullscreen, bool lockCursor);
+    explicit Window(uint32_t width, uint32_t height, const char *title, bool fullscreen, bool lockCursor);
     ~Window();
-    void ChangeTitle(std::string title);
-    void Initialize();
-    void Close();
-    void ShowCursor();
-    void LockCursor();
+    void changeTitle(std::string title);
+    void close();
+    void showCursor();
+    void lockCursor();
 private:
-    bool lockCursor;
     static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 };
-

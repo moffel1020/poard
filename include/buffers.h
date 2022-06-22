@@ -1,38 +1,38 @@
 #pragma once
 #include "core.h"
 
-class Vbo
+class VertexBuffer
 {
 public:
-    unsigned int id;
-    Vbo(GLfloat* vertices, GLsizeiptr size);
-    ~Vbo();
+    uint32_t id;
+    VertexBuffer(GLfloat* vertices, GLsizeiptr size);
+    ~VertexBuffer();
 
-    void Bind();
-    void Unbind();
+    void bind();
+    void unbind();
 };
 
 
-class Ebo
+class IndexBuffer
 {
 public:
-    unsigned int id;
-    Ebo(GLuint* indices, GLsizeiptr size);
-    ~Ebo();
+    uint32_t id;
+    IndexBuffer(GLuint* indices, GLsizeiptr size);
+    ~IndexBuffer();
 
-    void Bind();
-    void Unbind();
+    void bind();
+    void unbind();
 };
 
 
-class Vao
+class VertexArray
 {
 public:
-    unsigned int id;
-    Vao();
-    ~Vao();
+    uint32_t id;
+    VertexArray();
+    ~VertexArray();
 
-    void AddBuffer(Vbo& vbo, GLuint layout, GLuint size, GLenum type, GLsizeiptr stride, void* offset);
-    void Bind();
-    void Unbind();
+    void addBuffer(VertexBuffer& vbo, GLuint layout, GLuint size, GLenum type, GLsizeiptr stride, void* offset);
+    void bind();
+    void unbind();
 };

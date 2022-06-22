@@ -47,7 +47,7 @@ namespace Input
     }
 
 
-    void Initialize(GLFWwindow* window)
+    void initialize(GLFWwindow* window)
     {
         glfwSetKeyCallback(window, key_callback);
         glfwSetMouseButtonCallback(window, mouse_button_callback);

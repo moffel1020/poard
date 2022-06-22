@@ -30,12 +30,12 @@ Texture::Texture(const char* file)
     stbi_image_free(image_data);
 }
 
-void Texture::Bind()
+void Texture::bind()
 {
     glBindTexture(GL_TEXTURE_2D, id);
 }
 
-void Texture::Unbind()
+void Texture::unbind()
 {
     glBindTexture(GL_TEXTURE_2D, 0);
 }
