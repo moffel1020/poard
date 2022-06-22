@@ -2,7 +2,7 @@
 #include "window.h"
 
 
-Window::Window(uint32_t width, uint32_t height, const char* title, bool fullscreen, bool lockCursor)
+Window::Window(uint32_t width, uint32_t height, const std::string& title, bool fullscreen, bool lockCursor)
 {
     this->width = width;
     this->height = height;
@@ -14,7 +14,7 @@ Window::Window(uint32_t width, uint32_t height, const char* title, bool fullscre
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     GLFWmonitor *monitor = (fullscreen) ? glfwGetPrimaryMonitor() : nullptr;
-    GLwindow = glfwCreateWindow(width, height, title, monitor, nullptr);
+    GLwindow = glfwCreateWindow(width, height, title.c_str(), monitor, nullptr);
     glfwSetFramebufferSizeCallback(this->GLwindow, Window::framebuffer_size_callback);
 
     if (GLwindow == nullptr) {

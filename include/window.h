@@ -4,13 +4,13 @@
 class Window
 {
 public:
-    GLFWwindow *GLwindow;
+    GLFWwindow* GLwindow;
     uint32_t width;
     uint32_t height;
-    const char *title;
+    std::string title;
     bool fullscreen;
 
-    explicit Window(uint32_t width, uint32_t height, const char* title, bool fullscreen, bool lockCursor);
+    Window(uint32_t width, uint32_t height, const std::string& title, bool fullscreen, bool lockCursor);
     ~Window();
     void changeTitle(std::string title);
     void close();
