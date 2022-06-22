@@ -2,12 +2,13 @@
 #include "window.h"
 
 
-Window::Window(int width, int height, const char *title, bool fullscreen)
+Window::Window(int width, int height, const char *title, bool fullscreen, bool lockCursor)
 {
     this->width = width;
     this->height = height;
     this->title = title;
     this->fullscreen = fullscreen;
+    this->lockCursor = lockCursor;
 }
 
 void Window::Initialize()
@@ -26,6 +27,9 @@ void Window::Initialize()
     }
     
     glfwMakeContextCurrent(GLwindow);
+
+    if (lockCursor) LockCursor();
+    else ShowCursor();
 }
 
 void Window::ChangeTitle(std::string title)
@@ -47,5 +51,17 @@ void Window::Close()
 
 Window::~Window()
 {
-    glfwDestroyWindow(this->GLwindow);
+    glfwDestroyWindow(GLwindow);
+}
+
+void Window::LockCursor()
+{
+    glfwSetInputMode(GLwindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    lockCursor = true;
+}
+
+void Window::ShowCursor()
+{
+    glfwSetInputMode(GLwindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    lockCursor = false;
 }
