@@ -9,7 +9,7 @@ Camera::Camera(float fov, glm::vec3 position, glm::vec3 direction, float yaw, fl
     this->fov = fov;
     this->yaw = yaw;
     this-> pitch = pitch;
-    this-> up = glm::vec3(0.0f, 1.0f, 0.0f);
+    this-> up = up;
 }
 
 void Camera::Rotate(float yawAngle, float pitchAngle)
