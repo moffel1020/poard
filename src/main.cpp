@@ -102,6 +102,7 @@ int main()
     float yaw = 0.0f;
     float pitch = 0.0f;
 
+    glfwSetInputMode(window->GLwindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glClearColor(0.1f, 0.5f, 0.5f, 1.0f);
     glViewport(0, 0, window->width, window->height);
     while (!glfwWindowShouldClose(window->GLwindow))
@@ -117,19 +118,15 @@ int main()
         if (Input::isKeyDown(GLFW_KEY_A))
             camPos -= glm::cross(camDirection, up) * 0.001f;
 
-        if (Input::isKeyDown(GLFW_KEY_RIGHT))
-            yaw += 0.05f;
-        if (Input::isKeyDown(GLFW_KEY_LEFT))
-            yaw -= 0.05f;
-        if (Input::isKeyDown(GLFW_KEY_UP))
-            pitch += 0.05f;
-        if (Input::isKeyDown(GLFW_KEY_DOWN))
-            pitch -= 0.05f;
+        if (Input::isKeyDown(GLFW_KEY_LEFT_ALT))
+            glfwSetInputMode(window->GLwindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        else glfwSetInputMode(window->GLwindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+        yaw += 0.1f * Input::getMouseXOffset();
+        pitch += 0.1f * Input::getMouseYOffset();
 
         if (pitch < -89.9f) pitch = -89.9f;
         else if (pitch > 89.9f) pitch = 89.9f;
-
-
 
         camDirection.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
         camDirection.y = sin(glm::radians(pitch));
