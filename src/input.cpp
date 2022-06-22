@@ -7,6 +7,8 @@ namespace Input
     bool pressedMouseButtons[GLFW_MOUSE_BUTTON_LAST] = { };
     float mouseX = 0;
     float mouseY = 0;
+    float OffsetX = 0;
+    float OffsetY = 0;
     float scrollX = 0;
     float scrollY = 0;
 
@@ -30,6 +32,9 @@ namespace Input
 
     void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
     {
+        OffsetX = xpos - mouseX;
+        OffsetY = mouseY - ypos;
+
         mouseX = xpos;
         mouseY = ypos;
     }
@@ -66,5 +71,17 @@ namespace Input
             return true;
 
         return false;
+    }
+
+    float getMouseXOffset() {
+        float offset = OffsetX;
+        OffsetX = 0;
+        return offset;
+    }
+
+    float getMouseYOffset() {
+        float offset = OffsetY;
+        OffsetY = 0;
+        return offset;
     }
 }

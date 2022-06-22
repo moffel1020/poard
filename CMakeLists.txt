@@ -4,7 +4,7 @@ project(ogl VERSION 0.1.0)
 include(CTest)
 enable_testing()
 
-add_executable(ogl src/main.cpp src/Input.cpp src/shader.cpp src/Window.cpp src/buffers.cpp src/texture.cpp dependencies/glad.c)
+add_executable(ogl src/main.cpp src/Input.cpp src/shader.cpp src/Window.cpp src/buffers.cpp src/texture.cpp src/camera.cpp dependencies/glad.c)
 include_directories(dependencies/include/)
 include_directories(include/)
 link_directories(dependencies/lib/)

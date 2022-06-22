@@ -4,7 +4,7 @@
 #include "input.h"
 #include "buffers.h"
 #include "texture.h"
-
+#include "camera.h"
 #include "math.h"
 
 
@@ -15,7 +15,7 @@ int main()
         return -1;
     }
 
-    Window *window = new Window(1080, 720, "poard", false);
+    Window *window = new Window(1080, 720, "poard", false, true);
     window->Initialize();
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -78,8 +78,10 @@ int main()
     glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 proj = glm::perspective(glm::radians(70.0f), (float)window->width / (float)window->height, 0.1f, 100.0f);
     glm::mat4 view;
-    glm::vec3 camTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-    glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+
+    Camera cam = Camera();
+    float speed = 0.001f;
+    float sensitivity = 0.1f;
 
     shader.Activate();
     Texture tex = Texture("../res/texture/crate.jpg");
@@ -95,14 +97,23 @@ int main()
 
     int framecount = 0;
     float previousTime = glfwGetTime();
+
     glClearColor(0.1f, 0.5f, 0.5f, 1.0f);
     glViewport(0, 0, window->width, window->height);
     while (!glfwWindowShouldClose(window->GLwindow))
     {
-        float time1 = glfwGetTime();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        view = glm::lookAt(glm::vec3(cos(glfwGetTime()) * 2.0f, 1.0f, sin(glfwGetTime()) * 2.0f), camTarget, up);
+        if (Input::isKeyDown(GLFW_KEY_W))
+            cam.Move(FORWARD, speed);
+        if (Input::isKeyDown(GLFW_KEY_S))
+            cam.Move(BACKWARD, speed);
+        if (Input::isKeyDown(GLFW_KEY_D))
+            cam.Move(RIGHT, speed);
+        if (Input::isKeyDown(GLFW_KEY_A))
+            cam.Move(LEFT, speed);
+
+        cam.Rotate(Input::getMouseXOffset() * sensitivity, Input::getMouseYOffset() * sensitivity);
 
         shader.Activate();
         tex.Bind();
@@ -110,13 +121,12 @@ int main()
 
         shader.UploadMat4("uModel", model);
         shader.UploadMat4("uProjection", proj);
-        shader.UploadMat4("uView", view);
+        shader.UploadMat4("uView", cam.viewMatrix);
         
         glDrawArrays(GL_TRIANGLES, 0, 36);
         
         glfwSwapBuffers(window->GLwindow);
         glfwPollEvents();
-
 
         framecount += 1;
         float time = glfwGetTime();
