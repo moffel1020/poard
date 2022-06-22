@@ -4,7 +4,7 @@ class Shader
 {
 public:
     uint32_t id;
-    Shader(const char* vertFilepath, const char* fragFilepath);
+    Shader(const std::string& vertFilepath, const std::string& fragFilepath);
     ~Shader();
     void activate();
     uint32_t getUniformLocation(const char* name);
@@ -12,6 +12,6 @@ public:
     void uploadVec3(const char* name, glm::vec3& vec3);
     void uploadMat4(const char* name, glm::mat4& mat4);
 private:
-    std::string parseShader(const char* filepath);
-    unsigned int compileShader(unsigned int type, const std::string& source);
+    std::string parseShader(const std::string& filepath);
+    uint32_t compileShader(unsigned int type, const std::string& filePath);
 };

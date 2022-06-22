@@ -3,7 +3,7 @@
 #include "shader.h"
 
 
-std::string Shader::parseShader(const char* filepath)
+std::string Shader::parseShader(const std::string& filepath)
 {
     std::ifstream file(filepath);
     std::string shader;
@@ -15,19 +15,17 @@ std::string Shader::parseShader(const char* filepath)
     return shader;
 }
 
-unsigned int Shader::compileShader(unsigned int type, const std::string& filePath)
+uint32_t Shader::compileShader(unsigned int type, const std::string& filePath)
 {
-    std::string source = parseShader(filePath.c_str());
+    std::string source = parseShader(filePath);
     unsigned int shaderID = glCreateShader(type);
     const char* src = source.c_str();
     glShaderSource(shaderID, 1, &src, nullptr);
     glCompileShader(shaderID);
 
 
-    // check compile errors
     char info[1024];
     int compiledSuccesfully;
-
     glGetShaderiv(shaderID, GL_COMPILE_STATUS, &compiledSuccesfully);
     if (compiledSuccesfully == GL_FALSE) {
         glGetShaderInfoLog(shaderID, 1024, NULL, info);
@@ -38,7 +36,7 @@ unsigned int Shader::compileShader(unsigned int type, const std::string& filePat
 }
 
 
-Shader::Shader(const char* vertFilepath, const char* fragFilepath)
+Shader::Shader(const std::string& vertFilepath, const std::string& fragFilepath)
 {
     this->id = glCreateProgram();
     unsigned int vs = compileShader(GL_VERTEX_SHADER, vertFilepath);
@@ -48,7 +46,6 @@ Shader::Shader(const char* vertFilepath, const char* fragFilepath)
     glAttachShader(id, fs);
     glLinkProgram(id);
 
-    //check for linking errors
     int linkingSuccesfull;
     char info[1024];
     glGetProgramiv(id, GL_LINK_STATUS, &linkingSuccesfull);
@@ -57,7 +54,6 @@ Shader::Shader(const char* vertFilepath, const char* fragFilepath)
         std::cout << "Shader " << vertFilepath << " and " << fragFilepath << " failed to link\n" << info << std::endl;
         glDeleteProgram(id);
     }
-
 
     glValidateProgram(id);
     glDeleteShader(vs);

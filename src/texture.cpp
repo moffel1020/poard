@@ -3,10 +3,10 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 
-Texture::Texture(const char* file)
+Texture::Texture(const std::string& file)
 {
     stbi_set_flip_vertically_on_load(true);
-    unsigned char* image_data = stbi_load(file, &width, &height, &comp, 0);
+    unsigned char* image_data = stbi_load(file.c_str(), &width, &height, &comp, 0);
 
     if (!image_data) {
         std::cout << "Texture " << file << " failed to load" << std::endl;

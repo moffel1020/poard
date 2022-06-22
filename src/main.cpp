@@ -25,8 +25,6 @@ int main()
 
     std::cout << "opengl version " << glGetString(GL_VERSION) << "\n" << std::endl;
     Input::initialize(window->GLwindow);
-    glEnable(GL_DEPTH_TEST);
-
     
     float vertices[] = {
         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -94,6 +92,7 @@ int main()
     int framecount = 0;
     float previousTime = glfwGetTime();
 
+    glEnable(GL_DEPTH_TEST);
     glClearColor(0.1f, 0.5f, 0.5f, 1.0f);
     glViewport(0, 0, window->width, window->height);
     while (!glfwWindowShouldClose(window->GLwindow))
