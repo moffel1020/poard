@@ -77,7 +77,6 @@ int main()
 
     glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 proj = glm::perspective(glm::radians(70.0f), (float)window->width / (float)window->height, 0.1f, 100.0f);
-    glm::mat4 view;
 
     Camera cam = Camera();
     float speed = 0.001f;
