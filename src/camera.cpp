@@ -16,6 +16,9 @@ void Camera::rotate(float yawAngle, float pitchAngle)
 {
     yaw += yawAngle;
     pitch += pitchAngle;
+
+    if (pitch > 89.9f) pitch = 89.9f;
+    else if (pitch < -89.9f) pitch = -89.9f;
     update();
 }
 
