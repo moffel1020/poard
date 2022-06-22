@@ -2,7 +2,7 @@
 #include "window.h"
 
 
-Window::Window(uint32_t width, uint32_t height, const char *title, bool fullscreen, bool lockCursor)
+Window::Window(uint32_t width, uint32_t height, const char* title, bool fullscreen, bool lockCursor)
 {
     this->width = width;
     this->height = height;

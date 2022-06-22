@@ -10,7 +10,7 @@ public:
     const char *title;
     bool fullscreen;
 
-    explicit Window(uint32_t width, uint32_t height, const char *title, bool fullscreen, bool lockCursor);
+    explicit Window(uint32_t width, uint32_t height, const char* title, bool fullscreen, bool lockCursor);
     ~Window();
     void changeTitle(std::string title);
     void close();
