@@ -79,10 +79,10 @@ int main()
     glm::mat4 proj = glm::perspective(glm::radians(70.0f), (float)window->width / (float)window->height, 0.1f, 100.0f);
     glm::mat4 view;
 
-    glm::vec3 camPos = glm::vec3(0.0f, 0.0f, -3.0f);
-    glm::vec3 camTarget = glm::vec3(0.0f, 0.0f, 0.0f);
+    glm::vec3 camPos = glm::vec3(0.0f, 0.0f, 3.0f);
+    glm::vec3 camDirection = glm::vec3(0.0f, 0.0f, -1.0f);
     glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-    glm::vec3 camDirection;
+
 
     shader.Activate();
     Texture tex = Texture("../res/texture/crate.jpg");
@@ -98,17 +98,44 @@ int main()
 
     int framecount = 0;
     float previousTime = glfwGetTime();
+
+    float yaw = 0.0f;
+    float pitch = 0.0f;
+
     glClearColor(0.1f, 0.5f, 0.5f, 1.0f);
     glViewport(0, 0, window->width, window->height);
     while (!glfwWindowShouldClose(window->GLwindow))
     {
-        float time1 = glfwGetTime();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        camDirection = glm::normalize(camTarget - camPos);
+        if (Input::isKeyDown(GLFW_KEY_W))
+            camPos += camDirection * 0.001f;
+        if (Input::isKeyDown(GLFW_KEY_S))
+            camPos -= camDirection * 0.001f;
+        if (Input::isKeyDown(GLFW_KEY_D))
+            camPos += glm::cross(camDirection, up) * 0.001f;
+        if (Input::isKeyDown(GLFW_KEY_A))
+            camPos -= glm::cross(camDirection, up) * 0.001f;
+
+        if (Input::isKeyDown(GLFW_KEY_RIGHT))
+            yaw += 0.05f;
+        if (Input::isKeyDown(GLFW_KEY_LEFT))
+            yaw -= 0.05f;
+        if (Input::isKeyDown(GLFW_KEY_UP))
+            pitch += 0.05f;
+        if (Input::isKeyDown(GLFW_KEY_DOWN))
+            pitch -= 0.05f;
+
+        if (pitch < -89.9f) pitch = -89.9f;
+        else if (pitch > 89.9f) pitch = 89.9f;
 
 
-        view = glm::lookAt(glm::vec3(cos(glfwGetTime()) * 2.0f, 0.0f, sin(glfwGetTime())  * 2.0f), camTarget, up);
+
+        camDirection.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+        camDirection.y = sin(glm::radians(pitch));
+        camDirection.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+
+        view = glm::lookAt(camPos, camPos + camDirection, up);
 
         shader.Activate();
         tex.Bind();
