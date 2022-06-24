@@ -15,7 +15,7 @@ int main()
         return -1;
     }
 
-    Window *window = new Window(1080, 720, "poard", false, true);
+    Window *window = new Window(1920, 1080, "poard", false, true);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cout << "Failed to initialize glad";
@@ -107,6 +107,10 @@ int main()
             cam.move(RIGHT, speed);
         if (Input::isKeyDown(GLFW_KEY_A))
             cam.move(LEFT, speed);
+        if (Input::isKeyDown(GLFW_KEY_SPACE))
+            cam.move(UP, speed);
+        if (Input::isKeyDown(GLFW_KEY_LEFT_SHIFT))
+            cam.move(DOWN, speed);
 
         cam.rotate(Input::getMouseXOffset() * sensitivity, Input::getMouseYOffset() * sensitivity);
 
@@ -114,9 +118,10 @@ int main()
         tex.bind();
         vao.bind();
 
+        glm::mat4 view = cam.getViewMatrix();
         shader.uploadMat4("uModel", model);
         shader.uploadMat4("uProjection", proj);
-        shader.uploadMat4("uView", cam.viewMatrix);
+        shader.uploadMat4("uView", view);
         
         glDrawArrays(GL_TRIANGLES, 0, 36);
         
