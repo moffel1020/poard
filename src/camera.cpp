@@ -2,11 +2,10 @@
 #include "core.h"
 #include "camera.h"
 
-Camera::Camera(float fov, glm::vec3 position, glm::vec3 direction, float yaw, float pitch, glm::vec3 up)
+Camera::Camera(glm::vec3 position, glm::vec3 direction, float yaw, float pitch, glm::vec3 up)
 {
     this->position = position; 
     this->direction = direction;
-    this->fov = fov;
     this->yaw = yaw;
     this-> pitch = pitch;
     this-> up = up;
