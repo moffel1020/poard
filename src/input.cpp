@@ -3,6 +3,7 @@
 
 namespace Input
 {
+    // dit is letterlijk breindood je kan gwn glfwGetKey() doen in plaats van callbacks
     bool pressedKeys[GLFW_KEY_LAST] = { };
     bool pressedMouseButtons[GLFW_MOUSE_BUTTON_LAST] = { };
     float mouseX = 0;

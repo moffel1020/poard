@@ -70,7 +70,8 @@ int main()
         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
 
-    Shader shader = Shader("../res/shader/vertex.glsl", "../res/shader/fragment.glsl");
+    Shader shader = Shader("../res/shader/default.vert", "../res/shader/default.frag");
+    shader.activate();
 
     float fov = 90.0f;
     glm::mat4 model = glm::mat4(1.0f);
@@ -80,7 +81,6 @@ int main()
     float speed = 0.001f;
     float sensitivity = 0.1f;
 
-    shader.activate();
     Texture tex = Texture("../res/texture/crate.jpg");
 
     VertexArray vao = VertexArray();
@@ -90,12 +90,11 @@ int main()
     vao.addBuffer(vbo, 1, 2, GL_FLOAT, sizeof(float) * 5, (void*)(sizeof(float) * 3));
 
 
-    int framecount = 0;
-    float previousTime = glfwGetTime();
-
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.1f, 0.5f, 0.5f, 1.0f);
     glViewport(0, 0, window->width, window->height);
+
+
     while (!glfwWindowShouldClose(window->GLwindow))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -128,14 +127,6 @@ int main()
         
         glfwSwapBuffers(window->GLwindow);
         glfwPollEvents();
-
-        framecount += 1;
-        float time = glfwGetTime();
-        if (time - previousTime >= 1) {
-            window->changeTitle("poard | fps: " + std::to_string(framecount));
-            previousTime = time;
-            framecount = 0;
-        }
     }
 
     glfwTerminate();
