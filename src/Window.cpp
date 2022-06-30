@@ -31,12 +31,12 @@ Window::Window(uint32_t width, uint32_t height, const std::string& title, bool f
 void Window::changeTitle(std::string title)
 {
     glfwSetWindowTitle(GLwindow, title.c_str());
-    this->title = title.c_str();
+    this->title = title;
 }
 
 void Window::framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    // TODO: actually update width and height variables of window
+    // TODO: make it so window object width and height also change
     glViewport(0, 0, width, height);
 }
 
