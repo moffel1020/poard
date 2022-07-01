@@ -3,7 +3,6 @@
 class Shader
 {
 public:
-    uint32_t id;
     Shader(const std::string& vertFilepath, const std::string& fragFilepath);
     ~Shader();
     void activate();
@@ -14,4 +13,5 @@ public:
 private:
     std::string parseShader(const std::string& filepath);
     uint32_t compileShader(unsigned int type, const std::string& filePath);
+    uint32_t id;
 };
