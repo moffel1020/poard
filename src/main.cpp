@@ -98,7 +98,7 @@ int main()
 
 
     glEnable(GL_DEPTH_TEST);
-    glClearColor(0.1f, 0.2f, 0.2f, 1.0f);
+    glClearColor(0.0f, 0.5f, 0.5f, 1.0f);
     glViewport(0, 0, window->width, window->height);
 
 
