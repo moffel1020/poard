@@ -2,12 +2,14 @@
 #include "window.h"
 
 
-Window::Window(uint32_t width, uint32_t height, const std::string& title, bool fullscreen, bool lockCursor)
+Window::Window(uint32_t width, uint32_t height, const std::string& title, bool fullscreen, bool lockCursor, bool enableVsync)
 {
     this->width = width;
     this->height = height;
     this->title = title;
     this->fullscreen = fullscreen;
+    this->lockCursor = lockCursor;
+    this->enableVsync = enableVsync;
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -24,8 +26,8 @@ Window::Window(uint32_t width, uint32_t height, const std::string& title, bool f
     
     glfwMakeContextCurrent(GLwindow);
 
-    if (lockCursor) this->lockCursor();
-    else showCursor();
+    setCursor(lockCursor);
+    setVsync(enableVsync);
 }
 
 void Window::changeTitle(std::string title)
@@ -50,12 +52,18 @@ Window::~Window()
     glfwDestroyWindow(GLwindow);
 }
 
-void Window::lockCursor()
+void Window::setCursor(bool locked)
 {
-    glfwSetInputMode(GLwindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    this->lockCursor = locked;
+
+    if (locked)
+        glfwSetInputMode(GLwindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    else
+        glfwSetInputMode(GLwindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
 
-void Window::showCursor()
+void Window::setVsync(bool enableVsync)
 {
-    glfwSetInputMode(GLwindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    this->enableVsync = enableVsync;
+    enableVsync ? glfwSwapInterval(1) : glfwSwapInterval(0);
 }

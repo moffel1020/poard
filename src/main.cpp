@@ -15,7 +15,7 @@ int main()
         return -1;
     }
 
-    Window *window = new Window(1920, 1080, "poard", false, true);
+    Window *window = new Window(1920, 1080, "poard", false, true, false);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cout << "Failed to initialize glad";
@@ -79,12 +79,12 @@ int main()
     Shader shader = Shader("../res/shader/default.vert", "../res/shader/default.frag");
     shader.activate();
 
-    float fov = 90.0f;
+    float fov = 70.0f;
     glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 proj = glm::perspective(glm::radians(fov), (float)window->width / (float)window->height, 0.1f, 100.0f);
 
     Camera cam = Camera();
-    float speed = 0.001f;
+    float speed = 1.0f;
     float sensitivity = 0.1f;
 
     Texture tex = Texture("../res/texture/crate.jpg");
@@ -101,23 +101,26 @@ int main()
     glClearColor(0.0f, 0.5f, 0.5f, 1.0f);
     glViewport(0, 0, window->width, window->height);
 
-
+    float lastTime = glfwGetTime();
     while (!glfwWindowShouldClose(window->GLwindow))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        float deltaTime = glfwGetTime() - lastTime;
+        lastTime = glfwGetTime();
+
         if (Input::isKeyDown(GLFW_KEY_W))
-            cam.move(FORWARD, speed);
+            cam.move(FORWARD, speed * deltaTime);
         if (Input::isKeyDown(GLFW_KEY_S))
-            cam.move(BACKWARD, speed);
+            cam.move(BACKWARD, speed * deltaTime);
         if (Input::isKeyDown(GLFW_KEY_D))
-            cam.move(RIGHT, speed);
+            cam.move(RIGHT, speed * deltaTime);
         if (Input::isKeyDown(GLFW_KEY_A))
-            cam.move(LEFT, speed);
+            cam.move(LEFT, speed * deltaTime);
         if (Input::isKeyDown(GLFW_KEY_SPACE))
-            cam.move(UP, speed);
+            cam.move(UP, speed * deltaTime);
         if (Input::isKeyDown(GLFW_KEY_LEFT_SHIFT))
-            cam.move(DOWN, speed);
+            cam.move(DOWN, speed * deltaTime);
 
         cam.rotate(Input::getMouseXOffset() * sensitivity, Input::getMouseYOffset() * sensitivity);
 
