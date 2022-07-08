@@ -55,7 +55,7 @@ Window::~Window()
 void Window::setCursor(bool locked)
 {
     this->lockCursor = locked;
-    glfwSetInputMode(GLwindow, GLFW_CURSOR, locked ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(GLwindow, GLFW_CURSOR, locked ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
 }
 
 void Window::setVsync(bool enableVsync)

@@ -10,14 +10,13 @@ if(UNIX)
     set(CMAKE_CXX_FLAGS "-lX11")
 endif(UNIX)
 
-add_executable(poard src/main.cpp src/input.cpp src/shader.cpp src/window.cpp src/buffers.cpp src/texture.cpp src/camera.cpp dependencies/glad.c)
+aux_source_directory(src SRC_DIR)
+add_executable(poard ${SRC_DIR} dependencies/glad.c)
 include_directories(dependencies/include/)
 include_directories(include/)
 
 if(UNIX)
     target_link_libraries(poard ${PROJECT_SOURCE_DIR}/dependencies/linux/libglfw3.a)
-endif(UNIX)
-
-if(WIN32)
+elseif(WIN32)
     target_link_libraries(poard ${PROJECT_SOURCE_DIR}/dependencies/windows/libglfw3.a)
-endif(WIN32)
+endif()
