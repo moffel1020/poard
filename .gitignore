@@ -29,7 +29,10 @@ install_manifest.txt
 *.cmake
 !glmConfig.cmake
 !glmConfig-version.cmake
-# ^ May need to add future .cmake files as exceptions
+
+# language server cache
+.ccls-cache/*
+compile_commands.json
 
 # Test logs
 Testing/*
