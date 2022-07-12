@@ -1,6 +1,6 @@
 #include "core.h"
 #include "window.h"
-
+#include "application.h"
 
 Window::Window(uint32_t width, uint32_t height, const std::string& title, bool fullscreen, bool lockCursor, bool enableVsync)
 {
@@ -26,7 +26,7 @@ Window::Window(uint32_t width, uint32_t height, const std::string& title, bool f
     
     glfwMakeContextCurrent(nativeWindow);
 
-    setCursor(lockCursor);
+    setCursorMode(lockCursor);
     setVsync(enableVsync);
 }
 
@@ -36,9 +36,11 @@ void Window::changeTitle(std::string title)
     this->title = title;
 }
 
-void Window::framebuffer_size_callback(GLFWwindow* window, int width, int height)
+void Window::framebuffer_size_callback(GLFWwindow* nativeWindow, int width, int height)
 {
-    // TODO: make it so window object width and height also change
+    Window* window = Application::getInstance().getWindow();
+    window->width = width;
+    window->height = height;
     glViewport(0, 0, width, height);
 }
 
@@ -52,7 +54,7 @@ Window::~Window()
     glfwDestroyWindow(nativeWindow);
 }
 
-void Window::setCursor(bool locked)
+void Window::setCursorMode(bool locked)
 {
     this->lockCursor = locked;
     glfwSetInputMode(nativeWindow, GLFW_CURSOR, locked ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);

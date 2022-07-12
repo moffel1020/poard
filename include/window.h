@@ -8,7 +8,7 @@ public:
     ~Window();
     void changeTitle(std::string title);
     void close();
-    void setCursor(bool locked);
+    void setCursorMode(bool locked);
     void setVsync(bool enableVsync);
     uint32_t getWidth() { return width; }
     uint32_t getHeight() { return height; }
