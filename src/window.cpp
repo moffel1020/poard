@@ -16,15 +16,15 @@ Window::Window(uint32_t width, uint32_t height, const std::string& title, bool f
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     GLFWmonitor *monitor = (fullscreen) ? glfwGetPrimaryMonitor() : nullptr;
-    GLwindow = glfwCreateWindow(width, height, title.c_str(), monitor, nullptr);
-    glfwSetFramebufferSizeCallback(this->GLwindow, Window::framebuffer_size_callback);
+    nativeWindow = glfwCreateWindow(width, height, title.c_str(), monitor, nullptr);
+    glfwSetFramebufferSizeCallback(this->nativeWindow, Window::framebuffer_size_callback);
 
-    if (GLwindow == nullptr) {
+    if (nativeWindow == nullptr) {
         std::cout << "Failed to create window" << std::endl;
         glfwTerminate();
     }
     
-    glfwMakeContextCurrent(GLwindow);
+    glfwMakeContextCurrent(nativeWindow);
 
     setCursor(lockCursor);
     setVsync(enableVsync);
@@ -32,7 +32,7 @@ Window::Window(uint32_t width, uint32_t height, const std::string& title, bool f
 
 void Window::changeTitle(std::string title)
 {
-    glfwSetWindowTitle(GLwindow, title.c_str());
+    glfwSetWindowTitle(nativeWindow, title.c_str());
     this->title = title;
 }
 
@@ -44,18 +44,18 @@ void Window::framebuffer_size_callback(GLFWwindow* window, int width, int height
 
 void Window::close()
 {
-    glfwSetWindowShouldClose(GLwindow, true);
+    glfwSetWindowShouldClose(nativeWindow, true);
 }
 
 Window::~Window()
 {
-    glfwDestroyWindow(GLwindow);
+    glfwDestroyWindow(nativeWindow);
 }
 
 void Window::setCursor(bool locked)
 {
     this->lockCursor = locked;
-    glfwSetInputMode(GLwindow, GLFW_CURSOR, locked ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
+    glfwSetInputMode(nativeWindow, GLFW_CURSOR, locked ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
 }
 
 void Window::setVsync(bool enableVsync)

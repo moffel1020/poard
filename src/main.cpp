@@ -24,7 +24,7 @@ int main()
     }
 
     std::cout << "opengl version " << glGetString(GL_VERSION) << "\n" << std::endl;
-    Input::initialize(window->GLwindow);
+    Input::initialize(window->getNativeWindow());
 
  
     float vertices[] = {
@@ -81,7 +81,7 @@ int main()
 
     float fov = 70.0f;
     glm::mat4 model = glm::mat4(1.0f);
-    glm::mat4 proj = glm::perspective(glm::radians(fov), (float)window->width / (float)window->height, 0.1f, 100.0f);
+    glm::mat4 proj = glm::perspective(glm::radians(fov), (float)window->getWidth() / (float)window->getHeight(), 0.1f, 100.0f);
 
     Camera cam = Camera();
     float speed = 1.0f;
@@ -99,10 +99,10 @@ int main()
 
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.0f, 0.5f, 0.5f, 1.0f);
-    glViewport(0, 0, window->width, window->height);
+    glViewport(0, 0, window->getWidth(), window->getHeight());
 
     float lastTime = glfwGetTime();
-    while (!glfwWindowShouldClose(window->GLwindow))
+    while (!glfwWindowShouldClose(window->getNativeWindow()))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -135,7 +135,7 @@ int main()
         
         glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, indices);
 
-        glfwSwapBuffers(window->GLwindow);
+        glfwSwapBuffers(window->getNativeWindow());
         glfwPollEvents();
     }
 
