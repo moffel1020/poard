@@ -1,10 +1,11 @@
 #pragma once
+#include "GLFW/glfw3.h"
 
-namespace Input
+class Input
 {
-    void initialize(GLFWwindow* window);
+public:
     bool isMouseButtonDown(int button);
     bool isKeyDown(int key);
-    float getMouseXOffset();
-    float getMouseYOffset();
-}
+    int getMouseXPos();
+    int getMouseYPos();
+};

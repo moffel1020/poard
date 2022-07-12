@@ -26,7 +26,7 @@ Application::Application()
     }
 
     std::cout << "opengl version " << glGetString(GL_VERSION) << "\n" << std::endl;
-    Input::initialize(window->getNativeWindow());
+    this->input = Input();
 }
 
 
@@ -104,27 +104,34 @@ void Application::run()
     glViewport(0, 0, window->getWidth(), window->getHeight());
 
     float lastTime = glfwGetTime();
+    float lastXPos = input.getMouseXPos();
+    float lastYPos = input.getMouseYPos();
+
     while (!glfwWindowShouldClose(window->getNativeWindow()))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         float deltaTime = glfwGetTime() - lastTime;
+        float xMouseMovement = input.getMouseXPos() - lastXPos;
+        float yMouseMovement = input.getMouseYPos() - lastYPos;
         lastTime = glfwGetTime();
+        lastXPos = input.getMouseXPos();
+        lastYPos = input.getMouseYPos();
 
-        if (Input::isKeyDown(GLFW_KEY_W))
+        if (input.isKeyDown(GLFW_KEY_W))
             cam.move(FORWARD, speed * deltaTime);
-        if (Input::isKeyDown(GLFW_KEY_S))
+        if (input.isKeyDown(GLFW_KEY_S))
             cam.move(BACKWARD, speed * deltaTime);
-        if (Input::isKeyDown(GLFW_KEY_D))
+        if (input.isKeyDown(GLFW_KEY_D))
             cam.move(RIGHT, speed * deltaTime);
-        if (Input::isKeyDown(GLFW_KEY_A))
+        if (input.isKeyDown(GLFW_KEY_A))
             cam.move(LEFT, speed * deltaTime);
-        if (Input::isKeyDown(GLFW_KEY_SPACE))
+        if (input.isKeyDown(GLFW_KEY_SPACE))
             cam.move(UP, speed * deltaTime);
-        if (Input::isKeyDown(GLFW_KEY_LEFT_SHIFT))
+        if (input.isKeyDown(GLFW_KEY_LEFT_SHIFT))
             cam.move(DOWN, speed * deltaTime);
 
-        cam.rotate(Input::getMouseXOffset() * sensitivity, Input::getMouseYOffset() * sensitivity);
+        cam.rotate(xMouseMovement * sensitivity, -yMouseMovement * sensitivity);
 
         shader.activate();
         tex.bind();
