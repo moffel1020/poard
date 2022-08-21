@@ -12,9 +12,9 @@ if(UNIX)
 endif(UNIX)
 
 aux_source_directory(src SRC_DIR)
-add_executable(poard ${SRC_DIR} dependencies/glad.c)
+add_executable(poard ${SRC_DIR} dependencies/src/glad.c)
 include_directories(dependencies/include/)
-include_directories(include/)
+include_directories(src/)
 
 if(UNIX)
     target_link_libraries(poard ${PROJECT_SOURCE_DIR}/dependencies/linux/libglfw3.a)
