@@ -80,7 +80,7 @@ void Application::run()
     };
 
 
-    Shader shader = Shader("../res/shader/default.vert", "../res/shader/default.frag");
+    Shader shader = Shader("./res/shader/default.vert", "./res/shader/default.frag");
     shader.activate();
 
     float fov = 70.0f;
@@ -91,7 +91,7 @@ void Application::run()
     float speed = 1.0f;
     float sensitivity = 0.1f;
 
-    Texture tex = Texture("../res/texture/crate.jpg");
+    Texture tex = Texture("./res/texture/crate.jpg");
 
     VertexArray vao = VertexArray();
     VertexBuffer vbo = VertexBuffer(vertices, sizeof(vertices));
