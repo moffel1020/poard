@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(poard VERSION 0.1.0)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+
 
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 set(CMAKE_CXX_FLAGS "-Wall")
@@ -11,13 +15,10 @@ if(UNIX)
     set(CMAKE_CXX_FLAGS "-lX11")
 endif(UNIX)
 
+add_subdirectory(dependencies/glfw/)
 aux_source_directory(src SRC_DIR)
-add_executable(poard ${SRC_DIR} dependencies/src/glad.c)
-include_directories(dependencies/include/)
+add_executable(poard ${SRC_DIR} dependencies/glad/glad.c)
+include_directories(dependencies/)
 include_directories(src/)
 
-if(UNIX)
-    target_link_libraries(poard ${PROJECT_SOURCE_DIR}/dependencies/lib/linux/libglfw3.a)
-elseif(WIN32)
-    target_link_libraries(poard ${PROJECT_SOURCE_DIR}/dependencies/lib/windows/libglfw3.a)
-endif()
+target_link_libraries(poard glfw)
