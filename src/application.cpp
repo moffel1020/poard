@@ -18,7 +18,7 @@ Application::Application()
     if (!glfwInit())
         std::cout << "Failed to initialize GLFW\n" << std::endl;
 
-    this->window = new Window(1920, 1080, "poard", false, true, false);
+    this->window = new Window(1280, 720, "poard", false, true, false);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cout << "Failed to initialize glad";
@@ -83,11 +83,9 @@ void Application::run()
     Shader shader = Shader("./res/shader/default.vert", "./res/shader/default.frag");
     shader.activate();
 
-    float fov = 70.0f;
     glm::mat4 model = glm::mat4(1.0f);
-    glm::mat4 proj = glm::perspective(glm::radians(fov), (float)window->getWidth() / (float)window->getHeight(), 0.1f, 100.0f);
 
-    Camera cam = Camera();
+    Camera cam = Camera(glm::vec3(0.0f, 0.0f, 0.0f), 70.0f);
     float speed = 1.0f;
     float sensitivity = 0.1f;
 
@@ -99,6 +97,7 @@ void Application::run()
 
     vao.addBuffer(vbo, 0, 3, GL_FLOAT, sizeof(float) * 5, (void*)0);                    // positions
     vao.addBuffer(vbo, 1, 2, GL_FLOAT, sizeof(float) * 5, (void*)(sizeof(float) * 3));  // texture coordinates
+
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.0f, 0.5f, 0.5f, 1.0f);
     glViewport(0, 0, window->getWidth(), window->getHeight());
@@ -132,12 +131,14 @@ void Application::run()
             cam.move(DOWN, speed * deltaTime);
 
         cam.rotate(xMouseMovement * sensitivity, -yMouseMovement * sensitivity);
+        cam.update();
 
         shader.activate();
         tex.bind();
         vao.bind();
 
         glm::mat4 view = cam.getViewMatrix();
+        glm::mat4 proj = cam.getProjMatrix();
         shader.uploadMat4("uModel", model);
         shader.uploadMat4("uProjection", proj);
         shader.uploadMat4("uView", view);

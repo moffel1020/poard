@@ -1,14 +1,20 @@
 #include <math.h>
 #include "core.h"
 #include "camera.h"
+#include "application.h"
 
-Camera::Camera(glm::vec3 position, glm::vec3 direction, float yaw, float pitch, glm::vec3 up)
+Camera::Camera(glm::vec3 position, float fov, float yaw, float pitch)
 {
     this->position = position; 
-    this->direction = direction;
+    this->fov = fov;
     this->yaw = yaw;
-    this-> pitch = pitch;
-    this-> up = up;
+    this->pitch = pitch;
+    this->direction = glm::vec3(0.0f, 0.0f, -1.0f);
+    this->up = glm::vec3(0.0f, 1.0f, 0.0f);
+
+    uint32_t w = Application::getInstance().getWindow()->getWidth();
+    uint32_t h = Application::getInstance().getWindow()->getHeight();
+    this->projMatrix = glm::perspective(glm::radians(fov), (float)w/ (float)h, 0.1f, 1000.0f);
 }
 
 void Camera::rotate(float yawAngle, float pitchAngle)
@@ -16,9 +22,11 @@ void Camera::rotate(float yawAngle, float pitchAngle)
     yaw += yawAngle;
     pitch += pitchAngle;
 
-    if (pitch > 89.9f) pitch = 89.9f;
-    else if (pitch < -89.9f) pitch = -89.9f;
-    update();
+    if (pitch > 89.9f) {
+        pitch = 89.9f;
+    } else if (pitch < -89.9f) {
+        pitch = -89.9f;
+    }
 }
 
 void Camera::move(Direction dir, float distance)
@@ -47,9 +55,6 @@ void Camera::move(Direction dir, float distance)
             position.y -= distance;
             break;
     }
-
-
-    update();
 }
 
 void Camera::setPosition(float x, float y, float z)
@@ -57,7 +62,6 @@ void Camera::setPosition(float x, float y, float z)
     position.x += x;
     position.y += y;
     position.z += z;
-    update();
 }
 
 void Camera::update()
@@ -77,4 +81,9 @@ void Camera::update()
 glm::mat4 Camera::getViewMatrix()
 {
     return viewMatrix;
+}
+
+glm::mat4 Camera::getProjMatrix()
+{
+    return projMatrix;
 }
