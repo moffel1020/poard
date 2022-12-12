@@ -27,6 +27,7 @@ Application::Application()
 
     std::cout << "opengl version " << glGetString(GL_VERSION) << "\n" << std::endl;
     this->input = Input();
+    this->renderer = Renderer();
 }
 
 
@@ -81,7 +82,7 @@ void Application::run()
 
 
     Shader shader = Shader("./res/shader/default.vert", "./res/shader/default.frag");
-    shader.activate();
+    shader.bind();
 
     glm::mat4 model = glm::mat4(1.0f);
 
@@ -108,7 +109,7 @@ void Application::run()
 
     while (!glfwWindowShouldClose(window->getNativeWindow()))
     {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        renderer.clear();
 
         float deltaTime = glfwGetTime() - lastTime;
         float xMouseMovement = input.getMouseXPos() - lastXPos;
@@ -133,17 +134,16 @@ void Application::run()
         cam.rotate(xMouseMovement * sensitivity, -yMouseMovement * sensitivity);
         cam.update();
 
-        shader.activate();
         tex.bind();
-        vao.bind();
 
+        shader.bind();
         glm::mat4 view = cam.getViewMatrix();
         glm::mat4 proj = cam.getProjMatrix();
         shader.uploadMat4("uModel", model);
         shader.uploadMat4("uProjection", proj);
         shader.uploadMat4("uView", view);
-        
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, indices);
+
+        renderer.draw(vao, ibo, shader);
 
         glfwSwapBuffers(window->getNativeWindow());
         glfwPollEvents();

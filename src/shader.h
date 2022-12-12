@@ -1,11 +1,12 @@
 #pragma once
+#include "core.h"
 
 class Shader
 {
 public:
     Shader(const std::string& vertFilepath, const std::string& fragFilepath);
     ~Shader();
-    void activate();
+    void bind();
     uint32_t getUniformLocation(const char* name);
     void uploadFloat(const char* name, float f);
     void uploadVec3(const char* name, glm::vec3& vec3);

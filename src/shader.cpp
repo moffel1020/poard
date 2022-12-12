@@ -61,7 +61,7 @@ Shader::Shader(const std::string& vertFilepath, const std::string& fragFilepath)
     glDeleteShader(fs);
 }
 
-void Shader::activate()
+void Shader::bind()
 {
     glUseProgram(id);
 }

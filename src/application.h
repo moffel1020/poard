@@ -1,3 +1,5 @@
+#pragma once
+#include "renderer.h"
 #include "window.h"
 #include "input.h"
 
@@ -11,5 +13,6 @@ public:
 private:
     Window* window;
     Input input;
+    Renderer renderer;
     static Application* instance;
 };
