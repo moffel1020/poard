@@ -94,7 +94,7 @@ void Application::run()
 
     VertexArray vao = VertexArray();
     VertexBuffer vbo = VertexBuffer(vertices, sizeof(vertices));
-    IndexBuffer ibo = IndexBuffer(indices, sizeof(indices));
+    IndexBuffer ibo = IndexBuffer(indices, sizeof(indices) / sizeof(GLuint));
 
     vao.addBuffer(vbo, 0, 3, GL_FLOAT, sizeof(float) * 5, (void*)0);                    // positions
     vao.addBuffer(vbo, 1, 2, GL_FLOAT, sizeof(float) * 5, (void*)(sizeof(float) * 3));  // texture coordinates

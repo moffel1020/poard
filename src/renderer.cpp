@@ -7,7 +7,7 @@ void Renderer::draw(VertexArray& va, IndexBuffer& ib, Shader& shader)
     va.bind();
     ib.bind();
     shader.bind();
-    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, ib.getCount(), GL_UNSIGNED_INT, nullptr);
 }
 
 void Renderer::clear()

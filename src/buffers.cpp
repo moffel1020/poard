@@ -27,12 +27,14 @@ VertexBuffer::~VertexBuffer()
 
 
 // ebo
-IndexBuffer::IndexBuffer(GLuint* indices, GLsizeiptr size)
+IndexBuffer::IndexBuffer(GLuint* indices, uint32_t count)
 {
+    this->count = count;
     glGenBuffers(1, &id);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(GLuint), indices, GL_STATIC_DRAW);
 }
+
 void IndexBuffer::bind()
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
