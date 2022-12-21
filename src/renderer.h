@@ -5,6 +5,6 @@
 class Renderer
 {
 public:
-    void draw(VertexArray& va, IndexBuffer& ib, Shader& shader);
-    void clear();
+    static void draw(VertexArray& va, IndexBuffer& ib, Shader& shader);
+    static void clear();
 };

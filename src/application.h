@@ -12,7 +12,5 @@ public:
     static Application& getInstance() { return *instance; }
 private:
     Window* window;
-    Input input;
-    Renderer renderer;
     static Application* instance;
 };

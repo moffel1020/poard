@@ -29,3 +29,25 @@ int Input::getMouseYPos()
     glfwGetCursorPos(nativeWindow, nullptr, &ypos);
     return ypos;
 }
+
+int Input::getMouseXMovement()
+{
+    if (!lastXPos)
+        lastYPos = getMouseXPos();
+
+    return getMouseXPos() - lastXPos;
+}
+
+int Input::getMouseYMovement()
+{
+    if (!lastYPos)
+        lastYPos = getMouseYPos();
+
+    return Input::getMouseYPos() - lastYPos;
+}
+
+void Input::update()
+{
+    lastXPos = getMouseXPos();
+    lastYPos = getMouseYPos();
+}

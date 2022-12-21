@@ -8,6 +8,7 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 set(CMAKE_CXX_FLAGS "-Wall")
+set(CMAKE_CXX_FLAGS "-std=c++17")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
@@ -18,8 +19,7 @@ endif(UNIX)
 add_subdirectory(dependencies/glfw/)
 aux_source_directory(src SRC_DIR)
 add_executable(poard ${SRC_DIR} dependencies/glad/glad.c)
-include_directories(dependencies/)
-include_directories(src/)
+include_directories(dependencies/ src/)
 
 target_link_libraries(poard glfw)
 
