@@ -1,12 +1,5 @@
 #pragma once
-#include <memory>
-#include "scene.h"
-#include "core.h"
-#include "camera.h"
-#include "buffers.h"
-#include "texture.h"
-#include "texture.h"
-#include "shader.h"
+#include "poard.h"
 
 class CubeScene : Scene
 {

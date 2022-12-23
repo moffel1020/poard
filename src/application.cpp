@@ -1,19 +1,8 @@
 #include "application.h"
-#include "core.h"
-#include "shader.h"
-#include "window.h"
-#include "input.h"
-#include "buffers.h"
-#include "texture.h"
-#include "camera.h"
-#include "math.h"
-#include "cubeScene.h"
-
 
 Application* Application::instance = nullptr;
 
-Application::Application()
-{
+Application::Application() {
     Application::instance = this;
 
     if (!glfwInit())
@@ -30,8 +19,7 @@ Application::Application()
 }
 
 
-void Application::run()
-{
+void Application::run() {
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.0f, 0.5f, 0.5f, 1.0f);
     glViewport(0, 0, window->getWidth(), window->getHeight());
@@ -40,8 +28,7 @@ void Application::run()
 
     CubeScene scene = CubeScene();
 
-    while (!glfwWindowShouldClose(window->getNativeWindow()))
-    {
+    while (!glfwWindowShouldClose(window->getNativeWindow())) {
         Renderer::clear();
 
         float deltaTime = glfwGetTime() - lastTime;

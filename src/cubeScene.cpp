@@ -1,6 +1,4 @@
 #include "cubeScene.h"
-#include "renderer.h"
-#include "input.h"
 
 CubeScene::CubeScene() {
     float vertices[] = {

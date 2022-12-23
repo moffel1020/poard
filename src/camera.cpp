@@ -1,10 +1,8 @@
-#include <math.h>
 #include "core.h"
 #include "camera.h"
 #include "application.h"
 
-Camera::Camera(glm::vec3 position, float fov, float yaw, float pitch)
-{
+Camera::Camera(glm::vec3 position, float fov, float yaw, float pitch) {
     this->position = position; 
     this->fov = fov;
     this->yaw = yaw;
@@ -17,8 +15,7 @@ Camera::Camera(glm::vec3 position, float fov, float yaw, float pitch)
     this->projMatrix = glm::perspective(glm::radians(fov), (float)w/ (float)h, 0.1f, 1000.0f);
 }
 
-void Camera::rotate(float yawAngle, float pitchAngle)
-{
+void Camera::rotate(float yawAngle, float pitchAngle) {
     yaw += yawAngle;
     pitch += pitchAngle;
 
@@ -29,8 +26,7 @@ void Camera::rotate(float yawAngle, float pitchAngle)
     }
 }
 
-void Camera::move(Direction dir, float distance)
-{
+void Camera::move(Direction dir, float distance) {
     switch (dir) {
         case FORWARD:
             position.x += forward.x * distance;
@@ -57,15 +53,13 @@ void Camera::move(Direction dir, float distance)
     }
 }
 
-void Camera::setPosition(float x, float y, float z)
-{
+void Camera::setPosition(float x, float y, float z) {
     position.x += x;
     position.y += y;
     position.z += z;
 }
 
-void Camera::update()
-{
+void Camera::update() {
     direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
     direction.y = sin(glm::radians(pitch));
     direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
@@ -78,12 +72,10 @@ void Camera::update()
     viewMatrix = glm::lookAt(position, position + direction, up);
 }
 
-glm::mat4 Camera::getViewMatrix()
-{
+glm::mat4 Camera::getViewMatrix() {
     return viewMatrix;
 }
 
-glm::mat4 Camera::getProjMatrix()
-{
+glm::mat4 Camera::getProjMatrix() {
     return projMatrix;
 }

@@ -2,8 +2,7 @@
 #include "window.h"
 #include "application.h"
 
-Window::Window(uint32_t width, uint32_t height, const std::string& title, bool fullscreen, bool lockCursor, bool enableVsync)
-{
+Window::Window(uint32_t width, uint32_t height, const std::string& title, bool fullscreen, bool lockCursor, bool enableVsync) {
     this->width = width;
     this->height = height;
     this->title = title;
@@ -30,38 +29,32 @@ Window::Window(uint32_t width, uint32_t height, const std::string& title, bool f
     setVsync(enableVsync);
 }
 
-void Window::changeTitle(std::string title)
-{
+void Window::changeTitle(std::string title) {
     glfwSetWindowTitle(nativeWindow, title.c_str());
     this->title = title;
 }
 
-void Window::framebuffer_size_callback(GLFWwindow* nativeWindow, int width, int height)
-{
+void Window::framebuffer_size_callback(GLFWwindow* nativeWindow, int width, int height) {
     Window* window = Application::getInstance().getWindow();
     window->width = width;
     window->height = height;
     glViewport(0, 0, width, height);
 }
 
-void Window::close()
-{
+void Window::close() {
     glfwSetWindowShouldClose(nativeWindow, true);
 }
 
-Window::~Window()
-{
+Window::~Window() {
     glfwDestroyWindow(nativeWindow);
 }
 
-void Window::setCursorMode(bool locked)
-{
+void Window::setCursorMode(bool locked) {
     this->lockCursor = locked;
     glfwSetInputMode(nativeWindow, GLFW_CURSOR, locked ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
 }
 
-void Window::setVsync(bool enableVsync)
-{
+void Window::setVsync(bool enableVsync) {
     this->enableVsync = enableVsync;
     enableVsync ? glfwSwapInterval(1) : glfwSwapInterval(0);
 }

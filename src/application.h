@@ -1,7 +1,10 @@
 #pragma once
-#include "renderer.h"
+#include "core.h"
+#include "scene.h"
+#include "cubeScene.h"
 #include "window.h"
-#include "input.h"
+#include "renderer.h"
+#include "buffers.h"
 
 class Application
 {

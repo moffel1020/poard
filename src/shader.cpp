@@ -4,8 +4,7 @@
 #include "shader.h"
 
 
-std::string Shader::parseShader(const std::string& filepath)
-{
+std::string Shader::parseShader(const std::string& filepath) {
     std::ifstream file(filepath);
     std::string shader;
     std::string line;
@@ -16,8 +15,7 @@ std::string Shader::parseShader(const std::string& filepath)
     return shader;
 }
 
-uint32_t Shader::compileShader(unsigned int type, const std::string& filePath)
-{
+uint32_t Shader::compileShader(unsigned int type, const std::string& filePath) {
     std::string source = parseShader(filePath);
     unsigned int shaderID = glCreateShader(type);
     const char* src = source.c_str();
@@ -37,8 +35,7 @@ uint32_t Shader::compileShader(unsigned int type, const std::string& filePath)
 }
 
 
-Shader::Shader(const std::string& vertFilepath, const std::string& fragFilepath)
-{
+Shader::Shader(const std::string& vertFilepath, const std::string& fragFilepath) {
     this->id = glCreateProgram();
     unsigned int vs = compileShader(GL_VERTEX_SHADER, vertFilepath);
     unsigned int fs = compileShader(GL_FRAGMENT_SHADER, fragFilepath);
@@ -61,32 +58,26 @@ Shader::Shader(const std::string& vertFilepath, const std::string& fragFilepath)
     glDeleteShader(fs);
 }
 
-void Shader::bind()
-{
+void Shader::bind() {
     glUseProgram(id);
 }
 
-Shader::~Shader()
-{
+Shader::~Shader() {
     glDeleteProgram(id);
 }
 
-unsigned int Shader::getUniformLocation(const char* name)
-{
+unsigned int Shader::getUniformLocation(const char* name) {
     return glGetUniformLocation(id, name);
 }
 
-void Shader::uploadFloat(const char* name, float f)
-{
+void Shader::uploadFloat(const char* name, float f) {
     glUniform1f(getUniformLocation(name), f);
 }
 
-void Shader::uploadVec3(const char* name, glm::vec3& vec3)
-{
+void Shader::uploadVec3(const char* name, glm::vec3& vec3) {
     glUniform3f(getUniformLocation(name), vec3.x, vec3.y, vec3.z);
 }
 
-void Shader::uploadMat4(const char* name, glm::mat4& mat4)
-{
+void Shader::uploadMat4(const char* name, glm::mat4& mat4) {
     glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat4));
 }
