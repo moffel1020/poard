@@ -18,8 +18,9 @@ endif(UNIX)
 
 add_subdirectory(dependencies/glfw/)
 aux_source_directory(src SRC_DIR)
-add_executable(poard ${SRC_DIR} dependencies/glad/glad.c)
-include_directories(dependencies/ src/)
+aux_source_directory(src/core CORE_DIR)
+add_executable(poard ${CORE_DIR} ${SRC_DIR} dependencies/glad/glad.c)
+include_directories(dependencies/ src/ src/core)
 
 target_link_libraries(poard glfw)
 
