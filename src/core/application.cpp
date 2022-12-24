@@ -21,12 +21,10 @@ Application::Application() {
 
 void Application::run() {
     glEnable(GL_DEPTH_TEST);
-    glClearColor(0.0f, 0.5f, 0.5f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glViewport(0, 0, window->getWidth(), window->getHeight());
 
     float lastTime = glfwGetTime();
-
-    CubeScene scene = CubeScene();
 
     while (!glfwWindowShouldClose(window->getNativeWindow())) {
         Renderer::clear();
@@ -34,8 +32,8 @@ void Application::run() {
         float deltaTime = glfwGetTime() - lastTime;
         lastTime = glfwGetTime();
 
-        scene.update(deltaTime);
-        scene.draw();
+        scenes[activeScene]->update(deltaTime);
+        scenes[activeScene]->draw();
 
         Input::update();
 
@@ -44,4 +42,21 @@ void Application::run() {
     }
 
     glfwTerminate();
+}
+
+void Application::addScene(Scene* scene) {
+    scenes.insert(std::pair<std::string, Scene*>(scene->getName(), scene));
+}
+
+void Application::setScene(const std::string& name) {
+    if (scenes.find(name) == scenes.end()) {
+        std::cout << "scene " << name << " does not exist" << std::endl;
+        return;
+    }
+
+    if (scenes[activeScene])
+        scenes[activeScene]->stop();
+
+    activeScene = name;
+    scenes[activeScene]->start();
 }

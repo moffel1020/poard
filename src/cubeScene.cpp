@@ -1,6 +1,7 @@
 #include "cubeScene.h"
 
-CubeScene::CubeScene() {
+
+void CubeScene::start() {
     float vertices[] = {
         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -82,7 +83,6 @@ void CubeScene::update(float dt) {
 
 void CubeScene::draw() {
     glm::mat4 model = glm::mat4(1.0f);
-    vao->bind();
 
     cam->update();
 

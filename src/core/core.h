@@ -2,6 +2,8 @@
 #include <iostream>
 #include <math.h>
 #include <memory>
+#include <unordered_map>
+#include <vector>
 #include "glad/glad.h"
 #include "KHR/khrplatform.h"
 #include "GLFW/glfw3.h"

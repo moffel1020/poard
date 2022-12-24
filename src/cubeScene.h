@@ -1,10 +1,11 @@
 #pragma once
 #include "poard.h"
 
-class CubeScene : Scene
+class CubeScene : public Scene
 {
 public:
-    CubeScene();
+    using Scene::Scene;
+    void start() override;
     void update(float dt) override;
     void draw() override;
 private:

@@ -11,9 +11,15 @@ class Application
 public:
     Application();
     void run();
+
+    void addScene(Scene* scene);
+    void setScene(const std::string& name);
+
     Window* getWindow() { return window; }
     static Application& getInstance() { return *instance; }
 private:
     Window* window;
     static Application* instance;
+    std::string activeScene;
+    std::unordered_map<std::string, Scene*> scenes;
 };
