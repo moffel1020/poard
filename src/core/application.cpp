@@ -8,7 +8,7 @@ Application::Application() {
     if (!glfwInit())
         std::cout << "Failed to initialize GLFW" << std::endl;
 
-    this->window = new Window(1280, 720, "poard", false, true, false);
+    this->window = std::make_unique<Window>(1280, 720, "poard", false, true, false);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cout << "Failed to initialize glad" << std::endl;
@@ -25,6 +25,7 @@ void Application::run() {
     glViewport(0, 0, window->getWidth(), window->getHeight());
 
     float lastTime = glfwGetTime();
+    Gui gui = Gui();
 
     while (!glfwWindowShouldClose(window->getNativeWindow())) {
         Renderer::clear();
@@ -35,8 +36,11 @@ void Application::run() {
         scenes[activeScene]->update(deltaTime);
         scenes[activeScene]->draw();
 
-        Input::update();
+        gui.begin();
+        scenes[activeScene]->gui();
+        gui.end();
 
+        Input::update();
         glfwSwapBuffers(window->getNativeWindow());
         glfwPollEvents();
     }
@@ -44,9 +48,11 @@ void Application::run() {
     glfwTerminate();
 }
 
+
 void Application::addScene(Scene* scene) {
     scenes.insert(std::pair<std::string, Scene*>(scene->getName(), scene));
 }
+
 
 void Application::setScene(const std::string& name) {
     if (scenes.find(name) == scenes.end()) {

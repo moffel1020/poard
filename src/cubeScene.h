@@ -8,6 +8,7 @@ public:
     void start() override;
     void update(float dt) override;
     void draw() override;
+    void gui() override;
 private:
     std::unique_ptr<Shader> shader;
     std::unique_ptr<Camera> cam;

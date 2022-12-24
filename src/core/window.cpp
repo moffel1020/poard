@@ -1,4 +1,3 @@
-#include "core.h"
 #include "window.h"
 #include "application.h"
 
@@ -35,9 +34,9 @@ void Window::changeTitle(std::string title) {
 }
 
 void Window::framebuffer_size_callback(GLFWwindow* nativeWindow, int width, int height) {
-    Window* window = Application::getInstance().getWindow();
-    window->width = width;
-    window->height = height;
+    Window window = Application::getInstance().getWindow();
+    window.width = width;
+    window.height = height;
     glViewport(0, 0, width, height);
 }
 

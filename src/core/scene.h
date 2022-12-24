@@ -8,6 +8,7 @@ public:
     virtual ~Scene() { }
     virtual void update(float dt) { }
     virtual void draw() { }
+    virtual void gui() { }
     virtual void stop() { }
     std::string& getName() { return name; }
 private:

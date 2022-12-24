@@ -1,6 +1,3 @@
-#include <fstream>
-#include <string>
-#include "core.h"
 #include "shader.h"
 
 

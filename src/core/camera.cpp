@@ -1,4 +1,3 @@
-#include "core.h"
 #include "camera.h"
 #include "application.h"
 
@@ -10,8 +9,8 @@ Camera::Camera(glm::vec3 position, float fov, float yaw, float pitch) {
     this->direction = glm::vec3(0.0f, 0.0f, -1.0f);
     this->up = glm::vec3(0.0f, 1.0f, 0.0f);
 
-    uint32_t w = Application::getInstance().getWindow()->getWidth();
-    uint32_t h = Application::getInstance().getWindow()->getHeight();
+    uint32_t w = Application::getInstance().getWindow().getWidth();
+    uint32_t h = Application::getInstance().getWindow().getHeight();
     this->projMatrix = glm::perspective(glm::radians(fov), (float)w/ (float)h, 0.1f, 1000.0f);
 }
 
