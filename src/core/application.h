@@ -17,10 +17,10 @@ public:
     void addScene(Scene* scene);
     void setScene(const std::string& name);
 
-    Window& getWindow() { return *window; }
-    static Application& getInstance() { return *instance; }
+    Window* getWindow() { return window; }
+    static Application& get() { return *instance; }
 private:
-    std::unique_ptr<Window> window;
+    Window* window;
     static Application* instance;
     std::string activeScene;
     std::unordered_map<std::string, Scene*> scenes;

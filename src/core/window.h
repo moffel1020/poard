@@ -10,6 +10,7 @@ public:
     void close();
     void setCursorMode(bool locked);
     void setVsync(bool enableVsync);
+    bool getLockCursor() { return lockCursor; }
     uint32_t getWidth() { return width; }
     uint32_t getHeight() { return height; }
     GLFWwindow* getNativeWindow() { return nativeWindow; }

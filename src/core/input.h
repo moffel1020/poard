@@ -3,6 +3,8 @@
 class Input
 {
 public:
+    static void init();
+    static void onKeyEvent(GLFWwindow* window, int key, int scancode, int action, int mods);
     static bool isMouseButtonDown(int button);
     static bool isKeyDown(int key);
     static int getMouseXPos();

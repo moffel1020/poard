@@ -8,7 +8,7 @@ Application::Application() {
     if (!glfwInit())
         std::cout << "Failed to initialize GLFW" << std::endl;
 
-    this->window = std::make_unique<Window>(1280, 720, "poard", false, true, false);
+    this->window = new Window(1280, 720, "poard", false, true, false);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cout << "Failed to initialize glad" << std::endl;
@@ -26,6 +26,7 @@ void Application::run() {
 
     float lastTime = glfwGetTime();
     Gui gui = Gui();
+    Input::init();
 
     while (!glfwWindowShouldClose(window->getNativeWindow())) {
         Renderer::clear();
@@ -45,6 +46,7 @@ void Application::run() {
         glfwPollEvents();
     }
 
+    delete window;
     glfwTerminate();
 }
 

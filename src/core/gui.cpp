@@ -8,7 +8,7 @@ Gui::Gui() {
 
     ImGui::StyleColorsDark();
 
-    ImGui_ImplGlfw_InitForOpenGL(Application::getInstance().getWindow().getNativeWindow(), true);
+    ImGui_ImplGlfw_InitForOpenGL(Application::get().getWindow()->getNativeWindow(), true);
     ImGui_ImplOpenGL3_Init("#version 330");
 }
 
