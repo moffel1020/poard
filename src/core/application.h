@@ -17,6 +17,7 @@ public:
     void addScene(Scene* scene);
     void setScene(const std::string& name);
 
+    float getDeltaTime() { return deltaTime; }
     Window* getWindow() { return window; }
     static Application& get() { return *instance; }
 private:
@@ -24,4 +25,5 @@ private:
     static Application* instance;
     std::string activeScene;
     std::unordered_map<std::string, Scene*> scenes;
+    float deltaTime;
 };

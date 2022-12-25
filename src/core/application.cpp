@@ -31,7 +31,7 @@ void Application::run() {
     while (!glfwWindowShouldClose(window->getNativeWindow())) {
         Renderer::clear();
 
-        float deltaTime = glfwGetTime() - lastTime;
+        deltaTime = glfwGetTime() - lastTime;
         lastTime = glfwGetTime();
 
         scenes[activeScene]->update(deltaTime);

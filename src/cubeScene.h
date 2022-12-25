@@ -13,7 +13,9 @@ private:
     std::unique_ptr<Shader> shader;
     std::unique_ptr<Camera> cam;
     std::unique_ptr<Texture> tex; 
+    std::unique_ptr<Texture> whiteTex;
     std::unique_ptr<VertexArray> vao; 
     std::unique_ptr<VertexBuffer> vbo;
     std::unique_ptr<IndexBuffer> ibo;
+    glm::mat4 model = glm::mat4(1.0f);
 };
