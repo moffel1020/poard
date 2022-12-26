@@ -1,7 +1,7 @@
 #pragma once
 #include "core.h"
 #include "scene.h"
-#include "cubeScene.h"
+#include "input.h"
 #include "window.h"
 #include "renderer.h"
 #include "buffers.h"

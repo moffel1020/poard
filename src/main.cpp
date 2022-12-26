@@ -1,4 +1,5 @@
 #include "application.h"
+#include "cubeScene.h"
 
 int main() {
     Application* app = new Application();
