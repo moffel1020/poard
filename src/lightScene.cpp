@@ -3,66 +3,64 @@
 
 void LightScene::start() {
     float vertices[] = {
-        -0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f,
-        0.5f,  0.5f, -0.5f,
-        -0.5f,  0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 1.0f, 0.5f, 0.31f,
+        0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.5f, 0.31f,
+        0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 1.0f, 0.5f, 0.31f,
+        0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 1.0f, 0.5f, 0.31f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 1.0f, 0.5f, 0.31f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 1.0f, 0.5f, 0.31f,
 
-        -0.5f, -0.5f,  0.5f,
-        0.5f, -0.5f,  0.5f,
-        0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f, 1.0f, 0.5f, 0.31f,
+        0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f, 1.0f, 0.5f, 0.31f,
+        0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f, 1.0f, 0.5f, 0.31f,
+        0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f, 1.0f, 0.5f, 0.31f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f, 1.0f, 0.5f, 0.31f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f, 1.0f, 0.5f, 0.31f,
 
-        -0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
 
-        0.5f,  0.5f,  0.5f,
-        0.5f,  0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f,  0.5f,
+        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
 
-        -0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f, 
-        0.5f, -0.5f,  0.5f, 
-        -0.5f, -0.5f,  0.5f,
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
 
-        -0.5f,  0.5f, -0.5f,
-        0.5f,  0.5f, -0.5f, 
-        0.5f,  0.5f,  0.5f, 
-        -0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
     };
-
-    uint32_t indices[] = {
-        0, 1, 2,
-        0, 2, 3,
-        4, 5, 6,
-        4, 6, 7,
-        8, 9, 10,
-        8, 10, 11,
-        12, 13, 14,
-        12, 14, 15,
-        16, 17, 18,
-        16, 18, 19,
-        20, 21, 22,
-        20, 22, 23
-    };
-
 
     this->cubeVao = std::make_unique<VertexArray>();
     this->cubeVbo = std::make_unique<VertexBuffer>(vertices, sizeof(vertices));
-    this->cubeIbo = std::make_unique<IndexBuffer>(indices, sizeof(indices) / sizeof(GLuint));
+    // this->cubeIbo = std::make_unique<IndexBuffer>(indices, sizeof(indices) / sizeof(GLuint));
     this->cam = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 0.0f), 70.0f);
     this->modelShader = std::make_unique<Shader>("./res/shader/default.vert", "./res/shader/light.frag");
     this->lightShader = std::make_unique<Shader>("./res/shader/default.vert", "./res/shader/white.frag");
-    // this->crateTex = std::make_unique<Texture>("./res/texture/crate.jpg");
-    // this->whiteTex = std::make_unique<Texture>(1, 1);
+    this->crateTex = std::make_unique<Texture>("./res/texture/crate.jpg");
+    this->whiteTex = std::make_unique<Texture>(1, 1);
 
-    // uint32_t whiteData = 0xffffffff;
-    // whiteTex->setData(&whiteData, sizeof(uint32_t));
+    uint32_t whiteData = 0xffffffff;
+    whiteTex->setData(&whiteData, sizeof(uint32_t));
     
-    cubeVao->addBuffer(*cubeVbo, 0, 3, GL_FLOAT, sizeof(float) * 3, (void*)0);
+    cubeVao->addBuffer(*cubeVbo, 0, 3, GL_FLOAT, sizeof(float) * 9, (void*)0);
+    cubeVao->addBuffer(*cubeVbo, 1, 3, GL_FLOAT, sizeof(float) * 9, (void*)(sizeof(float) * 3));
+    cubeVao->addBuffer(*cubeVbo, 2, 3, GL_FLOAT, sizeof(float) * 9, (void*)(sizeof(float) * 6));
 }
 
 void LightScene::update(float dt) {
@@ -89,9 +87,7 @@ void LightScene::update(float dt) {
 void LightScene::draw() {
     cam->update();
 
-    // tex->bind();
     modelShader->bind();
-
     glm::mat4 view = cam->getViewMatrix();
     glm::mat4 proj = cam->getProjMatrix();
     modelShader->uploadMat4("uProjection", proj);
@@ -100,11 +96,11 @@ void LightScene::draw() {
 
     glm::mat4 model = glm::mat4(1.0f);
     modelShader->uploadMat4("uModel", model);
-    glm::vec3 objectColor = glm::vec3(0.0f, 0.0f, 1.0f);
-    modelShader->uploadVec3("uObjectColor", objectColor);
-    glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 0.2f);
+    glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
     modelShader->uploadVec3("uLightColor", lightColor);
-    Renderer::draw(*cubeVao, *cubeIbo, *modelShader);
+    glm::vec3 lightPos = glm::vec3(4.0f, 2.0f, 0.0f);
+    modelShader->uploadVec3("uLightPos", lightPos);
+    Renderer::drawTriangles(*cubeVao, *modelShader, 36);
 
     lightShader->bind();
     lightShader->uploadMat4("uProjection", proj);
@@ -112,9 +108,7 @@ void LightScene::draw() {
 
     model = glm::translate(glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f)), glm::vec3(4.0f, 2.0f, 0.0f));
     lightShader->uploadMat4("uModel", model);
-    Renderer::draw(*cubeVao, *cubeIbo, *lightShader);
-
-    // whiteTex->bind();
+    Renderer::drawTriangles(*cubeVao, *lightShader, 36);
 }
 
 void LightScene::gui() {

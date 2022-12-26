@@ -2,11 +2,24 @@
 
 out vec4 FragColor;
 
-uniform vec3 uObjectColor;
 uniform vec3 uLightColor;
+uniform vec3 uLightPos;
+
+in vec3 normal;
+in vec3 fragPos;
+in vec3 color;
 
 void main()
 {
-    float ambientLight = 0.1;
-    FragColor = vec4(uObjectColor * ambientLight * uLightColor, 1.0);
+    vec3 norm = normalize(normal);
+    vec3 lightDir = normalize(uLightPos - fragPos);
+
+    float angle = max(dot(norm, lightDir), 0.0);
+    vec3 diffuse = angle * uLightColor;
+
+    float ambientStrength = 0.1;
+    vec3 ambient = ambientStrength * uLightColor;
+
+    vec3 final = (ambient + diffuse) * color;
+    FragColor = vec4(final, 1.0);
 }
