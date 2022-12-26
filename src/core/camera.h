@@ -17,6 +17,7 @@ public:
     void setPosition(float x, float y, float z);
     void rotate(float yawAngle, float pitchAngle);
     void move(Direction direction, float distance);
+    glm::vec3 getPosition() { return position; }
     glm::mat4 getViewMatrix();
     glm::mat4 getProjMatrix();
     void update();

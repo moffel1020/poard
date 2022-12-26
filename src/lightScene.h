@@ -18,4 +18,7 @@ private:
     std::unique_ptr<VertexArray> cubeVao; 
     std::unique_ptr<VertexBuffer> cubeVbo;
     std::unique_ptr<IndexBuffer> cubeIbo;
+    float lightX = 4.0f;
+    float lightY = 2.0f;
+    float lightZ = 0.0f;
 };

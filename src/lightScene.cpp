@@ -94,25 +94,33 @@ void LightScene::draw() {
     modelShader->uploadMat4("uView", view);
 
 
+    glm::vec3 lightPos = glm::vec3(lightX, lightY, lightZ);
     glm::mat4 model = glm::mat4(1.0f);
     modelShader->uploadMat4("uModel", model);
     glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
     modelShader->uploadVec3("uLightColor", lightColor);
-    glm::vec3 lightPos = glm::vec3(4.0f, 2.0f, 0.0f);
     modelShader->uploadVec3("uLightPos", lightPos);
+    glm::vec3 camPos = cam->getPosition();
+    modelShader->uploadVec3("uCamPos", camPos);
     Renderer::drawTriangles(*cubeVao, *modelShader, 36);
 
     lightShader->bind();
     lightShader->uploadMat4("uProjection", proj);
     lightShader->uploadMat4("uView", view);
 
-    model = glm::translate(glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f)), glm::vec3(4.0f, 2.0f, 0.0f));
+    model = glm::translate(glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f)), lightPos);
     lightShader->uploadMat4("uModel", model);
     Renderer::drawTriangles(*cubeVao, *lightShader, 36);
 }
 
 void LightScene::gui() {
-    ImGui::Begin("Hello, world!");
+    ImGui::Begin("light");
     ImGui::Text("App: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+    ImGui::Text("light position");
+    ImGui::SliderFloat("x", &lightX, -10.0f, 10.0f);
+    ImGui::SliderFloat("y", &lightY, -10.0f, 10.0f);
+    ImGui::SliderFloat("z", &lightZ, -10.0f, 10.0f);
+
     ImGui::End();
 }
