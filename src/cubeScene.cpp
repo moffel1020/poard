@@ -54,7 +54,7 @@ void CubeScene::start() {
     this->vbo = std::make_unique<VertexBuffer>(vertices, sizeof(vertices));
     this->ibo = std::make_unique<IndexBuffer>(indices, sizeof(indices) / sizeof(GLuint));
     this->cam = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 0.0f), 70.0f);
-    this->shader = std::make_unique<Shader>("./res/shader/default.vert", "./res/shader/default.frag");
+    this->shader = std::make_unique<Shader>("./res/shader/texcolor.vert", "./res/shader/texcolor.frag");
     this->tex = std::make_unique<Texture>("./res/texture/crate.jpg");
     this->whiteTex = std::make_unique<Texture>(1, 1);
 

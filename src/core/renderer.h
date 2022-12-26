@@ -7,5 +7,6 @@ class Renderer
 {
 public:
     static void draw(VertexArray& va, IndexBuffer& ib, Shader& shader);
+    static void drawTriangles(VertexArray& va, Shader& shader, GLsizei count);
     static void clear();
 };
