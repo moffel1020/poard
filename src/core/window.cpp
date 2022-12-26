@@ -15,7 +15,7 @@ Window::Window(uint32_t width, uint32_t height, const std::string& title, bool f
 
     GLFWmonitor *monitor = (fullscreen) ? glfwGetPrimaryMonitor() : nullptr;
     nativeWindow = glfwCreateWindow(width, height, title.c_str(), monitor, nullptr);
-    glfwSetFramebufferSizeCallback(this->nativeWindow, Window::framebuffer_size_callback);
+    glfwSetFramebufferSizeCallback(this->nativeWindow, Window::onWindowResize);
 
     if (nativeWindow == nullptr) {
         std::cout << "Failed to create window" << std::endl;
@@ -33,7 +33,7 @@ void Window::changeTitle(std::string title) {
     this->title = title;
 }
 
-void Window::framebuffer_size_callback(GLFWwindow* nativeWindow, int width, int height) {
+void Window::onWindowResize(GLFWwindow* nativeWindow, int width, int height) {
     Window* window = Application::get().getWindow();
     window->width = width;
     window->height = height;

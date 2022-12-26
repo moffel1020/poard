@@ -22,5 +22,5 @@ private:
     uint32_t width;
     uint32_t height;
     bool fullscreen;
-    static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+    static void onWindowResize(GLFWwindow* window, int width, int height);
 };
