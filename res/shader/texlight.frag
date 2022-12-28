@@ -13,19 +13,21 @@ in vec2 texCoord;
 
 void main()
 {
+    // ambient
+    float ambient = 0.1;
+
+    // diffuse
     vec3 norm = normalize(normal);
     vec3 lightDir = normalize(uLightPos - fragPos);
+    float diffuse = max(dot(norm, lightDir), 0.0);
 
-    float angle = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = angle * uLightColor;
-
+    // specular
     float specularLight = 0.5;
     vec3 viewDir = normalize(uCamPos - fragPos);
-    vec3 reflectDir = reflect(-lightDir, normal);
+    vec3 reflectDir = reflect(-lightDir, norm);
     float specAmount = pow(max(dot(viewDir, reflectDir), 0.0), 16);
     float specular = specAmount * specularLight;
 
-    float ambientStrength = 0.1;
-    vec3 final = (diffuse + ambientStrength + specular) * vec3(texture(uTexture, texCoord));
+    vec3 final = (diffuse + ambient + specular) * uLightColor * vec3(texture(uTexture, texCoord));
     FragColor = vec4(final, 1.0);
 }
