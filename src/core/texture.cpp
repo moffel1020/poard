@@ -56,7 +56,8 @@ void Texture::setData(void* data, uint32_t size) {
 }
 
 
-void Texture::bind() {
+void Texture::bind(uint32_t slot) {
+    glActiveTexture(slot);
     glBindTexture(GL_TEXTURE_2D, id);
 }
 

@@ -92,8 +92,7 @@ void LightScene::draw() {
     modelShader->uploadMat4("uModel", model);
     modelShader->uploadVec3("uCamPos", cam->getPosition());
 
-    glm::vec3 matColor(1.0f, 0.31f, 0.5f);
-    modelShader->uploadVec3("material.ambient", matColor);
+    glm::vec3 matColor(1.0f, 0.5f, 0.3f);
     modelShader->uploadVec3("material.diffuse", matColor);
     modelShader->uploadVec3("material.specular", 1.0f, 1.0f, 1.0f);
     modelShader->uploadFloat("material.shininess", 32.0f);

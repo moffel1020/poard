@@ -57,7 +57,12 @@ void TexLightScene::start() {
     this->cam = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 0.0f), 70.0f);
     this->modelShader = std::make_unique<Shader>("./res/shader/texlight.vert", "./res/shader/texlight.frag");
     this->lightShader = std::make_unique<Shader>("./res/shader/default.vert", "./res/shader/white.frag");
-    this->crateTex = std::make_unique<Texture>("./res/texture/crate.jpg");
+    this->crateTex = std::make_unique<Texture>("./res/texture/crate2.png");
+    this->crateSpecTex = std::make_unique<Texture>("./res/texture/crate2_specular.png");
+    
+    modelShader->bind();
+    modelShader->uploadInt("material.diffuse", 0);
+    modelShader->uploadInt("material.specular", 1);
     
     cubeVao->addBuffer(*cubeVbo, 0, 3, GL_FLOAT, sizeof(float) * 8, (void*)0);
     cubeVao->addBuffer(*cubeVbo, 1, 3, GL_FLOAT, sizeof(float) * 8, (void*)(sizeof(float) * 3));
@@ -97,13 +102,21 @@ void TexLightScene::draw() {
 
     glm::vec3 lightPos(lightX, lightY, lightZ);
     glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
+
     glm::mat4 model(1.0f);
 
-    crateTex->bind();
     modelShader->uploadMat4("uModel", model);
-    modelShader->uploadVec3("uLightColor", lightColor);
-    modelShader->uploadVec3("uLightPos", lightPos);
     modelShader->uploadVec3("uCamPos", cam->getPosition());
+
+    crateTex->bind(GL_TEXTURE0);
+    crateSpecTex->bind(GL_TEXTURE1);
+    modelShader->uploadVec3("material.specular", 1.0f, 1.0f, 1.0f);
+    modelShader->uploadFloat("material.shininess", 64.0f);
+
+    modelShader->uploadVec3("light.position", lightPos);
+    modelShader->uploadVec3("light.ambient", 0.2f, 0.2f, 0.2f);
+    modelShader->uploadVec3("light.diffuse", 1.0f, 1.0f, 1.0f);
+    modelShader->uploadVec3("light.specular", 0.5f, 0.5f, 0.5f);
     Renderer::drawTriangles(*cubeVao, *modelShader, 36);
 
     lightShader->bind();

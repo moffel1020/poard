@@ -3,7 +3,6 @@
 out vec4 FragColor;
 
 struct Material {
-    vec3 ambient;
     vec3 diffuse;
     vec3 specular;
     float shininess;
@@ -26,7 +25,7 @@ in vec3 fragPos;
 void main()
 {
     //ambient
-    vec3 ambient = light.ambient * material.ambient;
+    vec3 ambient = light.ambient * material.diffuse;
 
     // diffuse
     vec3 norm = normalize(normal);

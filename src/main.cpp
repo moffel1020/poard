@@ -5,7 +5,7 @@
 
 int main() {
     Application* app = new Application();
-    app->addScene(new LightScene("LightScene"));
+    app->addScene(new TexLightScene("LightScene"));
     app->setScene("LightScene");
     app->run();
 

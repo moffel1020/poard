@@ -71,6 +71,10 @@ void Shader::uploadFloat(const char* name, float f) {
     glUniform1f(getUniformLocation(name), f);
 }
 
+void Shader::uploadInt(const char* name, int i) {
+    glUniform1i(getUniformLocation(name), i);
+}
+
 void Shader::uploadVec3(const char* name, const glm::vec3& vec3) {
     glUniform3f(getUniformLocation(name), vec3.x, vec3.y, vec3.z);
 }

@@ -11,6 +11,7 @@ public:
     void bind();
     uint32_t getUniformLocation(const char* name);
     void uploadFloat(const char* name, float f);
+    void uploadInt(const char* name, int i);
     void uploadVec3(const char* name, const glm::vec3& vec3);
     void uploadVec3(const char* name, float x, float y, float z);
     void uploadMat4(const char* name, const glm::mat4& mat4);
