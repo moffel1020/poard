@@ -16,7 +16,7 @@ private:
     std::unique_ptr<VertexArray> cubeVao; 
     std::unique_ptr<VertexBuffer> cubeVbo;
     std::unique_ptr<IndexBuffer> cubeIbo;
-    float lightX = 4.0f;
-    float lightY = 2.0f;
-    float lightZ = 0.0f;
+    glm::vec3 lightPos = glm::vec3(4.0f, 2.0f, 0.0f);
+    glm::vec3 lightAmbient = glm::vec3(0.1f, 0.1f, 0.1f);
+    glm::vec3 lightDiffuse = glm::vec3(1.0f, 1.0f, 1.0f);
 };

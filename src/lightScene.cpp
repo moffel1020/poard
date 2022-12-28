@@ -3,47 +3,47 @@
 
 void LightScene::start() {
     float vertices[] = {
-        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 1.0f, 0.5f, 0.31f,
-        0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.5f, 0.31f,
-        0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 1.0f, 0.5f, 0.31f,
-        0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 1.0f, 0.5f, 0.31f,
-        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 1.0f, 0.5f, 0.31f,
-        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 1.0f, 0.5f, 0.31f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+        0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+        0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+        0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 
-        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f, 1.0f, 0.5f, 0.31f,
-        0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f, 1.0f, 0.5f, 0.31f,
-        0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f, 1.0f, 0.5f, 0.31f,
-        0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f, 1.0f, 0.5f, 0.31f,
-        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f, 1.0f, 0.5f, 0.31f,
-        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f, 1.0f, 0.5f, 0.31f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+        0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+        0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+        0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
 
-        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
 
-        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+        0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+        0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+        0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+        0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+        0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+        0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+        0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
 
-        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
-        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 0.5f, 0.31f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+        0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+        0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+        0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
     };
 
     this->cubeVao = std::make_unique<VertexArray>();
@@ -52,9 +52,8 @@ void LightScene::start() {
     this->modelShader = std::make_unique<Shader>("./res/shader/default.vert", "./res/shader/light.frag");
     this->lightShader = std::make_unique<Shader>("./res/shader/default.vert", "./res/shader/white.frag");
     
-    cubeVao->addBuffer(*cubeVbo, 0, 3, GL_FLOAT, sizeof(float) * 9, (void*)0);
-    cubeVao->addBuffer(*cubeVbo, 1, 3, GL_FLOAT, sizeof(float) * 9, (void*)(sizeof(float) * 3));
-    cubeVao->addBuffer(*cubeVbo, 2, 3, GL_FLOAT, sizeof(float) * 9, (void*)(sizeof(float) * 6));
+    cubeVao->addBuffer(*cubeVbo, 0, 3, GL_FLOAT, sizeof(float) * 6, (void*)0);
+    cubeVao->addBuffer(*cubeVbo, 1, 3, GL_FLOAT, sizeof(float) * 6, (void*)(sizeof(float) * 3));
 }
 
 void LightScene::update(float dt) {
@@ -88,14 +87,21 @@ void LightScene::draw() {
     modelShader->uploadMat4("uProjection", proj);
     modelShader->uploadMat4("uView", view);
 
-    glm::vec3 lightPos(lightX, lightY, lightZ);
-    glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
     glm::mat4 model(1.0f);
 
     modelShader->uploadMat4("uModel", model);
-    modelShader->uploadVec3("uLightColor", lightColor);
-    modelShader->uploadVec3("uLightPos", lightPos);
     modelShader->uploadVec3("uCamPos", cam->getPosition());
+
+    glm::vec3 matColor(1.0f, 0.31f, 0.5f);
+    modelShader->uploadVec3("material.ambient", matColor);
+    modelShader->uploadVec3("material.diffuse", matColor);
+    modelShader->uploadVec3("material.specular", 1.0f, 1.0f, 1.0f);
+    modelShader->uploadFloat("material.shininess", 32.0f);
+
+    modelShader->uploadVec3("light.position", lightPos);
+    modelShader->uploadVec3("light.ambient", lightAmbient);
+    modelShader->uploadVec3("light.diffuse", lightDiffuse);
+    modelShader->uploadVec3("light.specular", 0.5f, 0.5f, 0.5f);
     Renderer::drawTriangles(*cubeVao, *modelShader, 36);
 
     model = glm::translate(glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f)), lightPos);
@@ -109,11 +115,12 @@ void LightScene::draw() {
 void LightScene::gui() {
     ImGui::Begin("light");
     ImGui::Text("App: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::NewLine();
 
-    ImGui::Text("light position");
-    ImGui::SliderFloat("x", &lightX, -10.0f, 10.0f);
-    ImGui::SliderFloat("y", &lightY, -10.0f, 10.0f);
-    ImGui::SliderFloat("z", &lightZ, -10.0f, 10.0f);
+    ImGui::Text("light");
+    ImGui::SliderFloat3("position", glm::value_ptr(lightPos), -10.0f, 10.0f);
+    ImGui::SliderFloat3("ambient", glm::value_ptr(lightAmbient), 0.0f, 1.0f);
+    ImGui::SliderFloat3("diffuse", glm::value_ptr(lightDiffuse), 0.0f, 1.0f);
 
     ImGui::End();
 }
