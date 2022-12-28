@@ -1,7 +1,7 @@
 #pragma once
 #include "poard.h"
 
-class LightScene : public Scene
+class TexLightScene : public Scene
 {
 public:
     using Scene::Scene;
@@ -13,6 +13,8 @@ private:
     std::unique_ptr<Shader> modelShader;
     std::unique_ptr<Shader> lightShader;
     std::unique_ptr<Camera> cam;
+    std::unique_ptr<Texture> crateTex; 
+    std::unique_ptr<Texture> whiteTex;
     std::unique_ptr<VertexArray> cubeVao; 
     std::unique_ptr<VertexBuffer> cubeVbo;
     std::unique_ptr<IndexBuffer> cubeIbo;
