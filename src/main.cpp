@@ -3,10 +3,11 @@
 #include "lightScene.h"
 #include "texLightScene.h"
 #include "multipleLights.h"
+#include "multipleTexLights.h"
 
 int main() {
     Application* app = new Application();
-    app->addScene(new MultipleLights("LightScene"));
+    app->addScene(new MultipleTexLights("LightScene"));
     app->setScene("LightScene");
     app->run();
 
