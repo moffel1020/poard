@@ -111,7 +111,7 @@ void TexLightScene::draw() {
     crateTex->bind(GL_TEXTURE0);
     crateSpecTex->bind(GL_TEXTURE1);
     modelShader->uploadVec3("material.specular", 1.0f, 1.0f, 1.0f);
-    modelShader->uploadFloat("material.shininess", 64.0f);
+    modelShader->uploadFloat("material.shininess", 32.0f);
 
     modelShader->uploadVec3("light.position", lightPos);
     modelShader->uploadVec3("light.ambient", 0.2f, 0.2f, 0.2f);

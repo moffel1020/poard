@@ -8,7 +8,7 @@ Application::Application() {
     if (!glfwInit())
         std::cout << "Failed to initialize GLFW" << std::endl;
 
-    this->window = new Window(1280, 720, "poard", false, true, false);
+    this->window = new Window(1280, 720, "poard", false, true, true);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cout << "Failed to initialize glad" << std::endl;
