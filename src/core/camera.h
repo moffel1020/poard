@@ -19,6 +19,7 @@ public:
     void move(Direction direction, float distance);
     glm::vec3 getPosition() { return position; }
     glm::vec3 getForward() { return forward; }
+    glm::vec3 getDirection() { return direction; }
     glm::mat4 getViewMatrix();
     glm::mat4 getProjMatrix();
     void update();

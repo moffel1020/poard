@@ -1,7 +1,7 @@
 #pragma once
 #include "poard.h"
 
-class DirLightScene : public Scene
+class MultipleLights : public Scene
 {
 public:
     using Scene::Scene;
@@ -16,5 +16,7 @@ private:
     std::unique_ptr<VertexArray> cubeVao; 
     std::unique_ptr<VertexBuffer> cubeVbo;
     std::unique_ptr<IndexBuffer> cubeIbo;
-    glm::vec3 lightPos = glm::vec3(4.0f, 2.0f, 0.0f);
+    glm::vec3 pLightPos = glm::vec3(4.0f, 2.0f, 0.0f);
+    glm::vec3 sLightPos = glm::vec3(0.0f, 0.0f, 1.0f);
+    glm::vec3 sLightDir = glm::vec3(0.0f, 0.0f, -1.0f);
 };

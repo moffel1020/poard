@@ -1,7 +1,7 @@
-#include "dirLightScene.h"
+#include "multipleLights.h"
 
 
-void DirLightScene::start() {
+void MultipleLights::start() {
     float vertices[] = {
         -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
         0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
@@ -56,7 +56,7 @@ void DirLightScene::start() {
     cubeVao->addBuffer(*cubeVbo, 1, 3, GL_FLOAT, sizeof(float) * 6, (void*)(sizeof(float) * 3));
 }
 
-void DirLightScene::update(float dt) {
+void MultipleLights::update(float dt) {
     const float speed = 2.0f;
     const float sensitivity = 0.1f;
 
@@ -77,7 +77,7 @@ void DirLightScene::update(float dt) {
         cam->rotate(Input::getMouseXMovement() * sensitivity, -Input::getMouseYMovement() * sensitivity);
 }
 
-void DirLightScene::draw() {
+void MultipleLights::draw() {
     cam->update();
 
     glm::mat4 view = cam->getViewMatrix();
@@ -104,17 +104,31 @@ void DirLightScene::draw() {
     modelShader->uploadVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
 
     // point light
-    modelShader->uploadVec3("pointLight.position", lightPos);
+    modelShader->uploadVec3("pointLight.position", pLightPos);
     modelShader->uploadVec3("pointLight.ambient", 0.1f, 0.1f, 0.1f);
     modelShader->uploadVec3("pointLight.diffuse", 1.0f, 1.0f, 1.0f);
     modelShader->uploadVec3("pointLight.specular", 0.5f, 0.5f, 0.5f);
-
     modelShader->uploadFloat("pointLight.constant", 1.0f);
     modelShader->uploadFloat("pointLight.quadratic", 0.05f);
     modelShader->uploadFloat("pointLight.linear", 0.003f);
+
+    // spot light
+    modelShader->uploadVec3("spotLight.position", sLightPos);
+    modelShader->uploadVec3("spotLight.direction", sLightDir);
+    modelShader->uploadVec3("spotLight.ambient", 0.1f, 0.1f, 0.1f);
+    modelShader->uploadVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+    modelShader->uploadVec3("spotLight.specular", 0.1f, 0.1f, 0.1f);
+    modelShader->uploadFloat("spotLight.constant", 1.0f);
+    modelShader->uploadFloat("spotLight.quadratic", 0.05f);
+    modelShader->uploadFloat("spotLight.linear", 0.003f);
+    modelShader->uploadFloat("spotLight.inner", glm::cos(glm::radians(12.0f)));
+    modelShader->uploadFloat("spotLight.outer", glm::cos(glm::radians(15.0f)));
+
+    // draw model
     Renderer::drawTriangles(*cubeVao, *modelShader, 36);
 
-    model = glm::translate(glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f)), lightPos);
+    // visualize point light pos
+    model = glm::translate(glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f)), pLightPos);
     lightShader->bind();
     lightShader->uploadMat4("uProjection", proj);
     lightShader->uploadMat4("uView", view);
@@ -122,10 +136,13 @@ void DirLightScene::draw() {
     Renderer::drawTriangles(*cubeVao, *lightShader, 36);
 }
 
-void DirLightScene::gui() {
+void MultipleLights::gui() {
     ImGui::Begin("light");
     ImGui::Text("App: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-    ImGui::SliderFloat3("position", glm::value_ptr(lightPos), -10.0f, 10.0f);
+    ImGui::SliderFloat3("p position", glm::value_ptr(pLightPos), -10.0f, 10.0f);
+
+    ImGui::SliderFloat3("s position", glm::value_ptr(sLightPos), -10.0f, 10.0f);
+    ImGui::SliderFloat3("s dir", glm::value_ptr(sLightDir), -1.0f, 1.0f);
 
     ImGui::End();
 }
