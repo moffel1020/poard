@@ -105,31 +105,16 @@ void MultipleTexLights::draw() {
     cubeSpec->bind(GL_TEXTURE1);
 
     // dir light
-    modelShader->uploadVec3("dirLight.direction", 0.0f, -1.0f, 0.0f);
-    modelShader->uploadVec3("dirLight.ambient", 0.2f, 0.2f, 0.2f);
-    modelShader->uploadVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
-    modelShader->uploadVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
+    DirLight dirLight = DirLight(glm::vec3(0.0f, -1.0f, 0.0f));
+    dirLight.upload(*modelShader);
 
     // point light
-    modelShader->uploadVec3("pointLight.position", pLightPos);
-    modelShader->uploadVec3("pointLight.ambient", 0.1f, 0.1f, 0.1f);
-    modelShader->uploadVec3("pointLight.diffuse", 1.0f, 1.0f, 1.0f);
-    modelShader->uploadVec3("pointLight.specular", 0.5f, 0.5f, 0.5f);
-    modelShader->uploadFloat("pointLight.constant", 1.0f);
-    modelShader->uploadFloat("pointLight.quadratic", 0.05f);
-    modelShader->uploadFloat("pointLight.linear", 0.003f);
+    PointLight light = PointLight(pLightPos);
+    light.upload(*modelShader);
 
     // spot light
-    modelShader->uploadVec3("spotLight.position", sLightPos);
-    modelShader->uploadVec3("spotLight.direction", sLightDir);
-    modelShader->uploadVec3("spotLight.ambient", 0.1f, 0.1f, 0.1f);
-    modelShader->uploadVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
-    modelShader->uploadVec3("spotLight.specular", 0.1f, 0.1f, 0.1f);
-    modelShader->uploadFloat("spotLight.constant", 1.0f);
-    modelShader->uploadFloat("spotLight.quadratic", 0.05f);
-    modelShader->uploadFloat("spotLight.linear", 0.003f);
-    modelShader->uploadFloat("spotLight.inner", glm::cos(glm::radians(12.0f)));
-    modelShader->uploadFloat("spotLight.outer", glm::cos(glm::radians(15.0f)));
+    SpotLight spot = SpotLight(sLightPos, sLightDir, 15.0f, 12.0f);
+    spot.upload(*modelShader);
 
     // draw model
     Renderer::drawTriangles(*cubeVao, *modelShader, 36);

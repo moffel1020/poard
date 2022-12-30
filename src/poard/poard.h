@@ -9,3 +9,5 @@
 #include "texture.h"
 #include "window.h"
 #include "gui.h"
+#include "renderer.h"
+#include "lights.h"

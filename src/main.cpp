@@ -1,4 +1,5 @@
 #include "application.h"
+#include "cubeScene.h"
 #include "multipleTexLights.h"
 
 int main() {
