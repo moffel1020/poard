@@ -18,10 +18,11 @@ endif(UNIX)
 
 add_subdirectory(dependencies/glfw/)
 aux_source_directory(src SRC_DIR)
-aux_source_directory(src/core CORE_DIR)
+aux_source_directory(src/poard/core CORE_DIR)
+aux_source_directory(src/poard/renderer RENDERER_DIR)
 aux_source_directory(dependencies/imgui IMGUI_DIR)
-add_executable(poard ${CORE_DIR} ${SRC_DIR} ${IMGUI_DIR} dependencies/glad/glad.c)
-include_directories(dependencies/ src/ src/core)
+add_executable(poard ${CORE_DIR} ${RENDERER_DIR} ${SRC_DIR} ${IMGUI_DIR} dependencies/glad/glad.c)
+include_directories(dependencies/ src/ src/poard/core src/poard/renderer src/poard)
 
 target_link_libraries(poard glfw)
 
