@@ -18,7 +18,6 @@ private:
     std::unique_ptr<IndexBuffer> cubeIbo;
     std::unique_ptr<Texture> cubeDiff;
     std::unique_ptr<Texture> cubeSpec;
-    glm::vec3 pLightPos = glm::vec3(4.0f, 2.0f, 0.0f);
-    glm::vec3 sLightPos = glm::vec3(0.0f, 0.0f, 1.0f);
-    glm::vec3 sLightDir = glm::vec3(0.0f, 0.0f, -1.0f);
+    std::vector<PointLight> pointLights;
+    std::vector<SpotLight> spotLights;
 };

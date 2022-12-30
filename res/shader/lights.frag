@@ -45,26 +45,39 @@ struct SpotLight {
 };
 
 uniform DirLight dirLight;
-uniform PointLight pointLight;
-uniform SpotLight spotLight;
+
+#define MAX_POINT_LIGHTS 10 
+uniform PointLight pointLights[MAX_POINT_LIGHTS];
+uniform float uPointLightCount;
+
+#define MAX_SPOT_LIGHTS 10
+uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
+uniform float uSpotLightCount;
+
 uniform Material material;
 uniform vec3 uCamPos;
 
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 fragPos);
-vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 viewDir, vec3 fragPos);
+vec3 calcDirLight(DirLight light, vec3 normal, vec3 viewDir);
+vec3 calcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 fragPos);
+vec3 calcSpotLight(SpotLight light, vec3 normal, vec3 viewDir, vec3 fragPos);
 
 void main() {
     vec3 viewDir = normalize(uCamPos - fragPos);
     vec3 result = CalcDirLight(dirLight, normal, viewDir);
-    result += CalcPointLight(pointLight, normal, viewDir, fragPos);
-    result += CalcSpotLight(spotLight, normal, viewDir, fragPos);
+
+    for (int i = 0; i < uPointLightCount; i++) {
+        result += calcPointLight(pointLights[i], normal, viewDir, fragPos);
+    }
+
+    for (int i = 0; i < uSpotLightCount; i++) {
+        result += calcSpotLight(spotLights[i], normal, viewDir, fragPos);
+    }
 
     FragColor = vec4(result, 1.0);
 }
 
 
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir) {
+vec3 calcDirLight(DirLight light, vec3 normal, vec3 viewDir) {
     vec3 lightDir = normalize(-light.direction);
 
     float diff = max(dot(normal, lightDir), 0.0);
@@ -80,7 +93,7 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir) {
 }
 
 
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 fragPos) {
+vec3 calcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 fragPos) {
     vec3 lightDir = normalize(light.position - fragPos);
 
     float diff = max(dot(normal, lightDir), 0.0);
@@ -98,7 +111,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 fragPos) {
 }
 
 
-vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 viewDir, vec3 fragPos) {
+vec3 calcSpotLight(SpotLight light, vec3 normal, vec3 viewDir, vec3 fragPos) {
     float dist = length(light.position - fragPos);
     float attenuation = 1.0 / (light.constant + light.linear * dist + light.quadratic * dist * dist);
 
@@ -119,10 +132,8 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 viewDir, vec3 fragPos) {
         vec3 diffuse = light.diffuse * diff * material.diffuse;
         vec3 specular = light.specular * spec * material.specular;
 
-        // return attenuation * (ambient + (intensity * (diffuse + specular)));
         return attenuation * (ambient + (intensity * (diffuse + specular)));
     } else {
         return attenuation * (light.ambient * material.diffuse);
-        // return vec3(0.0);
     }
 }

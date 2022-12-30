@@ -24,15 +24,16 @@ PointLight::PointLight(glm::vec3 position, glm::vec3 diffuse, glm::vec3 ambient,
     this->specular = specular;
 }
 
-void PointLight::upload(Shader& shader) {
+void PointLight::upload(Shader& shader, uint32_t index) {
     shader.bind();
-    shader.uploadVec3("pointLight.position", position);
-    shader.uploadVec3("pointLight.ambient", ambient);
-    shader.uploadVec3("pointLight.diffuse", diffuse);
-    shader.uploadVec3("pointLight.specular", specular);
-    shader.uploadFloat("pointLight.quadratic", quadratic);
-    shader.uploadFloat("pointLight.linear", linear);
-    shader.uploadFloat("pointLight.constant", constant);
+    std::string num = std::to_string(index);
+    shader.uploadVec3(("pointLights[" + num + "].position").c_str(), position);
+    shader.uploadVec3(("pointLights[" + num + "].ambient").c_str(), ambient);
+    shader.uploadVec3(("pointLights[" + num + "].diffuse").c_str(), diffuse);
+    shader.uploadVec3(("pointLights[" + num + "].specular").c_str(), specular);
+    shader.uploadFloat(("pointLights[" + num + "].quadratic").c_str(), quadratic);
+    shader.uploadFloat(("pointLights[" + num + "].linear").c_str(), linear);
+    shader.uploadFloat(("pointLights[" + num + "].constant").c_str(), constant);
 }
 
 
@@ -43,16 +44,17 @@ SpotLight::SpotLight(glm::vec3 position, glm::vec3 direction, float outerCone, f
     this->specular = glm::vec3(0.5f);
 }
 
-void SpotLight::upload(Shader& shader) {
+void SpotLight::upload(Shader& shader, uint32_t index) {
     shader.bind();
-    shader.uploadVec3("spotLight.position", position);
-    shader.uploadVec3("spotLight.direction", direction);
-    shader.uploadVec3("spotLight.ambient", ambient);
-    shader.uploadVec3("spotLight.diffuse", diffuse);
-    shader.uploadVec3("spotLight.specular", specular);
-    shader.uploadFloat("spotLight.constant", constant);
-    shader.uploadFloat("spotLight.quadratic", quadratic);
-    shader.uploadFloat("spotLight.linear", linear);
-    shader.uploadFloat("spotLight.inner", inner);
-    shader.uploadFloat("spotLight.outer", outer);
+    std::string num = std::to_string(index);
+    shader.uploadVec3(("spotLights[" + num + "].position").c_str(), position);
+    shader.uploadVec3(("spotLights[" + num + "].direction").c_str(), direction);
+    shader.uploadVec3(("spotLights[" + num + "].ambient").c_str(), ambient);
+    shader.uploadVec3(("spotLights[" + num + "].diffuse").c_str(), diffuse);
+    shader.uploadVec3(("spotLights[" + num + "].specular").c_str(), specular);
+    shader.uploadFloat(("spotLights[" + num + "].constant").c_str(), constant);
+    shader.uploadFloat(("spotLights[" + num + "].quadratic").c_str(), quadratic);
+    shader.uploadFloat(("spotLights[" + num + "].linear").c_str(), linear);
+    shader.uploadFloat(("spotLights[" + num + "].inner").c_str(), inner);
+    shader.uploadFloat(("spotLights[" + num + "].outer").c_str(), outer);
 }

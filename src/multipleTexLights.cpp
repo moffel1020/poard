@@ -57,6 +57,13 @@ void MultipleTexLights::start() {
     cubeVao->addBuffer(*cubeVbo, 0, 3, GL_FLOAT, sizeof(float) * 8, (void*)0);
     cubeVao->addBuffer(*cubeVbo, 1, 3, GL_FLOAT, sizeof(float) * 8, (void*)(sizeof(float) * 3));
     cubeVao->addBuffer(*cubeVbo, 2, 2, GL_FLOAT, sizeof(float) * 8, (void*)(sizeof(float) * 6));
+
+    pointLights.emplace_back(glm::vec3(1.0f, 2.0f, 0.0f));
+    pointLights.emplace_back(glm::vec3(-4.0f, 1.0f, 3.0f));
+    pointLights.emplace_back(glm::vec3(2.0f, 1.0f, -5.0f));
+
+    spotLights.emplace_back(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, -1.0f), 15.0f, 12.0f);
+    spotLights.emplace_back(glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), 40.0f, 35.0f);
 }
 
 void MultipleTexLights::update(float dt) {
@@ -85,56 +92,49 @@ void MultipleTexLights::draw() {
 
     glm::mat4 view = cam->getViewMatrix();
     glm::mat4 proj = cam->getProjMatrix();
+    glm::mat4 model(1.0f);
 
     modelShader->bind();
     modelShader->uploadMat4("uProjection", proj);
     modelShader->uploadMat4("uView", view);
-
-    glm::mat4 model(1.0f);
-
     modelShader->uploadMat4("uModel", model);
     modelShader->uploadVec3("uCamPos", cam->getPosition());
+    modelShader->uploadFloat("uPointLightCount", pointLights.size());
+    modelShader->uploadFloat("uSpotLightCount", spotLights.size());
 
     glm::vec3 matColor(1.0f, 0.5f, 0.3f);
     modelShader->uploadVec3("material.diffuse", matColor);
     modelShader->uploadVec3("material.specular", 1.0f, 1.0f, 1.0f);
     modelShader->uploadFloat("material.shininess", 32.0f);
 
-    // bind textures to correct slot
     cubeDiff->bind(GL_TEXTURE0);
     cubeSpec->bind(GL_TEXTURE1);
 
-    // dir light
     DirLight dirLight = DirLight(glm::vec3(0.0f, -1.0f, 0.0f));
     dirLight.upload(*modelShader);
 
-    // point light
-    PointLight light = PointLight(pLightPos);
-    light.upload(*modelShader);
+    for (uint32_t i = 0; i < pointLights.size(); i++)
+        pointLights[i].upload(*modelShader, i);
 
-    // spot light
-    SpotLight spot = SpotLight(sLightPos, sLightDir, 15.0f, 12.0f);
-    spot.upload(*modelShader);
+    for (uint32_t i = 0; i < spotLights.size(); i++)
+        spotLights[i].upload(*modelShader, i);
 
-    // draw model
     Renderer::drawTriangles(*cubeVao, *modelShader, 36);
 
     // visualize point light pos
-    model = glm::translate(glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f)), pLightPos);
     lightShader->bind();
     lightShader->uploadMat4("uProjection", proj);
     lightShader->uploadMat4("uView", view);
     lightShader->uploadMat4("uModel", model);
-    Renderer::drawTriangles(*cubeVao, *lightShader, 36);
+    for (int i = 0; i < pointLights.size(); i++) {
+        glm::mat4 model = glm::scale(glm::translate(glm::mat4(1.0f), pointLights[i].getPosition()), glm::vec3(0.3f));
+        lightShader->uploadMat4("uModel", model);
+        Renderer::drawTriangles(*cubeVao, *lightShader, 36);
+    }
 }
 
 void MultipleTexLights::gui() {
     ImGui::Begin("light");
     ImGui::Text("App: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-    ImGui::SliderFloat3("p position", glm::value_ptr(pLightPos), -10.0f, 10.0f);
-
-    ImGui::SliderFloat3("s position", glm::value_ptr(sLightPos), -10.0f, 10.0f);
-    ImGui::SliderFloat3("s dir", glm::value_ptr(sLightDir), -1.0f, 1.0f);
-
     ImGui::End();
 }
