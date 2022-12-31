@@ -39,7 +39,7 @@ void PointLight::upload(Shader& shader, uint32_t index) {
 
 SpotLight::SpotLight(glm::vec3 position, glm::vec3 direction, float outerCone, float innerCone)
     : position(position), direction(direction), outer(glm::cos(glm::radians(outerCone))), inner(glm::cos(glm::radians(innerCone)))  {
-    this->ambient = glm::vec3(0.2f);
+    this->ambient = glm::vec3(0.0f);
     this->diffuse = glm::vec3(1.0f);
     this->specular = glm::vec3(0.5f);
 }

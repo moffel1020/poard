@@ -134,7 +134,20 @@ void MultipleTexLights::draw() {
 }
 
 void MultipleTexLights::gui() {
-    ImGui::Begin("light");
+    ImGui::Begin("performance");
     ImGui::Text("App: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::End();
+
+    ImGui::Begin("light");
+    static float pos[3] = { 0.0f, 0.0f, 0.0f };
+    static float linear = 0.05f;
+    static float quadratic = 0.003f;
+    ImGui::SliderFloat3("position", pos, -10.0f, 10.0f);
+    ImGui::SliderFloat("quadratic", &quadratic, -2.0f, 2.0f);
+    ImGui::SliderFloat("linear", &linear, -2.0f, 2.0f);
+
+    pointLights[0].setPosition(glm::vec3(pos[0], pos[1], pos[2]));
+    pointLights[0].setLinear(linear);
+    pointLights[0].setQuadratic(quadratic);
     ImGui::End();
 }
