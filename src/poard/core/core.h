@@ -10,6 +10,8 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
+#include "glm/fwd.hpp"
 #include "assimp/include/assimp/Importer.hpp"
 #include "assimp/include/assimp/scene.h"
 #include "assimp/include/assimp/postprocess.h"
+#include "assimp/include/assimp/material.h"

@@ -6,6 +6,7 @@ Texture::Texture(int width, int height) {
     this->width = width;
     this->height = height;
     this->comp = 4;     // RGBA
+    this->type = TextureType_UNKNOWN;
 
     glGenTextures(1, &id);
     glBindTexture(GL_TEXTURE_2D, id);
@@ -17,7 +18,10 @@ Texture::Texture(int width, int height) {
 }
 
 
-Texture::Texture(const std::string& file) {
+Texture::Texture(const std::string& file, TextureType type) {
+    this->path = file;
+    this->type = type;
+
     stbi_set_flip_vertically_on_load(true);
     unsigned char* imageData = stbi_load(file.c_str(), &width, &height, &comp, 0);
 
@@ -34,7 +38,9 @@ Texture::Texture(const std::string& file) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    if (comp == 3)
+    if (comp == 1)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+    else if (comp == 3)
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
     else if (comp == 4)
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
@@ -51,7 +57,12 @@ void Texture::setData(void* data, uint32_t size) {
     }
 
     glBindTexture(GL_TEXTURE_2D, id);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+    if (comp == 1)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    else if (comp == 3)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    else if (comp == 4)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
     glGenerateMipmap(GL_TEXTURE_2D);
 }
 

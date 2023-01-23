@@ -13,16 +13,17 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vecto
     vao.addBuffer(vbo, 2, 2, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
 }
 
+
 void Mesh::draw(Shader& shader) {
     for(uint32_t i = 0; i < textures.size(); i++) {
         TextureType texType = textures[i].getType();
 
         switch (texType) {
-            // see phong.frag file
-            case DIFFUSE:
+            // see texPhong.frag file
+            case TextureType_DIFFUSE:
                 textures[i].bind(GL_TEXTURE0);
                 break;
-            case SPECULAR:
+            case TextureType_SPECULAR:
                 textures[i].bind(GL_TEXTURE1);
                 break;
             default:
