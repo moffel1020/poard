@@ -88,7 +88,23 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType 
     for (uint32_t i = 0; i < mat->GetTextureCount(aiType); i++) {
         aiString str;
         mat->GetTexture(aiType, i, &str);
-        textures.emplace_back(str.C_Str(), type);
+
+        // check if texture has already been loaded
+        bool alreadyLoaded = false;
+        for (uint32_t j = 0; j < loaded_textures.size(); j++) {
+            if (loaded_textures[j].getPath() == (std::string)str.C_Str()) {
+                textures.push_back(loaded_textures[j]);
+                alreadyLoaded = true;
+                break;
+            }
+        }
+
+        if (alreadyLoaded)
+            continue;
+
+        Texture tex = Texture(str.C_Str(), type);
+        textures.push_back(tex);
+        loaded_textures.push_back(tex);
     }
 
     return textures;

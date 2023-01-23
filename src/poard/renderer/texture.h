@@ -16,6 +16,7 @@ public:
     void unbind();
     void setData(void* data, uint32_t size);
     TextureType getType() { return type; }
+    const std::string& getPath() { return path; }
 
 private:
     uint32_t id;
