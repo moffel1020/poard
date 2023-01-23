@@ -1,10 +1,20 @@
 #pragma once
 #include "core.h"
 
+
+struct Vertex {
+    glm::vec3 position;
+    glm::vec3 normal;
+    glm::vec2 texCoord;
+};
+
+
 class VertexBuffer
 {
 public:
+    VertexBuffer() = default;
     VertexBuffer(GLfloat* vertices, GLsizeiptr size);
+    VertexBuffer(std::vector<Vertex> vertices);
     ~VertexBuffer();
     void bind();
     void unbind();
@@ -16,7 +26,9 @@ private:
 class IndexBuffer
 {
 public:
+    IndexBuffer() = default;
     IndexBuffer(GLuint* indices, uint32_t count);
+    IndexBuffer(std::vector<GLuint> indices);
     uint32_t getCount() { return count; }
     ~IndexBuffer();
     void bind();
@@ -32,7 +44,7 @@ class VertexArray
 public:
     VertexArray();
     ~VertexArray();
-    void addBuffer(VertexBuffer& vbo, GLuint layout, GLuint size, GLenum type, GLsizeiptr stride, void* offset);
+    void addBuffer(VertexBuffer& vbo, GLuint layout, GLuint count, GLenum type, GLsizeiptr stride, void* offset);
     void bind();
     void unbind();
 private:

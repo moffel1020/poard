@@ -32,6 +32,7 @@ install_manifest.txt
 
 # language server cache
 .ccls-cache/*
+.cache/
 compile_commands.json
 
 # Test logs

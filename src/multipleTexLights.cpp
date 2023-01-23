@@ -49,7 +49,7 @@ void MultipleTexLights::start() {
     this->cubeVao = std::make_unique<VertexArray>();
     this->cubeVbo = std::make_unique<VertexBuffer>(vertices, sizeof(vertices));
     this->cam = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 0.0f), 70.0f);
-    this->modelShader = std::make_unique<Shader>("./res/shader/texlights.vert", "./res/shader/texlights.frag");
+    this->modelShader = std::make_unique<Shader>("./res/shader/texPhong.vert", "./res/shader/texPhong.frag");
     this->lightShader = std::make_unique<Shader>("./res/shader/white.vert", "./res/shader/white.frag");
     this->cubeDiff = std::make_unique<Texture>("./res/texture/crate2.png");
     this->cubeSpec = std::make_unique<Texture>("./res/texture/crate2_specular.png");
@@ -102,9 +102,6 @@ void MultipleTexLights::draw() {
     modelShader->uploadFloat("uPointLightCount", pointLights.size());
     modelShader->uploadFloat("uSpotLightCount", spotLights.size());
 
-    glm::vec3 matColor(1.0f, 0.5f, 0.3f);
-    modelShader->uploadVec3("material.diffuse", matColor);
-    modelShader->uploadVec3("material.specular", 1.0f, 1.0f, 1.0f);
     modelShader->uploadFloat("material.shininess", 32.0f);
 
     cubeDiff->bind(GL_TEXTURE0);

@@ -11,3 +11,4 @@
 #include "gui.h"
 #include "renderer.h"
 #include "lights.h"
+#include "mesh.h"
