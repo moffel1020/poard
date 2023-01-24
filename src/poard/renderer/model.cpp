@@ -1,4 +1,7 @@
 #include "model.h"
+#include "assimp/material.h"
+#include "assimp/types.h"
+#include "glm/fwd.hpp"
 
 
 Model::Model(std::string path) {
@@ -66,17 +69,29 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
         }
     }
 
-    if (mesh->mMaterialIndex >= 0) {
-        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+    aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
-        std::vector<Texture> diffuseMaps = loadTextures(material, aiTextureType_DIFFUSE, TextureType_DIFFUSE);
-        textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+    std::vector<Texture> diffuseMaps = loadTextures(material, aiTextureType_DIFFUSE, TextureType_DIFFUSE);
+    textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
-        std::vector<Texture> specularMaps = loadTextures(material, aiTextureType_SPECULAR, TextureType_SPECULAR);
-        textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-    }
+    std::vector<Texture> specularMaps = loadTextures(material, aiTextureType_SPECULAR, TextureType_SPECULAR);
+    textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 
-    return Mesh(vertices, indices, textures);
+    Mesh m = Mesh(vertices, indices, textures);
+
+    aiColor3D col = aiColor3D();
+    float shininess;
+
+    material->Get(AI_MATKEY_COLOR_DIFFUSE, col);
+    m.setDiffuse(glm::vec3(col.r, col.g, col.b));
+
+    material->Get(AI_MATKEY_COLOR_SPECULAR, col);
+    m.setSpecular(glm::vec3(col.r, col.g, col.b));
+
+    material->Get(AI_MATKEY_SHININESS, shininess);
+    m.setShininess(shininess);
+
+    return m;
 }
 
 

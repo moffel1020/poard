@@ -1,4 +1,5 @@
 #include "mesh.h"
+#include "glm/fwd.hpp"
 
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<Texture> textures) 
@@ -15,7 +16,16 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vecto
 
 
 void Mesh::draw(Shader& shader) {
-    for(uint32_t i = 0; i < textures.size(); i++) {
+    if (textures.size() == 0) {
+        shader.uploadVec3("material.diffuse", diffuse);
+        shader.uploadVec3("material.specular", specular);
+        shader.uploadFloat("material.shininess", shininess);
+        Renderer::draw(*vao, *ibo, shader);
+
+        return;
+    }
+
+    for (uint32_t i = 0; i < textures.size(); i++) {
         TextureType texType = textures[i].getType();
 
         switch (texType) {
