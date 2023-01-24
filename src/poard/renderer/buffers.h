@@ -12,7 +12,6 @@ struct Vertex {
 class VertexBuffer
 {
 public:
-    VertexBuffer() = default;
     VertexBuffer(GLfloat* vertices, GLsizeiptr size);
     VertexBuffer(std::vector<Vertex> vertices);
     ~VertexBuffer();
@@ -26,7 +25,6 @@ private:
 class IndexBuffer
 {
 public:
-    IndexBuffer() = default;
     IndexBuffer(GLuint* indices, uint32_t count);
     IndexBuffer(std::vector<GLuint> indices);
     uint32_t getCount() { return count; }

@@ -4,13 +4,13 @@
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<Texture> textures) 
     : vertices(vertices), indices(indices), textures(textures) {
     
-    this->vao = VertexArray();
-    this->vbo = VertexBuffer(vertices);
-    this->ibo = IndexBuffer(indices);
+    this->vao = std::make_unique<VertexArray>();
+    this->vbo = std::make_unique<VertexBuffer>(vertices);
+    this->ibo = std::make_unique<IndexBuffer>(indices);
 
-    vao.addBuffer(vbo, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, position));
-    vao.addBuffer(vbo, 1, 3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-    vao.addBuffer(vbo, 2, 2, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
+    vao->addBuffer(*vbo, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, position));
+    vao->addBuffer(*vbo, 1, 3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+    vao->addBuffer(*vbo, 2, 2, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
 }
 
 
@@ -31,6 +31,6 @@ void Mesh::draw(Shader& shader) {
                 break;
         }
 
-        Renderer::draw(vao, ibo, shader);
+        Renderer::draw(*vao, *ibo, shader);
     }
 }

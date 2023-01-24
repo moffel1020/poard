@@ -16,7 +16,7 @@ public:
     Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<Texture> textures);
     void draw(Shader& shader);
 private:
-    VertexArray vao;
-    VertexBuffer vbo;
-    IndexBuffer ibo;
+    std::unique_ptr<VertexArray> vao;
+    std::unique_ptr<VertexBuffer> vbo;
+    std::unique_ptr<IndexBuffer> ibo;
 };

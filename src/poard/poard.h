@@ -12,3 +12,4 @@
 #include "renderer.h"
 #include "lights.h"
 #include "mesh.h"
+#include "model.h"

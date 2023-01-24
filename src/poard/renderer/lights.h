@@ -20,11 +20,13 @@ public:
 class DirLight : public Light
 {
 public:
-    DirLight(glm::vec3 direction, glm::vec3 diffuse=glm::vec3(0.4f), glm::vec3 ambient=glm::vec3(0.2f), glm::vec3 specular=glm::vec3(0.5f));
+    DirLight(glm::vec3 direction, glm::vec3 diffuse=glm::vec3(0.4f), glm::vec3 ambient=glm::vec3(0.1f), glm::vec3 specular=glm::vec3(0.5f));
     void upload(Shader& shader);
+    void setDirection(const glm::vec3& dir) { direction = dir; }
 
 private:
     glm::vec3 direction;
+
     using Light::diffuse;
     using Light::ambient;
     using Light::specular;
@@ -48,6 +50,7 @@ private:
     float quadratic = 0.05f;
     float linear = 0.003;
     float constant = 1.0f;
+
     using Light::diffuse;
     using Light::ambient;
     using Light::specular;
@@ -65,6 +68,7 @@ public:
     void setPosition(float x, float y, float z) { position = glm::vec3(x, y, z); }
     void setLinear(float l) { linear = l; }
     void setQuadratic(float q) { quadratic = q; }
+    void setDirection(const glm::vec3& dir) { direction = dir; }
 
 private:
     glm::vec3 position;
@@ -74,6 +78,7 @@ private:
     float quadratic = 0.05f;
     float linear = 0.003f;
     float constant = 1.0f;
+
     using Light::diffuse;
     using Light::ambient;
     using Light::specular;
