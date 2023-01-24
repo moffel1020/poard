@@ -4,7 +4,7 @@
 void ModelScene::start() {
     this->cam = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 0.0f), 70.0f);
     this->modelShader = std::make_unique<Shader>("./res/shader/texPhong.vert", "./res/shader/texPhong.frag");
-    this->model = std::make_unique<Model>("./res/models/car/car.obj");
+    this->model = std::make_unique<Model>("./res/models/backpack/backpack.obj");
 
     spotLights.emplace_back(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, -1.0f), 30.0f, 20.0f);
 }
