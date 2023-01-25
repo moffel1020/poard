@@ -7,7 +7,7 @@ void ModelScene::start() {
     this->backpack = std::make_unique<Model>("./res/models/backpack/backpack.obj");
     this->car = std::make_unique<Model>("./res/models/car/car.obj");
 
-    this->pointLights.emplace_back(glm::vec3(-2.0f, 1.0f, 0.0f));
+    this->pointLights.emplace_back(glm::vec3(-1.0f, 1.0f, 0.0f));
 }
 
 

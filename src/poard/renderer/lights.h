@@ -5,14 +5,18 @@
 class Light
 {
 public:
-    void setDiffuse(const glm::vec3& diff) { diffuse = diff; }
-    void setAmbient(const glm::vec3& amb) { ambient = amb; }
-    void setSpecular(const glm::vec3& spec) { specular = spec; }
+    Light() { };
+    Light(const glm::vec3& diffuse, const glm::vec3& specular, const glm::vec3& ambient) 
+        : diffuse(diffuse), specular(specular), ambient(ambient) { }
 
-public:
+    void setDiffuse(const glm::vec3& diff) { diffuse = diff; }
+    void setSpecular(const glm::vec3& spec) { specular = spec; }
+    void setAmbient(const glm::vec3& amb) { ambient = amb; }
+
+protected:
     glm::vec3 diffuse;
-    glm::vec3 ambient;
     glm::vec3 specular;
+    glm::vec3 ambient;
 };
 
 
@@ -20,16 +24,12 @@ public:
 class DirLight : public Light
 {
 public:
-    DirLight(glm::vec3 direction, glm::vec3 diffuse=glm::vec3(0.4f), glm::vec3 ambient=glm::vec3(0.1f), glm::vec3 specular=glm::vec3(0.5f));
+    DirLight(glm::vec3 direction, glm::vec3 diffuse=glm::vec3(0.4f), glm::vec3 specular=glm::vec3(0.5f), glm::vec3 ambient=glm::vec3(0.1f));
     void upload(Shader& shader);
     void setDirection(const glm::vec3& dir) { direction = dir; }
 
 private:
     glm::vec3 direction;
-
-    using Light::diffuse;
-    using Light::ambient;
-    using Light::specular;
 };
 
 
@@ -37,7 +37,7 @@ private:
 class PointLight : public Light
 {
 public:
-    PointLight(glm::vec3 position, glm::vec3 diffuse=glm::vec3(1.0f), glm::vec3 ambient=glm::vec3(0.0f), glm::vec3 specular=glm::vec3(0.5f)); 
+    PointLight(glm::vec3 position, glm::vec3 diffuse=glm::vec3(1.0f), glm::vec3 specular=glm::vec3(0.5f), glm::vec3 ambient=glm::vec3(0.0f)); 
     void upload(Shader& shader, uint32_t index);
     glm::vec3 getPosition() { return position; }
     void setPosition(const glm::vec3& pos) { position = pos; }
@@ -50,10 +50,6 @@ private:
     float quadratic = 0.05f;
     float linear = 0.003;
     float constant = 1.0f;
-
-    using Light::diffuse;
-    using Light::ambient;
-    using Light::specular;
 };
 
 
@@ -78,8 +74,4 @@ private:
     float quadratic = 0.05f;
     float linear = 0.003f;
     float constant = 1.0f;
-
-    using Light::diffuse;
-    using Light::ambient;
-    using Light::specular;
 };
