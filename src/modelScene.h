@@ -11,7 +11,8 @@ public:
     void draw() override;
     void gui() override;
 private:
-    std::unique_ptr<Model> model;
+    std::unique_ptr<Model> backpack;
+    std::unique_ptr<Model> car;
     std::unique_ptr<Shader> modelShader;
     std::unique_ptr<Camera> cam;
     std::vector<PointLight> pointLights;

@@ -16,13 +16,14 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vecto
 
 
 void Mesh::draw(Shader& shader) {
-    if (textures.size() == 0) {
-        shader.uploadVec3("material.diffuse", diffuse);
-        shader.uploadVec3("material.specular", specular);
-        shader.uploadFloat("material.shininess", shininess);
-        Renderer::draw(*vao, *ibo, shader);
+    shader.uploadVec3("material.diffuse", diffuse);
+    shader.uploadVec3("material.specular", specular);
+    shader.uploadFloat("material.shininess", shininess);
 
-        return;
+    if (textures.size() == 0) {
+        shader.uploadFloat("uUseTexture", 0.0f);
+    } else {
+        shader.uploadFloat("uUseTexture", 1.0f);
     }
 
     for (uint32_t i = 0; i < textures.size(); i++) {
@@ -40,7 +41,7 @@ void Mesh::draw(Shader& shader) {
                 std::cout << "texture is not a diffuse or specular texture" << std::endl;
                 break;
         }
-
-        Renderer::draw(*vao, *ibo, shader);
     }
+
+    Renderer::draw(*vao, *ibo, shader);
 }
