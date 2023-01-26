@@ -39,12 +39,14 @@ Texture::Texture(const std::string& file, TextureType type) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    if (comp == 1)
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
-    else if (comp == 3)
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
-    else if (comp == 4)
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+    GLenum format; 
+    switch (comp) {
+        case 1: format = GL_RED;    break;
+        case 3: format = GL_RGB;    break;
+        case 4: format = GL_RGBA;   break;
+    }
+
+    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, imageData);
 
     glGenerateMipmap(GL_TEXTURE_2D);
     stbi_image_free(imageData);

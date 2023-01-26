@@ -16,6 +16,7 @@ public:
 
     void addScene(Scene* scene);
     void setScene(const std::string& name);
+    Scene* getActiveScene() { return scenes[activeScene]; }
 
     float getDeltaTime() { return deltaTime; }
     Window* getWindow() { return window; }
