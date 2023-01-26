@@ -1,0 +1,8 @@
+ground texture
+skybox
+good car model
+
+move children meshes (wheels)
+- just load in the wheels seperately lol
+
+scenery :D
