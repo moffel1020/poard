@@ -20,8 +20,10 @@ public:
     glm::vec3 getPosition() { return position; }
     glm::vec3 getForward() { return forward; }
     glm::vec3 getDirection() { return direction; }
-    glm::mat4 getViewMatrix();
-    glm::mat4 getProjMatrix();
+    glm::mat4 getViewMatrix() { return viewMatrix; }
+    glm::mat4 getProjMatrix() { return projMatrix; }
+    void setProjMatrix(const glm::mat4& proj) { projMatrix = proj; }
+    void setProjMatrix(uint32_t width, uint32_t height);
     void update();
 private:
     glm::vec3 position;

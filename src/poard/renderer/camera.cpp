@@ -71,10 +71,6 @@ void Camera::update() {
     viewMatrix = glm::lookAt(position, position + direction, up);
 }
 
-glm::mat4 Camera::getViewMatrix() {
-    return viewMatrix;
-}
-
-glm::mat4 Camera::getProjMatrix() {
-    return projMatrix;
+void Camera::setProjMatrix(uint32_t width, uint32_t height) {
+    this->projMatrix = glm::perspective(glm::radians(fov), (float)width/ (float)height, 0.1f, 1000.0f);
 }
