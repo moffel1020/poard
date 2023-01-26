@@ -13,3 +13,4 @@
 #include "lights.h"
 #include "mesh.h"
 #include "model.h"
+#include "cubemap.h"

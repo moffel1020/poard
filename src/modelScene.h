@@ -11,10 +11,11 @@ public:
     void draw() override;
     void gui() override;
 private:
-    std::unique_ptr<Model> backpack;
     std::unique_ptr<Model> car;
+    std::unique_ptr<Model> car2;
+    std::unique_ptr<Cubemap> skybox;
     std::unique_ptr<Shader> modelShader;
-    std::unique_ptr<Camera> cam;
+    std::unique_ptr<Shader> skyShader;
     std::vector<PointLight> pointLights;
     std::vector<SpotLight> spotLights;
 };

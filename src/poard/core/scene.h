@@ -1,4 +1,6 @@
 #pragma once
+#include "core.h"
+#include "camera.h"
 
 class Scene
 {
@@ -11,6 +13,9 @@ public:
     virtual void gui() { }
     virtual void stop() { }
     std::string& getName() { return name; }
-private:
+    void setActiveCam(Camera* camera) { activeCam = camera; }
+    Camera* getActiveCam() { return activeCam; }
+protected:
     std::string name;
+    Camera* activeCam;
 };

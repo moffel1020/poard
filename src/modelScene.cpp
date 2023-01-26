@@ -2,47 +2,50 @@
 
 
 void ModelScene::start() {
-    this->cam = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 0.0f), 70.0f);
-    this->modelShader = std::make_unique<Shader>("./res/shader/phong.vert", "./res/shader/phong.frag");
-    this->backpack = std::make_unique<Model>("./res/models/backpack/backpack.obj");
-    this->car = std::make_unique<Model>("./res/models/car/car.obj");
+    Camera* cam = new Camera(glm::vec3(0.0f, 0.0f, 0.0f), 70.0f);
+    setActiveCam(cam);
 
-    this->pointLights.emplace_back(glm::vec3(-2.0f, 1.0f, 0.0f));
+    this->modelShader = std::make_unique<Shader>("./res/shader/phong.vert", "./res/shader/phong.frag");
+    this->skyShader = std::make_unique<Shader>("./res/shader/skybox.vert", "./res/shader/skybox.frag");
+
+    this->car = std::make_unique<Model>("./res/models/bmw/bmw.obj");
+    this->car2 = std::make_unique<Model>("./res/models/car/car.obj");
+
+    this->skybox = std::make_unique<Cubemap>("./res/texture/skybox/");
+
+    this->pointLights.emplace_back(glm::vec3(-2.0f, 2.0f, 0.0f));
 }
 
 
 void ModelScene::update(float dt) {
-    const float speed = 2.0f;
+    const float speed = 4.0f;
     const float sensitivity = 0.1f;
 
     if (Input::isKeyDown(GLFW_KEY_W))
-        cam->move(FORWARD, speed * dt);
+        activeCam->move(FORWARD, speed * dt);
     if (Input::isKeyDown(GLFW_KEY_S))
-        cam->move(BACKWARD, speed * dt);
+        activeCam->move(BACKWARD, speed * dt);
     if (Input::isKeyDown(GLFW_KEY_D))
-        cam->move(RIGHT, speed * dt);
+        activeCam->move(RIGHT, speed * dt);
     if (Input::isKeyDown(GLFW_KEY_A))
-        cam->move(LEFT, speed * dt);
+        activeCam->move(LEFT, speed * dt);
     if (Input::isKeyDown(GLFW_KEY_SPACE))
-        cam->move(UP, speed * dt);
+        activeCam->move(UP, speed * dt);
     if (Input::isKeyDown(GLFW_KEY_LEFT_SHIFT))
-        cam->move(DOWN, speed * dt);
+        activeCam->move(DOWN, speed * dt);
 
     if (Application::get().getWindow()->getLockCursor())
-        cam->rotate(Input::getMouseXMovement() * sensitivity, -Input::getMouseYMovement() * sensitivity);
+        activeCam->rotate(Input::getMouseXMovement() * sensitivity, -Input::getMouseYMovement() * sensitivity);
 }
 
 
 void ModelScene::draw() {
-    cam->update();
-
-    glm::mat4 view = cam->getViewMatrix();
-    glm::mat4 proj = cam->getProjMatrix();
+    activeCam->update();
 
     modelShader->bind();
-    modelShader->uploadMat4("uProjection", proj);
-    modelShader->uploadMat4("uView", view);
-    modelShader->uploadVec3("uCamPos", cam->getPosition());
+    modelShader->uploadMat4("uProjection", activeCam->getProjMatrix());
+    modelShader->uploadMat4("uView", activeCam->getViewMatrix());
+    modelShader->uploadVec3("uCamPos", activeCam->getPosition());
     modelShader->uploadFloat("uPointLightCount", pointLights.size());
     modelShader->uploadFloat("uSpotLightCount", spotLights.size());
 
@@ -56,14 +59,17 @@ void ModelScene::draw() {
     for (uint32_t i = 0; i < spotLights.size(); i++)
         spotLights[i].upload(*modelShader, i);
 
-    glm::mat4 bpTransform(1.0f);
-    modelShader->uploadMat4("uModel", bpTransform);
-    this->backpack->draw(*modelShader);
-
     glm::mat4 carTransform(1.0f);
-    carTransform = glm::translate(carTransform, glm::vec3(3.0f, -1.0f, 0.f));
     modelShader->uploadMat4("uModel", carTransform);
-    this->car->draw(*modelShader);
+    car2->draw(*modelShader);
+
+    carTransform = glm::translate(carTransform, glm::vec3(4.0f, 0.0f, 0.0f));
+    carTransform = glm::rotate(carTransform, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    carTransform = glm::scale(carTransform, glm::vec3(0.01f));
+    modelShader->uploadMat4("uModel", carTransform);
+    car->draw(*modelShader);
+
+    skybox->draw(*skyShader);
 }
 
 
