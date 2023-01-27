@@ -8,7 +8,8 @@ void ModelScene::start() {
     this->modelShader = std::make_unique<Shader>("./res/shader/phong.vert", "./res/shader/phong.frag");
     this->skyShader = std::make_unique<Shader>("./res/shader/skybox.vert", "./res/shader/skybox.frag");
 
-    this->car = std::make_unique<Model>("./res/models/car/car.obj");
+    this->car = std::make_unique<Model>("./res/models/car/hull.obj");
+    this->wheel = std::make_unique<Model>("./res/models/car/wheel_l.obj");
     this->ground = std::make_unique<Model>("./res/models/ground/ground.obj");
 
     this->skybox = std::make_unique<Cubemap>("./res/texture/skybox/");
@@ -47,8 +48,9 @@ void ModelScene::draw() {
     modelShader->uploadFloat("uPointLightCount", pointLights.size());
     modelShader->uploadFloat("uSpotLightCount", spotLights.size());
 
-    DirLight dirLight = DirLight(glm::vec3(0.0f, -1.0f, 0.0f));
+    DirLight dirLight = DirLight(glm::vec3(1.0f, -1.0f, 1.0f));
     dirLight.setDiffuse(glm::vec3(0.8f, 0.8f, 0.8f));
+    dirLight.setAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
     dirLight.upload(*modelShader);
 
     for (uint32_t i = 0; i < pointLights.size(); i++)
@@ -59,14 +61,12 @@ void ModelScene::draw() {
 
 
     glm::mat4 carTransform(1.0f);
-    // carTransform = glm::translate(carTransform, glm::vec3(4.0f, 0.0f, 0.0f));
-    carTransform = glm::rotate(carTransform, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    carTransform = glm::scale(carTransform, glm::vec3(0.01f));
     modelShader->uploadMat4("uModel", carTransform);
     car->draw(*modelShader);
 
     modelShader->uploadMat4("uModel", glm::mat4(1.0f));
     ground->draw(*modelShader);
+    wheel->draw(*modelShader);
 
     skybox->draw(*skyShader);
 }
