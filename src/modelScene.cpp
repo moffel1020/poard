@@ -1,5 +1,6 @@
 #include "modelScene.h"
-#include "imgui/imgui.h"
+#include "GLFW/glfw3.h"
+#include "glm/ext/scalar_constants.hpp"
 
 
 void ModelScene::start() {
@@ -62,43 +63,51 @@ void ModelScene::draw() {
         spotLights[i].upload(*modelShader, i);
 
 
+    float wheelRot = 2.0f * glm::pi<float>() * sin(glfwGetTime());
+    float carRot = (2.0f * glm::pi<float>() * cos(glfwGetTime())) / 4;
     glm::mat4 carTransform(1.0f);
-    modelShader->uploadMat4("uModel", carTransform);
-    car->draw(*modelShader);
+    carTransform = glm::rotate(carTransform, abs(carRot), glm::vec3(0.0f, 1.0f, 0.0f));
+    car->draw(*modelShader, carTransform);
 
-    modelShader->uploadMat4("uModel", glm::mat4(1.0f));
     ground->draw(*modelShader);
 
-    glm::mat4 wheelTransform = glm::translate(carTransform, blWheelPos);
-    modelShader->uploadMat4("uModel", wheelTransform);
-    leftWheel->draw(*modelShader);
-
-    wheelTransform = glm::translate(carTransform, flWheelPos);
-    modelShader->uploadMat4("uModel", wheelTransform);
-    leftWheel->draw(*modelShader);
-
-    wheelTransform = glm::translate(carTransform, brWheelPos);
-    modelShader->uploadMat4("uModel", wheelTransform);
-    rightWheel->draw(*modelShader);
+    glm::mat4 wheelTransform = glm::translate(carTransform, flWheelPos);
+    wheelTransform = glm::rotate(wheelTransform, glm::radians(steeringAngle), glm::vec3(0.0f, 1.0f, 0.0f));
+    wheelTransform = glm::rotate(wheelTransform, wheelRot, glm::vec3(0.0f, 0.0f, 1.0f));
+    leftWheel->draw(*modelShader, wheelTransform);
 
     wheelTransform = glm::translate(carTransform, frWheelPos);
-    modelShader->uploadMat4("uModel", wheelTransform);
-    rightWheel->draw(*modelShader);
+    wheelTransform = glm::rotate(wheelTransform, glm::radians(steeringAngle), glm::vec3(0.0f, 1.0f, 0.0f));
+    wheelTransform = glm::rotate(wheelTransform, wheelRot, glm::vec3(0.0f, 0.0f, 1.0f));
+    rightWheel->draw(*modelShader, wheelTransform);
+
+    wheelTransform = glm::translate(carTransform, blWheelPos);
+    wheelTransform = glm::rotate(wheelTransform, wheelRot, glm::vec3(0.0f, 0.0f, 1.0f));
+    leftWheel->draw(*modelShader, wheelTransform);
+
+    wheelTransform = glm::translate(carTransform, brWheelPos);
+    wheelTransform = glm::rotate(wheelTransform, wheelRot, glm::vec3(0.0f, 0.0f, 1.0f));
+    rightWheel->draw(*modelShader, wheelTransform);
+
 
     skybox->draw(*skyShader);
 }
 
 
 void ModelScene::gui() {
-    ImGui::Begin("performance");
-    ImGui::Text("App: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-    glm::vec3 pos = activeCam->getPosition();
-    ImGui::Text("cam x: %.2f", pos.x);
-    ImGui::Text("cam y: %.2f", pos.y);
-    ImGui::Text("cam z: %.2f", pos.z);
+    {
+        ImGui::Begin("performance");
+        ImGui::Text("App: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        glm::vec3 pos = activeCam->getPosition();
+        ImGui::Text("cam x: %.2f", pos.x);
+        ImGui::Text("cam y: %.2f", pos.y);
+        ImGui::Text("cam z: %.2f", pos.z);
+        ImGui::End();
+    }
 
-    // ImGui::SliderFloat("w x", &wheelX, -5, 5);
-    // ImGui::SliderFloat("w y", &wheelY, -5, 5);
-    // ImGui::SliderFloat("w z", &wheelZ, -5, 5);
-    ImGui::End();
+    {
+        ImGui::Begin("car");
+        ImGui::SliderFloat("Steering angle:", &steeringAngle, -90.0f, 90.0f);
+        ImGui::End();
+    }
 }

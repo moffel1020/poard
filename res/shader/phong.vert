@@ -8,6 +8,8 @@ uniform mat4 uModel;
 uniform mat4 uView;
 uniform mat4 uProjection;
 
+uniform mat3 uInverseModel;
+
 out vec3 normal;
 out vec3 fragPos;
 out vec2 texCoord;
@@ -15,7 +17,7 @@ out vec2 texCoord;
 void main()
 {
     fragPos = vec3(uModel * vec4(aPos, 1.0));
-    normal = aNormal;
+    normal = uInverseModel * aNormal;  
     texCoord = aTexCoord;
 
     gl_Position = uProjection * uView * vec4(fragPos, 1.0);

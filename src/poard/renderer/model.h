@@ -7,7 +7,7 @@ class Model
 {
 public:
     Model(std::string path);
-    void draw(Shader& shader);
+    void draw(Shader& shader, const glm::mat4& model=glm::mat4(1.0f));
 
 private:
     std::vector<Mesh> meshes;

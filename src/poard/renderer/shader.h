@@ -15,6 +15,7 @@ public:
     void uploadVec3(const char* name, const glm::vec3& vec3);
     void uploadVec3(const char* name, float x, float y, float z);
     void uploadMat4(const char* name, const glm::mat4& mat4);
+    void uploadMat3(const char* name, const glm::mat3& mat3);
 private:
     std::string parseShader(const std::string& filepath);
     uint32_t compileShader(unsigned int type, const std::string& filePath);

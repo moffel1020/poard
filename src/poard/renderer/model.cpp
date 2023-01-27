@@ -1,7 +1,4 @@
 #include "model.h"
-#include "assimp/material.h"
-#include "assimp/types.h"
-#include "glm/fwd.hpp"
 
 
 Model::Model(std::string path) {
@@ -23,9 +20,10 @@ Model::Model(std::string path) {
 }
 
 
-void Model::draw(Shader& shader) {
+void Model::draw(Shader& shader, const glm::mat4& model) {
+    glm::mat3 inverseModel = glm::mat3(glm::transpose(glm::inverse(model)));
     for (uint32_t i = 0; i < meshes.size(); i++) {
-        meshes[i].draw(shader);
+        meshes[i].draw(shader, model, inverseModel);
     }
 }
 

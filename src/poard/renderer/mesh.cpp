@@ -1,5 +1,6 @@
 #include "mesh.h"
 #include "glm/fwd.hpp"
+#include "glm/matrix.hpp"
 
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<Texture> textures) 
@@ -15,7 +16,7 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vecto
 }
 
 
-void Mesh::draw(Shader& shader) {
+void Mesh::draw(Shader& shader, const glm::mat4& model, const glm::mat3& inverseModel) {
     shader.uploadVec3("material.diffuse", diffuse);
     shader.uploadVec3("material.specular", specular);
     shader.uploadFloat("material.shininess", shininess);
@@ -42,6 +43,9 @@ void Mesh::draw(Shader& shader) {
                 break;
         }
     }
+
+    shader.uploadMat4("uModel", model);
+    shader.uploadMat3("uInverseModel", inverseModel);
 
     Renderer::draw(*vao, *ibo, shader);
 }
