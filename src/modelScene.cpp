@@ -1,4 +1,5 @@
 #include "modelScene.h"
+#include "imgui/imgui.h"
 
 
 void ModelScene::start() {
@@ -9,7 +10,8 @@ void ModelScene::start() {
     this->skyShader = std::make_unique<Shader>("./res/shader/skybox.vert", "./res/shader/skybox.frag");
 
     this->car = std::make_unique<Model>("./res/models/car/hull.obj");
-    this->wheel = std::make_unique<Model>("./res/models/car/wheel_l.obj");
+    this->rightWheel = std::make_unique<Model>("./res/models/car/wheel_r.obj");
+    this->leftWheel = std::make_unique<Model>("./res/models/car/wheel_l.obj");
     this->ground = std::make_unique<Model>("./res/models/ground/ground.obj");
 
     this->skybox = std::make_unique<Cubemap>("./res/texture/skybox/");
@@ -66,7 +68,22 @@ void ModelScene::draw() {
 
     modelShader->uploadMat4("uModel", glm::mat4(1.0f));
     ground->draw(*modelShader);
-    wheel->draw(*modelShader);
+
+    glm::mat4 wheelTransform = glm::translate(carTransform, blWheelPos);
+    modelShader->uploadMat4("uModel", wheelTransform);
+    leftWheel->draw(*modelShader);
+
+    wheelTransform = glm::translate(carTransform, flWheelPos);
+    modelShader->uploadMat4("uModel", wheelTransform);
+    leftWheel->draw(*modelShader);
+
+    wheelTransform = glm::translate(carTransform, brWheelPos);
+    modelShader->uploadMat4("uModel", wheelTransform);
+    rightWheel->draw(*modelShader);
+
+    wheelTransform = glm::translate(carTransform, frWheelPos);
+    modelShader->uploadMat4("uModel", wheelTransform);
+    rightWheel->draw(*modelShader);
 
     skybox->draw(*skyShader);
 }
@@ -79,5 +96,9 @@ void ModelScene::gui() {
     ImGui::Text("cam x: %.2f", pos.x);
     ImGui::Text("cam y: %.2f", pos.y);
     ImGui::Text("cam z: %.2f", pos.z);
+
+    // ImGui::SliderFloat("w x", &wheelX, -5, 5);
+    // ImGui::SliderFloat("w y", &wheelY, -5, 5);
+    // ImGui::SliderFloat("w z", &wheelZ, -5, 5);
     ImGui::End();
 }
