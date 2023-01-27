@@ -1,6 +1,4 @@
 #include "mesh.h"
-#include "glm/fwd.hpp"
-#include "glm/matrix.hpp"
 
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<Texture> textures) 

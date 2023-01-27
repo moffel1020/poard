@@ -1,8 +1,7 @@
 #pragma once
-#include "buffers.h"
 #include "poard.h"
 
-class ModelScene : public Scene
+class CarScene : public Scene
 {
 public:
     using Scene::Scene;

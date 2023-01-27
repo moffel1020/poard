@@ -1,9 +1,7 @@
-#include "modelScene.h"
-#include "GLFW/glfw3.h"
-#include "glm/ext/scalar_constants.hpp"
+#include "carScene.h"
 
 
-void ModelScene::start() {
+void CarScene::start() {
     Camera* cam = new Camera(glm::vec3(0.0f, 0.0f, 0.0f), 70.0f);
     setActiveCam(cam);
 
@@ -19,7 +17,7 @@ void ModelScene::start() {
 }
 
 
-void ModelScene::update(float dt) {
+void CarScene::update(float dt) {
     const float speed = 4.0f;
     const float sensitivity = 0.1f;
 
@@ -41,7 +39,7 @@ void ModelScene::update(float dt) {
 }
 
 
-void ModelScene::draw() {
+void CarScene::draw() {
     activeCam->update();
 
     modelShader->bind();
@@ -64,9 +62,8 @@ void ModelScene::draw() {
 
 
     float wheelRot = 2.0f * glm::pi<float>() * sin(glfwGetTime());
-    float carRot = (2.0f * glm::pi<float>() * cos(glfwGetTime())) / 4;
     glm::mat4 carTransform(1.0f);
-    carTransform = glm::rotate(carTransform, abs(carRot), glm::vec3(0.0f, 1.0f, 0.0f));
+    carTransform = glm::scale(carTransform, glm::vec3(0.7196245f)); // convert from model size to metres
     car->draw(*modelShader, carTransform);
 
     ground->draw(*modelShader);
@@ -89,19 +86,14 @@ void ModelScene::draw() {
     wheelTransform = glm::rotate(wheelTransform, wheelRot, glm::vec3(0.0f, 0.0f, 1.0f));
     rightWheel->draw(*modelShader, wheelTransform);
 
-
     skybox->draw(*skyShader);
 }
 
 
-void ModelScene::gui() {
+void CarScene::gui() {
     {
         ImGui::Begin("performance");
         ImGui::Text("App: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        glm::vec3 pos = activeCam->getPosition();
-        ImGui::Text("cam x: %.2f", pos.x);
-        ImGui::Text("cam y: %.2f", pos.y);
-        ImGui::Text("cam z: %.2f", pos.z);
         ImGui::End();
     }
 
