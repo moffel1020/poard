@@ -13,6 +13,7 @@ public:
 private:
     std::unique_ptr<Model> car;
     std::unique_ptr<Model> car2;
+    std::unique_ptr<Model> ground;
     std::unique_ptr<Cubemap> skybox;
     std::unique_ptr<Shader> modelShader;
     std::unique_ptr<Shader> skyShader;

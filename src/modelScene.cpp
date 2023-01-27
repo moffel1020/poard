@@ -8,12 +8,10 @@ void ModelScene::start() {
     this->modelShader = std::make_unique<Shader>("./res/shader/phong.vert", "./res/shader/phong.frag");
     this->skyShader = std::make_unique<Shader>("./res/shader/skybox.vert", "./res/shader/skybox.frag");
 
-    this->car = std::make_unique<Model>("./res/models/bmw/bmw.obj");
-    this->car2 = std::make_unique<Model>("./res/models/car/car.obj");
+    this->car = std::make_unique<Model>("./res/models/car/car.obj");
+    this->ground = std::make_unique<Model>("./res/models/ground/ground.obj");
 
     this->skybox = std::make_unique<Cubemap>("./res/texture/skybox/");
-
-    this->pointLights.emplace_back(glm::vec3(-2.0f, 2.0f, 0.0f));
 }
 
 
@@ -59,15 +57,16 @@ void ModelScene::draw() {
     for (uint32_t i = 0; i < spotLights.size(); i++)
         spotLights[i].upload(*modelShader, i);
 
-    glm::mat4 carTransform(1.0f);
-    modelShader->uploadMat4("uModel", carTransform);
-    car2->draw(*modelShader);
 
-    carTransform = glm::translate(carTransform, glm::vec3(4.0f, 0.0f, 0.0f));
+    glm::mat4 carTransform(1.0f);
+    // carTransform = glm::translate(carTransform, glm::vec3(4.0f, 0.0f, 0.0f));
     carTransform = glm::rotate(carTransform, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     carTransform = glm::scale(carTransform, glm::vec3(0.01f));
     modelShader->uploadMat4("uModel", carTransform);
     car->draw(*modelShader);
+
+    modelShader->uploadMat4("uModel", glm::mat4(1.0f));
+    ground->draw(*modelShader);
 
     skybox->draw(*skyShader);
 }
@@ -76,5 +75,9 @@ void ModelScene::draw() {
 void ModelScene::gui() {
     ImGui::Begin("performance");
     ImGui::Text("App: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    glm::vec3 pos = activeCam->getPosition();
+    ImGui::Text("cam x: %.2f", pos.x);
+    ImGui::Text("cam y: %.2f", pos.y);
+    ImGui::Text("cam z: %.2f", pos.z);
     ImGui::End();
 }

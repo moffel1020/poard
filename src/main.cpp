@@ -1,5 +1,4 @@
 #include "application.h"
-#include "cubeScene.h"
 #include "modelScene.h"
 
 int main() {
