@@ -14,7 +14,7 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vecto
 }
 
 
-void Mesh::draw(Shader& shader, const glm::mat4& model, const glm::mat3& inverseModel) {
+void Mesh::draw(Shader& shader) {
     shader.uploadVec3("material.diffuse", diffuse);
     shader.uploadVec3("material.specular", specular);
     shader.uploadFloat("material.shininess", shininess);
@@ -42,8 +42,6 @@ void Mesh::draw(Shader& shader, const glm::mat4& model, const glm::mat3& inverse
         }
     }
 
-    shader.uploadMat4("uModel", model);
-    shader.uploadMat3("uInverseModel", inverseModel);
 
     Renderer::draw(*vao, *ibo, shader);
 }

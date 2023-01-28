@@ -14,7 +14,7 @@ public:
     std::vector<Texture> textures;
 
     Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<Texture> textures);
-    void draw(Shader& shader, const glm::mat4& model, const glm::mat3& inverseModel);
+    void draw(Shader& shader);
 
     void setDiffuse(const glm::vec3& diff) { diffuse = diff; }
     void setSpecular(const glm::vec3& spec) { specular = spec; }

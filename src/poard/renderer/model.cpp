@@ -22,8 +22,11 @@ Model::Model(std::string path) {
 
 void Model::draw(Shader& shader, const glm::mat4& model) {
     glm::mat3 inverseModel = glm::mat3(glm::transpose(glm::inverse(model)));
+    shader.uploadMat4("uModel", model);
+    shader.uploadMat3("uInverseModel", inverseModel);
+
     for (uint32_t i = 0; i < meshes.size(); i++) {
-        meshes[i].draw(shader, model, inverseModel);
+        meshes[i].draw(shader);
     }
 }
 
