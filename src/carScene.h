@@ -1,5 +1,6 @@
 #pragma once
 #include "poard.h"
+#include "car.h"
 
 class CarScene : public Scene
 {
@@ -10,6 +11,7 @@ public:
     void draw() override;
     void gui() override;
 private:
+    Car car;
     std::unique_ptr<Model> ground;
     std::unique_ptr<Cubemap> skybox;
     std::unique_ptr<Shader> modelShader;
@@ -17,15 +19,6 @@ private:
     std::vector<PointLight> pointLights;
     std::vector<SpotLight> spotLights;
 
-    std::unique_ptr<Model> car;
-    std::unique_ptr<Model> leftWheel;
-    std::unique_ptr<Model> rightWheel;
-    float steeringAngle = 0.0f;
-
-    float carAngle = 0.0f;
-
-    glm::vec3 flWheelPos = glm::vec3(-2.05f, 0.5f, 1.1f);
-    glm::vec3 frWheelPos = glm::vec3(-2.05f, 0.5f, -1.1f);
-    glm::vec3 blWheelPos = glm::vec3(1.75f, 0.5f, 1.1f);
-    glm::vec3 brWheelPos = glm::vec3(1.75f, 0.5f, -1.1f);
+    Camera freeCam = Camera(glm::vec3(0.0f, 2.0f, 0.0f));
+    Camera carCam = Camera(glm::vec3(0.0f, 0.0f, 0.0f), 70.0f);
 };

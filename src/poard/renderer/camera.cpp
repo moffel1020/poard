@@ -53,9 +53,9 @@ void Camera::move(Direction dir, float distance) {
 }
 
 void Camera::setPosition(float x, float y, float z) {
-    position.x += x;
-    position.y += y;
-    position.z += z;
+    position.x = x;
+    position.y = y;
+    position.z = z;
 }
 
 void Camera::update() {

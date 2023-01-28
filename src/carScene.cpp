@@ -2,15 +2,11 @@
 
 
 void CarScene::start() {
-    Camera* cam = new Camera(glm::vec3(0.0f, 0.0f, 0.0f), 70.0f);
-    setActiveCam(cam);
+    setActiveCam(&carCam);
 
     this->modelShader = std::make_unique<Shader>("./res/shader/phong.vert", "./res/shader/phong.frag");
     this->skyShader = std::make_unique<Shader>("./res/shader/skybox.vert", "./res/shader/skybox.frag");
 
-    this->car = std::make_unique<Model>("./res/models/car/hull.obj");
-    this->rightWheel = std::make_unique<Model>("./res/models/car/wheel_r.obj");
-    this->leftWheel = std::make_unique<Model>("./res/models/car/wheel_l.obj");
     this->ground = std::make_unique<Model>("./res/models/ground/ground.obj");
 
     this->skybox = std::make_unique<Cubemap>("./res/texture/skybox/");
@@ -18,29 +14,46 @@ void CarScene::start() {
 
 
 void CarScene::update(float dt) {
-    const float speed = 4.0f;
-    const float sensitivity = 0.1f;
+    // if (activeCam == &freeCam) {
+    //     const static float speed = 4.0f;
+    //     const static float sensitivity = 0.1f;
 
-    if (Input::isKeyDown(GLFW_KEY_W))
-        activeCam->move(FORWARD, speed * dt);
-    if (Input::isKeyDown(GLFW_KEY_S))
-        activeCam->move(BACKWARD, speed * dt);
-    if (Input::isKeyDown(GLFW_KEY_D))
-        activeCam->move(RIGHT, speed * dt);
-    if (Input::isKeyDown(GLFW_KEY_A))
-        activeCam->move(LEFT, speed * dt);
-    if (Input::isKeyDown(GLFW_KEY_SPACE))
-        activeCam->move(UP, speed * dt);
-    if (Input::isKeyDown(GLFW_KEY_LEFT_SHIFT))
-        activeCam->move(DOWN, speed * dt);
+    //     if (Input::isKeyDown(GLFW_KEY_W))
+    //         activeCam->move(FORWARD, speed * dt);
+    //     if (Input::isKeyDown(GLFW_KEY_S))
+    //         activeCam->move(BACKWARD, speed * dt);
+    //     if (Input::isKeyDown(GLFW_KEY_D))
+    //         activeCam->move(RIGHT, speed * dt);
+    //     if (Input::isKeyDown(GLFW_KEY_A))
+    //         activeCam->move(LEFT, speed * dt);
+    //     if (Input::isKeyDown(GLFW_KEY_SPACE))
+    //         activeCam->move(UP, speed * dt);
+    //     if (Input::isKeyDown(GLFW_KEY_LEFT_SHIFT))
+    //         activeCam->move(DOWN, speed * dt);
 
-    if (Application::get().getWindow()->getLockCursor())
-        activeCam->rotate(Input::getMouseXMovement() * sensitivity, -Input::getMouseYMovement() * sensitivity);
+    //     if (Application::get().getWindow()->getLockCursor())
+    //         activeCam->rotate(Input::getMouseXMovement() * sensitivity, -Input::getMouseYMovement() * sensitivity);
+    // }
+    double time = glfwGetTime();
+    car.update(dt);
+    double timeDiff = glfwGetTime() - time;
+    std::cout << timeDiff << " " << 1/timeDiff << std::endl;
 }
 
 
 void CarScene::draw() {
     activeCam->update();
+
+    if (activeCam == &carCam) {
+        const static float sensitivity = 0.1f;
+
+        if (Application::get().getWindow()->getLockCursor())
+            activeCam->rotate(Input::getMouseXMovement() * sensitivity, -Input::getMouseYMovement() * sensitivity);
+
+        glm::vec3 pos = car.getPosition();
+        pos -= activeCam->getDirection() * 5.0f;
+        activeCam->setPosition(pos.x, pos.y, pos.z);
+    }
 
     modelShader->bind();
     modelShader->uploadMat4("uProjection", activeCam->getProjMatrix());
@@ -61,32 +74,8 @@ void CarScene::draw() {
         spotLights[i].upload(*modelShader, i);
 
 
-    glm::mat4 carTransform(1.0f);
-    carTransform = glm::scale(carTransform, glm::vec3(0.7196245f)); // convert from model size to metres
-    carTransform = glm::rotate(carTransform, glm::radians(carAngle), glm::vec3(0.0f, 1.0f, 0.0f));
-    car->draw(*modelShader, carTransform);
-
+    car.draw(*modelShader);
     ground->draw(*modelShader);
-
-    float wheelRot = 2.0f * glm::pi<float>() * sin(glfwGetTime());
-    glm::mat4 wheelTransform = glm::translate(carTransform, flWheelPos);
-    wheelTransform = glm::rotate(wheelTransform, glm::radians(steeringAngle), glm::vec3(0.0f, 1.0f, 0.0f));
-    wheelTransform = glm::rotate(wheelTransform, wheelRot, glm::vec3(0.0f, 0.0f, 1.0f));
-    leftWheel->draw(*modelShader, wheelTransform);
-
-    wheelTransform = glm::translate(carTransform, frWheelPos);
-    wheelTransform = glm::rotate(wheelTransform, glm::radians(steeringAngle), glm::vec3(0.0f, 1.0f, 0.0f));
-    wheelTransform = glm::rotate(wheelTransform, wheelRot, glm::vec3(0.0f, 0.0f, 1.0f));
-    rightWheel->draw(*modelShader, wheelTransform);
-
-    wheelTransform = glm::translate(carTransform, blWheelPos);
-    wheelTransform = glm::rotate(wheelTransform, wheelRot, glm::vec3(0.0f, 0.0f, 1.0f));
-    leftWheel->draw(*modelShader, wheelTransform);
-
-    wheelTransform = glm::translate(carTransform, brWheelPos);
-    wheelTransform = glm::rotate(wheelTransform, wheelRot, glm::vec3(0.0f, 0.0f, 1.0f));
-    rightWheel->draw(*modelShader, wheelTransform);
-
     skybox->draw(*skyShader);
 }
 
@@ -98,10 +87,5 @@ void CarScene::gui() {
         ImGui::End();
     }
 
-    {
-        ImGui::Begin("car");
-        ImGui::SliderFloat("steering angle:", &steeringAngle, -90.0f, 90.0f);
-        ImGui::SliderFloat("car angle:", &carAngle, 0.0f, 360.0f);
-        ImGui::End();
-    }
+    car.gui();
 }
