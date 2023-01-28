@@ -20,5 +20,5 @@ private:
     std::vector<SpotLight> spotLights;
 
     Camera freeCam = Camera(glm::vec3(0.0f, 2.0f, 0.0f));
-    Camera carCam = Camera(glm::vec3(0.0f, 0.0f, 0.0f), 70.0f);
+    Camera carCam = Camera(glm::vec3(0.0f, 0.0f, 0.0f), 80.0f);
 };

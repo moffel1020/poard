@@ -18,7 +18,7 @@ public:
     void setScene(const std::string& name);
     Scene* getActiveScene() { return scenes[activeScene]; }
 
-    float getDeltaTime() { return deltaTime; }
+    float getFrameTime() { return frameTime; }
     Window* getWindow() { return window; }
     static Application& get() { return *instance; }
 private:
@@ -26,5 +26,8 @@ private:
     static Application* instance;
     std::string activeScene;
     std::unordered_map<std::string, Scene*> scenes;
-    float deltaTime;
+
+    float frameTime = 0.0f;
+    float accum = 0.0f;
+    float fixedDeltaTime = 0.001f;
 };

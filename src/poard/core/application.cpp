@@ -31,10 +31,15 @@ void Application::run() {
     while (!glfwWindowShouldClose(window->getNativeWindow())) {
         Renderer::clear();
 
-        deltaTime = glfwGetTime() - lastTime;
+        frameTime = glfwGetTime() - lastTime;
         lastTime = glfwGetTime();
 
-        scenes[activeScene]->update(deltaTime);
+        accum += frameTime;
+        while (accum >= fixedDeltaTime) {
+            scenes[activeScene]->update(fixedDeltaTime);
+            accum -= fixedDeltaTime;
+        }
+
         scenes[activeScene]->draw();
 
         gui.begin();

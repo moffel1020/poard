@@ -34,16 +34,11 @@ void CarScene::update(float dt) {
     //     if (Application::get().getWindow()->getLockCursor())
     //         activeCam->rotate(Input::getMouseXMovement() * sensitivity, -Input::getMouseYMovement() * sensitivity);
     // }
-    double time = glfwGetTime();
     car.update(dt);
-    double timeDiff = glfwGetTime() - time;
-    std::cout << timeDiff << " " << 1/timeDiff << std::endl;
 }
 
 
 void CarScene::draw() {
-    activeCam->update();
-
     if (activeCam == &carCam) {
         const static float sensitivity = 0.1f;
 
@@ -54,6 +49,8 @@ void CarScene::draw() {
         pos -= activeCam->getDirection() * 5.0f;
         activeCam->setPosition(pos.x, pos.y, pos.z);
     }
+
+    activeCam->update();
 
     modelShader->bind();
     modelShader->uploadMat4("uProjection", activeCam->getProjMatrix());
