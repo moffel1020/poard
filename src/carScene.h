@@ -22,8 +22,10 @@ private:
     std::unique_ptr<Model> rightWheel;
     float steeringAngle = 0.0f;
 
-    glm::vec3 blWheelPos = glm::vec3(2.0f, 0.5f, 1.1f);
-    glm::vec3 flWheelPos = glm::vec3(-1.788f, 0.5f, 1.1f);
-    glm::vec3 brWheelPos = glm::vec3(2.0f, 0.5f, -1.1f);
-    glm::vec3 frWheelPos = glm::vec3(-1.788f, 0.5f, -1.1f);
+    float carAngle = 0.0f;
+
+    glm::vec3 flWheelPos = glm::vec3(-2.05f, 0.5f, 1.1f);
+    glm::vec3 frWheelPos = glm::vec3(-2.05f, 0.5f, -1.1f);
+    glm::vec3 blWheelPos = glm::vec3(1.75f, 0.5f, 1.1f);
+    glm::vec3 brWheelPos = glm::vec3(1.75f, 0.5f, -1.1f);
 };

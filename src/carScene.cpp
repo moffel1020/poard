@@ -61,13 +61,14 @@ void CarScene::draw() {
         spotLights[i].upload(*modelShader, i);
 
 
-    float wheelRot = 2.0f * glm::pi<float>() * sin(glfwGetTime());
     glm::mat4 carTransform(1.0f);
     carTransform = glm::scale(carTransform, glm::vec3(0.7196245f)); // convert from model size to metres
+    carTransform = glm::rotate(carTransform, glm::radians(carAngle), glm::vec3(0.0f, 1.0f, 0.0f));
     car->draw(*modelShader, carTransform);
 
     ground->draw(*modelShader);
 
+    float wheelRot = 2.0f * glm::pi<float>() * sin(glfwGetTime());
     glm::mat4 wheelTransform = glm::translate(carTransform, flWheelPos);
     wheelTransform = glm::rotate(wheelTransform, glm::radians(steeringAngle), glm::vec3(0.0f, 1.0f, 0.0f));
     wheelTransform = glm::rotate(wheelTransform, wheelRot, glm::vec3(0.0f, 0.0f, 1.0f));
@@ -99,7 +100,8 @@ void CarScene::gui() {
 
     {
         ImGui::Begin("car");
-        ImGui::SliderFloat("Steering angle:", &steeringAngle, -90.0f, 90.0f);
+        ImGui::SliderFloat("steering angle:", &steeringAngle, -90.0f, 90.0f);
+        ImGui::SliderFloat("car angle:", &carAngle, 0.0f, 360.0f);
         ImGui::End();
     }
 }
