@@ -16,6 +16,7 @@ set(CMAKE_CXX_FLAGS "-static")
 set(CMAKE_CXX_FLAGS "-std=c++17")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+set(CMAKE_CXX_FLAGS "-Wno-dev")
 set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 
 if(UNIX)
