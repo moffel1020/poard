@@ -30,12 +30,4 @@ private:
     std::unique_ptr<Wheel> wheel_fr;
     std::unique_ptr<Wheel> wheel_bl;
     std::unique_ptr<Wheel> wheel_br;
-
-    std::unique_ptr<Model> leftWheelModel;
-    std::unique_ptr<Model> rightWheelModel;
-
-    glm::vec3 flWheelPos = glm::vec3(-2.05f, 0.5f, 1.1f);
-    glm::vec3 frWheelPos = glm::vec3(-2.05f, 0.5f, -1.1f);
-    glm::vec3 blWheelPos = glm::vec3(1.75f, 0.5f, 1.1f);
-    glm::vec3 brWheelPos = glm::vec3(1.75f, 0.5f, -1.1f);
 };
