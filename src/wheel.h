@@ -11,8 +11,6 @@ public:
     float getSteeringAngle() { return steeringAngle; }
 
 private:
-    float angulerVel = 0.0f; // rad/s
-    float radius; // m
     float steeringAngle = 0.0f; // degrees
 
     std::unique_ptr<Model> wheelModel;

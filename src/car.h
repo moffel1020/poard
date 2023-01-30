@@ -14,15 +14,17 @@ public:
     glm::vec3& getPosition() { return pos; }
     glm::vec3& getVelocity() { return vel; }
 private:
+    // in world reference
     glm::vec3 pos = glm::vec3(0.0);    // m
     glm::vec3 vel = glm::vec3(0.0);    // m/s
     glm::vec3 accel = glm::vec3(0.0);  // m/s^2
 
+    // car reference 
+    glm::vec3 velCar = glm::vec3(0.0f); // m/s
+
     float yaw = 0.0f;                   // degrees
-    float angularVel = 0.0f;            // rad/s
     float mass = 1632.933f;             // kg
     float steeringAngle = 0.0f;         // degrees
-    float wheelRadius = 0.0f;           // m
 
     std::unique_ptr<Model> hullModel;
     

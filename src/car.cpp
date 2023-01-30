@@ -1,4 +1,5 @@
 #include "car.h"
+#include "imgui/imgui.h"
 
 
 Car::Car() {
@@ -18,7 +19,8 @@ Car::Car() {
 void Car::draw(Shader& shader) {
     glm::mat4 carTransform(1.0f);
     carTransform = glm::translate(carTransform, pos);
-    carTransform = glm::scale(carTransform, glm::vec3(0.7196245f)); // convert from model size to metres
+    carTransform = glm::rotate(carTransform, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));    // car model is flipped, so we flip it back to point in the +x axis
+    carTransform = glm::scale(carTransform, glm::vec3(0.7196245f));     // convert from model size to metres
     carTransform = glm::rotate(carTransform, glm::radians(yaw), glm::vec3(0.0f, 1.0f, 0.0f));
     hullModel->draw(shader, carTransform);
 
@@ -33,7 +35,10 @@ void Car::update(float dt) {
     wheel_fr->setSteeringAngle(steeringAngle);
     wheel_fl->setSteeringAngle(steeringAngle);
 
-    accel = glm::vec3(-1.0f, 0.0f, 0.0f);
+    velCar.x = cos(glm::radians(-yaw)) * vel.x + sin(glm::radians(-yaw)) * vel.z;
+    velCar.z = cos(glm::radians(-yaw)) * vel.z - sin(glm::radians(-yaw)) * vel.x;
+
+    accel = glm::vec3(1.0f, 0.0f, 0.0f);
     vel += dt * accel;
     pos += dt * vel;
 }
@@ -41,9 +46,12 @@ void Car::update(float dt) {
 
 void Car::gui() {
     ImGui::Begin("car");
-    ImGui::Text("accel:  %.2f %.2f %.2f ", accel.x, accel.y, accel.z);
-    ImGui::Text("vel:  %.2f %.2f %.2f ", vel.x, vel.y, vel.z);
-    ImGui::Text("pos:  %.2f %.2f %.2f ", pos.x, pos.y, pos.z);
-    ImGui::SliderFloat("steering angle:", &steeringAngle, -90.0f, 90.0f);
+    ImGui::Text("accel =  %.2f %.2f %.2f ", accel.x, accel.y, accel.z);
+    ImGui::Text("vel =  %.2f %.2f %.2f ", vel.x, vel.y, vel.z);
+    ImGui::Text("pos =  %.2f %.2f %.2f ", pos.x, pos.y, pos.z);
+    ImGui::NewLine();
+    ImGui::Text("localVel = %.2f %.2f", velCar.x, velCar.z);
+    ImGui::SliderFloat("steering", &steeringAngle, -90.0f, 90.0f);
+    ImGui::SliderFloat("yaw", &yaw, 0.0f, 360.0f);
     ImGui::End();
 }
