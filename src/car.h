@@ -1,5 +1,6 @@
 #pragma once
 #include "poard.h"
+#include "wheel.h"
 
 class Car
 {
@@ -17,13 +18,19 @@ private:
     glm::vec3 vel = glm::vec3(0.0);    // m/s
     glm::vec3 accel = glm::vec3(0.0);  // m/s^2
 
-    float yaw = -45.0f;                   // degrees
+    float yaw = 0.0f;                   // degrees
     float angularVel = 0.0f;            // rad/s
     float mass = 1632.933f;             // kg
     float steeringAngle = 0.0f;         // degrees
     float wheelRadius = 0.0f;           // m
 
     std::unique_ptr<Model> hullModel;
+    
+    std::unique_ptr<Wheel> wheel_fl;
+    std::unique_ptr<Wheel> wheel_fr;
+    std::unique_ptr<Wheel> wheel_bl;
+    std::unique_ptr<Wheel> wheel_br;
+
     std::unique_ptr<Model> leftWheelModel;
     std::unique_ptr<Model> rightWheelModel;
 

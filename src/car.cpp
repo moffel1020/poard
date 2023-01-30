@@ -3,10 +3,17 @@
 
 Car::Car() {
     this->hullModel= std::make_unique<Model>("./res/models/car/hull.obj");
-    this->rightWheelModel= std::make_unique<Model>("./res/models/car/wheel_r.obj");
-    this->leftWheelModel= std::make_unique<Model>("./res/models/car/wheel_l.obj");
-}
 
+    glm::vec3 flWheelPos = glm::vec3(-2.05f, 0.5f, 1.1f);
+    glm::vec3 frWheelPos = glm::vec3(-2.05f, 0.5f, -1.1f);
+    glm::vec3 blWheelPos = glm::vec3(1.75f, 0.5f, 1.1f);
+    glm::vec3 brWheelPos = glm::vec3(1.75f, 0.5f, -1.1f);
+
+    this->wheel_fl = std::make_unique<Wheel>("./res/models/car/wheel_l.obj", flWheelPos);
+    this->wheel_fr = std::make_unique<Wheel>("./res/models/car/wheel_r.obj", frWheelPos);
+    this->wheel_bl = std::make_unique<Wheel>("./res/models/car/wheel_l.obj", blWheelPos);
+    this->wheel_br = std::make_unique<Wheel>("./res/models/car/wheel_r.obj", brWheelPos);
+}
 
 void Car::draw(Shader& shader) {
     glm::mat4 carTransform(1.0f);
@@ -15,25 +22,18 @@ void Car::draw(Shader& shader) {
     carTransform = glm::rotate(carTransform, glm::radians(yaw), glm::vec3(0.0f, 1.0f, 0.0f));
     hullModel->draw(shader, carTransform);
 
-
-    glm::mat4 wheelTransform = glm::translate(carTransform, flWheelPos);
-    wheelTransform = glm::rotate(wheelTransform, glm::radians(steeringAngle), glm::vec3(0.0f, 1.0f, 0.0f));
-    leftWheelModel->draw(shader, wheelTransform);
-
-    wheelTransform = glm::translate(carTransform, frWheelPos);
-    wheelTransform = glm::rotate(wheelTransform, glm::radians(steeringAngle), glm::vec3(0.0f, 1.0f, 0.0f));
-    rightWheelModel->draw(shader, wheelTransform);
-
-    wheelTransform = glm::translate(carTransform, blWheelPos);
-    leftWheelModel->draw(shader, wheelTransform);
-
-    wheelTransform = glm::translate(carTransform, brWheelPos);
-    rightWheelModel->draw(shader, wheelTransform);
+    wheel_fr->draw(shader, carTransform);
+    wheel_fl->draw(shader, carTransform);
+    wheel_br->draw(shader, carTransform);
+    wheel_bl->draw(shader, carTransform);
 }
 
 
 void Car::update(float dt) {
-    accel = glm::vec3(-1.0f, 0.0f, -1.0f);
+    wheel_fr->setSteeringAngle(steeringAngle);
+    wheel_fl->setSteeringAngle(steeringAngle);
+
+    accel = glm::vec3(-1.0f, 0.0f, 0.0f);
     vel += dt * accel;
     pos += dt * vel;
 }
@@ -45,6 +45,5 @@ void Car::gui() {
     ImGui::Text("vel:  %.2f %.2f %.2f ", vel.x, vel.y, vel.z);
     ImGui::Text("pos:  %.2f %.2f %.2f ", pos.x, pos.y, pos.z);
     ImGui::SliderFloat("steering angle:", &steeringAngle, -90.0f, 90.0f);
-    // ImGui::SliderFloat("car angle:", &yaw, 0.0f, 360.0f);
     ImGui::End();
 }
