@@ -34,10 +34,10 @@ private:
     float steeringAngle = 0.0f;         // degrees
 
     float dragConstant = 0.4257f;
-    float rollConstant = 0.12f * mass * 9.81;
+    float rollConstant = 0.012f * mass * 9.81f;
 
     uint32_t selectedGear = 0;
-    bool automaticTransmission = false;
+    bool automaticTransmission = true;
 
     const float finalRatio = 3.46f;
     const float gearRatios[7] = {

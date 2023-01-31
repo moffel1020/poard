@@ -48,12 +48,13 @@ void Car::update(float dt) {
 
     float wheelAngularVel = velCar.x / wheel_bl->getRadius();   // only works if there is no slip
     engineRpm = (wheelAngularVel * gearRatios[selectedGear] * finalRatio * 60) / (2 *  PI);
-    if (engineRpm < 1000.0f) engineRpm = 1100.0f;
+    if (engineRpm < 1000.0f) engineRpm = 1000.0f;
+    if (engineRpm > 7500.0f) engineRpm = 7500.0f;
 
     if (automaticTransmission) {
-        if (engineRpm > 7500.0f && selectedGear < 5) {
+        if (engineRpm >= 7500.0f && selectedGear < 5) {
             selectedGear++;
-        } else if (engineRpm < 1200.0f && selectedGear > 0) {
+        } else if (engineRpm <= 1200.0f && selectedGear > 0) {
             selectedGear--;
         }
     }
@@ -62,12 +63,12 @@ void Car::update(float dt) {
 
     float gasInput = Input::isKeyDown(GLFW_KEY_W) ? 1.0f : 0.0f;
     float wheelTorque = engineTorque * gearRatios[selectedGear] * finalRatio * gasInput;
-    glm::vec3 fTraction(0.0f);
-    fTraction.x = wheelTorque / wheel_bl->getRadius();
 
+    glm::vec3 fTraction(0.0f);
+    fTraction.x = wheelTorque / wheel_bl->getRadius() * gasInput;;
     glm::vec3 fDrag = glm::length(velCar) * velCar * -dragConstant;
-    glm::vec3 fRoll = -rollConstant * velCar; 
-    
+    glm::vec3 fRoll = velCar * -rollConstant; 
+
     glm::vec3 fTotal = fTraction + fDrag + fRoll;
 
     accelCar = fTotal / mass;
@@ -112,11 +113,6 @@ void Car::gui() {
     ImGui::Begin("engine");
     ImGui::Text("rpm = %.0f", engineRpm);
     ImGui::Text("gear = %u", selectedGear + 1);
-    if (ImGui::Button("gear up"))
-        selectedGear++;
-
-    if (ImGui::Button("gear down"))
-        selectedGear--;
 
     ImGui::End();
 }
