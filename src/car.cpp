@@ -5,7 +5,7 @@
 
 
 float lerp(float min, float max, float t) {
-    return (min + max) / t;
+    return min + (max - min) * t;
 }
 
 
@@ -47,7 +47,7 @@ void Car::update(float dt) {
     velCar.z = cos(glm::radians(-yaw)) * vel.z - sin(glm::radians(-yaw)) * vel.x;
 
     float wheelAngularVel = velCar.x / wheel_bl->getRadius();   // only works if there is no slip
-    engineRpm = (wheelAngularVel * gearRatios[selectedGear] * gearRatios[0] * 60) / (2 *  PI);
+    engineRpm = (wheelAngularVel * gearRatios[selectedGear] * finalRatio * 60) / (2 *  PI);
     if (engineRpm < 1000.0f) engineRpm = 1100.0f;
 
     if (automaticTransmission) {
@@ -61,16 +61,14 @@ void Car::update(float dt) {
     float engineTorque = lookupTorque(engineRpm);
 
     float gasInput = Input::isKeyDown(GLFW_KEY_W) ? 1.0f : 0.0f;
-    float wheelTorque = engineTorque * gearRatios[selectedGear] * gearRatios[0] * gasInput;
+    float wheelTorque = engineTorque * gearRatios[selectedGear] * finalRatio * gasInput;
     glm::vec3 fTraction(0.0f);
     fTraction.x = wheelTorque / wheel_bl->getRadius();
-    //std::cout << fTraction.x << std::endl;
 
     glm::vec3 fDrag = glm::length(velCar) * velCar * -dragConstant;
     glm::vec3 fRoll = -rollConstant * velCar; 
     
     glm::vec3 fTotal = fTraction + fDrag + fRoll;
-    std::cout << fTotal.x << std::endl;
 
     accelCar = fTotal / mass;
 
@@ -107,7 +105,7 @@ void Car::gui() {
     ImGui::Text("pos =  %.2f %.2f %.2f ", pos.x, pos.y, pos.z);
     ImGui::NewLine();
     ImGui::Text("localAccel = %.2f %.2f", accelCar.x, accelCar.z);
-    ImGui::Text("localVel = %.2f %.2f", velCar.x * 3.6f, velCar.z *3.6f);
+    ImGui::Text("localVel = %.2f %.2f", velCar.x, velCar.z);
     ImGui::SliderFloat("steering", &steeringAngle, -90.0f, 90.0f);
     ImGui::End();
 
