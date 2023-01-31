@@ -47,6 +47,16 @@ void Car::update(float dt) {
     velCar.z = cos(glm::radians(-yaw)) * vel.z - sin(glm::radians(-yaw)) * vel.x;
 
     float wheelAngularVel = velCar.x / wheel_bl->getRadius();   // only works if there is no slip
+    wheel_bl->setAngularVel(wheelAngularVel);
+    wheel_fl->setAngularVel(wheelAngularVel);
+    wheel_br->setAngularVel(wheelAngularVel);
+    wheel_fr->setAngularVel(wheelAngularVel);
+
+    wheel_bl->update(dt);
+    wheel_fl->update(dt);
+    wheel_br->update(dt);
+    wheel_fr->update(dt);
+
     engineRpm = (wheelAngularVel * gearRatios[selectedGear] * finalRatio * 60) / (2 *  PI);
     if (engineRpm < 1000.0f) engineRpm = 1000.0f;
     if (engineRpm > 7500.0f) engineRpm = 7500.0f;

@@ -6,11 +6,14 @@ Wheel::Wheel(const std::string& modelPath, const glm::vec3& position)
 }
 
 
-void Wheel::draw(Shader& shader, const glm::mat4& baseTransform) {
-    glm::mat4 wheelTransform = glm::translate(baseTransform, position);
-    wheelTransform = glm::rotate(wheelTransform, glm::radians(steeringAngle), glm::vec3(0.0f, 1.0f, 0.0f));
-    wheelModel->draw(shader, wheelTransform);
+void Wheel::update(float dt) {
+    rot += angularVel * dt;
 }
 
 
-void Wheel::update(float dt) { }
+void Wheel::draw(Shader& shader, const glm::mat4& baseTransform) {
+    glm::mat4 wheelTransform = glm::translate(baseTransform, position);
+    wheelTransform = glm::rotate(wheelTransform, glm::radians(steeringAngle), glm::vec3(0.0f, 1.0f, 0.0f));
+    wheelTransform = glm::rotate(wheelTransform, rot, glm::vec3(0.0f, 0.0f, 1.0f));
+    wheelModel->draw(shader, wheelTransform);
+}
