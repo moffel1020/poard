@@ -1,5 +1,5 @@
 # Blender MTL File: 'hull.blend'
-# Material Count: 16
+# Material Count: 15
 
 newmtl BlackPlastic
 Ns 46.438990
@@ -150,13 +150,3 @@ Ke 2.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-
-newmtl interiorRoof
-Ns 10.000005
-Ka 1.000000 1.000000 1.000000
-Kd 0.145000 0.145000 0.145000
-Ks 0.000000 0.000000 0.000000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 1
