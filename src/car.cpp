@@ -9,7 +9,8 @@ float lerp(float min, float max, float t) {
 }
 
 
-Car::Car() {
+Car::Car(const CarData& carData) {
+    this->data = carData;
     this->hullModel= std::make_unique<Model>("./res/models/car/hull.obj");
 
     glm::vec3 flWheelPos = glm::vec3(-2.05f, 0.5f, 1.1f);
@@ -57,11 +58,11 @@ void Car::update(float dt) {
     wheel_br->update(dt);
     wheel_fr->update(dt);
 
-    engineRpm = (wheelAngularVel * gearRatios[selectedGear] * finalRatio * 60) / (2 *  PI);
+    engineRpm = (wheelAngularVel * data.gearRatios[selectedGear] * data.finalRatio * 60) / (2 *  PI);
     if (engineRpm < 1000.0f) engineRpm = 1000.0f;
     if (engineRpm > 7500.0f) engineRpm = 7500.0f;
 
-    if (automaticTransmission) {
+    if (data.automaticTransmission) {
         if (engineRpm >= 7500.0f && selectedGear < 5) {
             selectedGear++;
         } else if (engineRpm <= 1200.0f && selectedGear > 0) {
@@ -72,16 +73,16 @@ void Car::update(float dt) {
     float engineTorque = lookupTorque(engineRpm);
 
     float gasInput = Input::isKeyDown(GLFW_KEY_W) ? 1.0f : 0.0f;
-    float wheelTorque = engineTorque * gearRatios[selectedGear] * finalRatio * gasInput;
+    float wheelTorque = engineTorque * data.gearRatios[selectedGear] * data.finalRatio * gasInput;
 
     glm::vec3 fTraction(0.0f);
     fTraction.x = wheelTorque / wheel_bl->getRadius() * gasInput;;
-    glm::vec3 fDrag = glm::length(velCar) * velCar * -dragConstant;
-    glm::vec3 fRoll = velCar * -rollConstant; 
+    glm::vec3 fDrag = glm::length(velCar) * velCar * -data.dragConstant;
+    glm::vec3 fRoll = velCar * -data.rollConstant; 
 
     glm::vec3 fTotal = fTraction + fDrag + fRoll;
 
-    accelCar = fTotal / mass;
+    accelCar = fTotal / data.mass;
 
     // translate back to world coords
     accel.x = cos(glm::radians(-yaw)) * accelCar.x - sin(glm::radians(-yaw)) * accelCar.z;
@@ -94,14 +95,10 @@ void Car::update(float dt) {
 
 float Car::lookupTorque(float rpm) {
     // curves from:
-    // https://www.automobile-catalog.com/curve/2021/2917385/bmw_m2_competition_6-speed.html#gsc.tab=0
-    float rpmCurve[] = { 1000.0f, 1500.0f, 2000.0f, 2500.0f, 3000.0f, 3500.0f, 4000.0f, 4500.0f, 5000.0f, 5500.0f, 6000.0f, 6500.0f, 7000.0f, 7500.0f };
-    float torqueCurve[] = { 296.0f, 443.9f, 517.9f, 551.0f, 551.0f, 551.0f, 551.0f, 551.0f, 551.0f, 524.0f, 480.6f, 443.7f, 412.0f, 346.1f };
-    
-    float torque = torqueCurve[0];
+    float torque = data.torqueCurve[0];
     for (uint32_t i = 1; i < 14; i++) {
-        if (rpm > rpmCurve[i-1] && rpm < rpmCurve[i]) {
-            torque = lerp(torqueCurve[i-1], torqueCurve[i], ((rpm - rpmCurve[i-1]) / (rpmCurve[i] - rpmCurve[i-1])));
+        if (rpm > data.rpmCurve[i-1] && rpm < data.rpmCurve[i]) {
+            torque = lerp(data.torqueCurve[i-1], data.torqueCurve[i], ((rpm - data.rpmCurve[i-1]) / (data.rpmCurve[i] - data.rpmCurve[i-1])));
         }
     }
 

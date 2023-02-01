@@ -11,14 +11,15 @@ public:
     void draw() override;
     void gui() override;
 private:
-    Car car;
+
+    std::unique_ptr<Car> car;
+    //Car car;
+    Camera carCam = Camera(glm::vec3(0.0f, 0.0f, 0.0f), 80.0f);
+
     std::unique_ptr<Model> ground;
     std::unique_ptr<Cubemap> skybox;
     std::unique_ptr<Shader> modelShader;
     std::unique_ptr<Shader> skyShader;
     std::vector<PointLight> pointLights;
     std::vector<SpotLight> spotLights;
-
-    Camera freeCam = Camera(glm::vec3(0.0f, 2.0f, 0.0f));
-    Camera carCam = Camera(glm::vec3(0.0f, 0.0f, 0.0f), 80.0f);
 };
