@@ -43,16 +43,21 @@ private:
     glm::vec3 vel = glm::vec3(0.0);    // m/s
     glm::vec3 accel = glm::vec3(0.0);  // m/s^2
 
-    // in car reference
+    // in car reference, +x is forward, +z is right
     glm::vec3 accelCar = glm::vec3(0.0f);   // m/s^2
     glm::vec3 velCar = glm::vec3(0.0f);     // m/s
 
+    float weightRear = 0.0f;
+    float weightFront = 0.0f;
     float engineRpm = 0.0f;
+
     float steeringAngle = 0.0f;         // degrees
+    float angularAccel = 0.0f;          // rad/s^2
+    float angularVel = 0.0f;            // rad/s
     float yaw = 0.0f;                   // degrees
-    uint32_t selectedGear = 0;
 
     CarData data;
+    uint32_t selectedGear = 0;
 
     std::unique_ptr<Model> hullModel;
     std::unique_ptr<Wheel> wheel_fl;

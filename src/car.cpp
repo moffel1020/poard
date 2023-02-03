@@ -1,5 +1,4 @@
 #include "car.h"
-#include "imgui/imgui.h"
 
 #define PI 3.14159265358979323846
 
@@ -47,33 +46,47 @@ void Car::update(float dt) {
     velCar.x = cos(glm::radians(-yaw)) * vel.x + sin(glm::radians(-yaw)) * vel.z;
     velCar.z = cos(glm::radians(-yaw)) * vel.z - sin(glm::radians(-yaw)) * vel.x;
 
-    float wheelAngularVel = velCar.x / wheel_bl->getRadius();   // only works if there is no slip
+    // calculate weight on tires
+    float weightTotal = data.mass * 9.81f;
+    float wRear = data.weightDistribution * weightTotal;
+    float wFront = (1 - data.weightDistribution) * weightTotal;
+    weightRear = wRear + (0.6f * data.height / data.wheelBase) * data.mass * accelCar.x;
+    weightFront = wFront - (0.6f * data.height / data.wheelBase) * data.mass * accelCar.x;
+    wheel_bl->setWeight(weightRear);
+    wheel_br->setWeight(weightRear);
+    wheel_fl->setWeight(weightFront);
+    wheel_fr->setWeight(weightFront);
+
+    // set wheel angular velocity (only works if rolling along the ground)
+    float wheelAngularVel = velCar.x / wheel_bl->getRadius();
     wheel_bl->setAngularVel(wheelAngularVel);
     wheel_fl->setAngularVel(wheelAngularVel);
     wheel_br->setAngularVel(wheelAngularVel);
     wheel_fr->setAngularVel(wheelAngularVel);
 
+    // update wheels
     wheel_bl->update(dt);
     wheel_fl->update(dt);
     wheel_br->update(dt);
     wheel_fr->update(dt);
 
+    // calculate engine rpm and clamp it to the redline
     engineRpm = (wheelAngularVel * data.gearRatios[selectedGear] * data.finalRatio * 60) / (2 *  PI);
     if (engineRpm < 1000.0f) engineRpm = 1000.0f;
     if (engineRpm > 7500.0f) engineRpm = 7500.0f;
 
     if (data.automaticTransmission) {
-        if (engineRpm >= 7500.0f && selectedGear < 5) {
+        if (engineRpm >= 6100.0f && selectedGear < 5) {
             selectedGear++;
         } else if (engineRpm <= 1200.0f && selectedGear > 0) {
             selectedGear--;
         }
     }
 
-    float engineTorque = lookupTorque(engineRpm);
+    float engineTorque = lookupTorque(engineRpm);   // get torque at specific rpm value
 
     float gasInput = Input::isKeyDown(GLFW_KEY_W) ? 1.0f : 0.0f;
-    float wheelTorque = engineTorque * data.gearRatios[selectedGear] * data.finalRatio * gasInput;
+    float wheelTorque = engineTorque * data.gearRatios[selectedGear] * data.finalRatio * gasInput;  // calculate torque on wheels based on engine torque
 
     glm::vec3 fTraction(0.0f);
     fTraction.x = wheelTorque / wheel_bl->getRadius() * gasInput;;
@@ -86,10 +99,14 @@ void Car::update(float dt) {
 
     // translate back to world coords
     accel.x = cos(glm::radians(-yaw)) * accelCar.x - sin(glm::radians(-yaw)) * accelCar.z;
-    accel.y = sin(glm::radians(-yaw)) * accelCar.x + cos(glm::radians(-yaw)) * accelCar.z;
+    accel.z = sin(glm::radians(-yaw)) * accelCar.x + cos(glm::radians(-yaw)) * accelCar.z;
 
     vel += dt * accel;
     pos += dt * vel;
+
+    // angularAccel = torque/inertia
+    angularVel += angularAccel * dt;
+    yaw += angularVel * dt;
 }
 
 
@@ -114,6 +131,8 @@ void Car::gui() {
     ImGui::NewLine();
     ImGui::Text("localAccel = %.2f %.2f", accelCar.x, accelCar.z);
     ImGui::Text("localVel = %.2f %.2f", velCar.x, velCar.z);
+    ImGui::Text("weight rear = %.2f", weightRear);
+    ImGui::Text("weight front = %.2f", weightFront);
     ImGui::SliderFloat("steering", &steeringAngle, -90.0f, 90.0f);
     ImGui::End();
 
