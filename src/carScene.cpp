@@ -5,12 +5,13 @@
 void CarScene::start() {
     CarData carData;
     carData.mass = 1632.933f;
-    carData.dragConstant = 0.4257;
+    carData.dragConstant = 2.5f;
+    carData.rollConstant = 8.0f;
     carData.length = 4.47548;
     carData.width = 1.854f;
     carData.height = 1.410f;
     carData.wheelBase = 2.693f;
-    carData.weightDistribution = 0.53f;
+    carData.weightRatio = 0.53f;
     carData.automaticTransmission = true;
     carData.finalRatio = 3.46f;
     carData.gearRatios[0] = 4.11f;

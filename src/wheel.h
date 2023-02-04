@@ -19,7 +19,6 @@ private:
     float radius = 0.4826;      // m
     float angularVel = 0.0f;    // rad/s
     float weight = 3678.0f;      // m * g, set by car
-    float slipAngle = 0.0f;     // degrees
     float steeringAngle = 0.0f; // degrees
     float rot = 0.0f;           // degrees rotation to make the tires roll
 

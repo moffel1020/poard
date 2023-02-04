@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include <math.h>
+#include <cmath>
 #include <memory>
 #include <unordered_map>
 #include <vector>
