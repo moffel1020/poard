@@ -23,7 +23,7 @@ Texture::Texture(const std::string& file, TextureType type) {
     this->type = type;
 
     std::cout << "loading texture: " << file << std::endl;
-    stbi_set_flip_vertically_on_load(true);
+    stbi_set_flip_vertically_on_load(false);
     unsigned char* imageData = stbi_load(file.c_str(), &width, &height, &comp, 0);
 
     if (!imageData) {

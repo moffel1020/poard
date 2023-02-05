@@ -64,6 +64,7 @@ private:
     glm::vec3 dragForce = glm::vec3(0.0f);
     glm::vec3 rollForce = glm::vec3(0.0f);
     glm::vec3 tractionForce = glm::vec3(0.0f);
+    glm::vec3 brakeForce = glm::vec3(0.0f);
     float lateralForce = 0.0f;
 
     glm::vec3 totalForce = glm::vec3(0.0f);

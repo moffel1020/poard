@@ -1,5 +1,4 @@
 #include "car.h"
-#include "glm/common.hpp"
 #define PI 3.14159265358979323846
 
 
@@ -20,10 +19,6 @@ float pacejka(float slipAngle) {
     float C = 1.40f;
     float D = 1.00f;
     float E = -0.20f;
-    // float B = 10;
-    // float C = 1.3;
-    // float D = 1.0f;
-    // float E = -0.97f;
 
     return D * sin(C * atan(B * x - E * (B * x - atan(B * x))));
 }
@@ -110,6 +105,8 @@ void Car::update(float dt) {
     float engineTorque = lookupTorque(engineRpm);   // get torque at specific rpm value
 
     float gasInput = Input::isKeyDown(GLFW_KEY_W) ? 1.0f : 0.0f;
+    brakeForce.x = Input::isKeyDown(GLFW_KEY_SPACE) ? -10000.0f : 0.0f;
+
     float wheelTorque = engineTorque * data.gearRatios[selectedGear] * data.finalRatio * gasInput;  // calculate torque on wheels based on engine torque
 
     slipAngleFront = atan2(velCar.z + angularVel * data.weightRatio * data.wheelBase, abs(velCar.x)) - sign(velCar.x) * glm::radians(steeringAngle);
@@ -125,7 +122,7 @@ void Car::update(float dt) {
     dragForce = glm::length(velCar) * velCar * -data.dragConstant;
     rollForce = velCar * -data.rollConstant; 
 
-    totalForce = tractionForce + dragForce + rollForce;
+    totalForce = tractionForce + dragForce + rollForce + brakeForce;
     totalForce.z += lateralForce;
 
     accelCar = totalForce / data.mass;
@@ -182,4 +179,80 @@ void Car::gui() {
     ImGui::Text("rpm = %.0f", engineRpm);
     ImGui::Text("gear = %u", selectedGear + 1);
     ImGui::End();
+
+    {
+        // extremely bad graph code pls dont look
+        ImGui::Begin("graphs");
+
+        static float startTime = glfwGetTime();
+        static uint32_t count = 10000;
+        static float timeData[1000] = {};
+
+        static float rpm[1001] = {};
+        static float rollX[1001] = {};
+        static float rollZ[1001] = {};
+        static float dragX[1001] = {};
+        static float dragZ[1001] = {};
+        static float latRear[1001] = {};
+        static float latFront[1001] = {};
+        static float tractionX[1001] = {};
+        static float slipFrontData[1001] = {};
+        static float slipRearData[1001] = {};
+
+        if (ImGui::Button("start graph")) {
+            count = 0;
+            startTime = glfwGetTime();
+        }
+
+        if (count < 10000) {
+            count++;
+            ImGui::BulletText("%d", count/10);
+            if (count % 10 == 0) {
+                timeData[count/10] = glfwGetTime() - startTime;
+                rpm[count/10] = engineRpm;
+                rollX[count/10] = rollForce.x;
+                rollX[count/10] = rollForce.z;
+                dragX[count/10] = dragForce.x;
+                dragX[count/10] = dragForce.z;
+                tractionX[count/10] = tractionForce.x;
+                slipFrontData[count/10] = slipAngleFront;
+                slipRearData[count/10] = slipAngleRear;
+                latRear[count/10] = latForceRear;
+                latFront[count/10] = latForceFront;
+            }
+        }
+
+        if (ImPlot::BeginPlot("rpm")) {
+            ImPlot::SetupAxes("time", "rpm", ImPlotAxisFlags_AutoFit, ImPlotAxisFlags_AutoFit);
+            ImPlot::PlotLine("rpm", timeData, rpm, count/10);
+            ImPlot::EndPlot();
+        }
+
+        if (ImPlot::BeginPlot("slip angles")) {
+            ImPlot::SetupAxes("time", "", ImPlotAxisFlags_AutoFit, ImPlotAxisFlags_AutoFit);
+            ImPlot::PlotLine("front", timeData, slipFrontData, count/10);
+            ImPlot::PlotLine("rear", timeData, slipRearData, count/10);
+            ImPlot::EndPlot();
+        }
+
+        if (ImPlot::BeginPlot("longtidudonal forces")) {
+            ImPlot::SetupAxes("time", "force (N)", ImPlotAxisFlags_AutoFit, ImPlotAxisFlags_AutoFit);
+            ImPlot::PlotLine("air resistance", timeData, dragX, count/10);
+            ImPlot::PlotLine("roll resistance", timeData, rollX, count/10);
+            ImPlot::PlotLine("traction", timeData, tractionX, count/10);
+            ImPlot::EndPlot();
+        }
+
+        if (ImPlot::BeginPlot("lateral forces")) {
+            ImPlot::SetupAxes("time", "force (N)", ImPlotAxisFlags_AutoFit, ImPlotAxisFlags_AutoFit);
+            ImPlot::PlotLine("air resistance", timeData, dragZ, count/10);
+            ImPlot::PlotLine("roll resistance", timeData, rollZ, count/10);
+            ImPlot::PlotLine("traction", timeData, tractionX, count/10);
+            ImPlot::PlotLine("rear wheels", timeData, latRear, count/10);
+            ImPlot::PlotLine("front wheels", timeData, latFront, count/10);
+            ImPlot::EndPlot();
+        }
+
+        ImGui::End();
+    }
 }
