@@ -56,10 +56,15 @@ private:
     float slipAngleFront = 0.0f;        // radians
     float slipAngleRear = 0.0f;         // radians
 
-    float latForceFront = 0.0f;
-    float latForceRear = 0.0f;
+    float latForceFront = 0.0f;         // N
+    float latForceRear = 0.0f;          // N
 
-    float angularTorque = 0.0f;
+    float angularTorque = 0.0f;         // N m
+
+    glm::vec3 dragForce = glm::vec3(0.0f);
+    glm::vec3 rollForce = glm::vec3(0.0f);
+    glm::vec3 tractionForce = glm::vec3(0.0f);
+    float lateralForce = 0.0f;
 
     glm::vec3 totalForce = glm::vec3(0.0f);
 

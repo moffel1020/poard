@@ -16,7 +16,7 @@ public:
     void setWeight(float w) { weight = w; }
 
 private:
-    float radius = 0.4826;      // m
+    float radius = 0.4826f;      // m
     float angularVel = 0.0f;    // rad/s
     float weight = 3678.0f;      // m * g, set by car
     float steeringAngle = 0.0f; // degrees

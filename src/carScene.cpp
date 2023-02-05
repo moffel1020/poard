@@ -5,8 +5,7 @@
 void CarScene::start() {
     CarData carData;
     carData.mass = 1632.933f;
-    carData.dragConstant = 2.5f;
-    carData.rollConstant = 8.0f;
+    carData.dragConstant = 0.5 * 0.30 * 2.52;
     carData.length = 4.47548;
     carData.width = 1.854f;
     carData.height = 1.410f;

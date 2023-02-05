@@ -1,4 +1,5 @@
 #include "car.h"
+#include "glm/common.hpp"
 #define PI 3.14159265358979323846
 
 
@@ -16,9 +17,13 @@ float sign(float val) {
 float pacejka(float slipAngle) {
     float x = -slipAngle;
     float B = 0.714f;
-    float C = 1.30f;
+    float C = 1.40f;
     float D = 1.00f;
     float E = -0.20f;
+    // float B = 10;
+    // float C = 1.3;
+    // float D = 1.0f;
+    // float E = -0.97f;
 
     return D * sin(C * atan(B * x - E * (B * x - atan(B * x))));
 }
@@ -111,17 +116,17 @@ void Car::update(float dt) {
     slipAngleRear = atan2(velCar.z - angularVel * (1 - data.weightRatio) * data.wheelBase, abs(velCar.x));
 
     latForceFront = weightFront * pacejka(slipAngleFront);
-    latForceRear = weightRear * pacejka(slipAngleRear);
+    latForceRear = weightFront * pacejka(slipAngleRear);
 
     angularTorque = latForceFront * data.weightRatio * data.wheelBase - latForceRear * (1 - data.weightRatio) * data.wheelBase;
 
-    glm::vec3 fTraction(0.0f);
-    fTraction.x = wheelTorque / wheel_bl->getRadius() * gasInput;
-    fTraction.z = cos(glm::radians(steeringAngle)) * latForceFront + latForceRear;
-    glm::vec3 fDrag = glm::length(velCar) * velCar * -data.dragConstant;
-    glm::vec3 fRoll = velCar * -data.rollConstant; 
+    tractionForce.x = wheelTorque / wheel_bl->getRadius() * gasInput;
+    lateralForce = cos(glm::radians(steeringAngle)) * latForceFront + latForceRear;
+    dragForce = glm::length(velCar) * velCar * -data.dragConstant;
+    rollForce = velCar * -data.rollConstant; 
 
-    totalForce = fTraction + fDrag + fRoll;
+    totalForce = tractionForce + dragForce + rollForce;
+    totalForce.z += lateralForce;
 
     accelCar = totalForce / data.mass;
 
@@ -132,7 +137,7 @@ void Car::update(float dt) {
     vel += dt * accel;
     pos += dt * vel;
 
-    angularAccel = angularTorque / data.mass;
+    angularAccel = angularTorque / (data.mass*1.7);
     angularVel += angularAccel * dt;
     yaw += angularVel * dt;
 }
@@ -152,19 +157,22 @@ float Car::lookupTorque(float rpm) {
 
 void Car::gui() {
     ImGui::Begin("car");
-    ImGui::Text("accel =  %.1f %.1f %.1f ", accel.x, accel.y, accel.z);
-    ImGui::Text("vel =  %.1f %.1f %.1f ", vel.x, vel.y, vel.z);
-    ImGui::Text("pos =  %.1f %.1f %.1f ", pos.x, pos.y, pos.z);
+    ImGui::Text("accel =  %.1f %.1f %.1f", accel.x, accel.y, accel.z);
+    ImGui::Text("vel =  %.1f %.1f %.1f", vel.x, vel.y, vel.z);
+    ImGui::Text("pos =  %.1f %.1f %.1f", pos.x, pos.y, pos.z);
     ImGui::NewLine();
-    ImGui::Text("total force: %.1f, %.1f, %.1f", totalForce.x, totalForce.y, totalForce.z);
     ImGui::Text("localAccel = %.1f %.1f", accelCar.x, accelCar.z);
     ImGui::Text("localVel = %.1f %.1f", velCar.x, velCar.z);
-    ImGui::Text("weight rear = %.2f", weightRear);
+    ImGui::NewLine();
+    ImGui::Text("total force =  %.1f, %.1f, %.1f", totalForce.x, totalForce.y, totalForce.z);
+    ImGui::Text("roll =  %.1f %.1f", rollForce.x, rollForce.z);
+    ImGui::Text("drag =  %.1f %.1f", dragForce.x, dragForce.z);
     ImGui::Text("weight front = %.2f", weightFront);
-    ImGui::Text("slip front = %.2f", slipAngleFront);
-    ImGui::Text("slip rear = %.2f", slipAngleRear);
+    ImGui::Text("weight rear = %.2f", weightRear);
     ImGui::Text("lat front = %.2f", latForceFront);
     ImGui::Text("lat rear = %.2f", latForceRear);
+    ImGui::Text("slip front = %.2f", slipAngleFront);
+    ImGui::Text("slip rear = %.2f", slipAngleRear);
     ImGui::Text("torque = %.2f", angularTorque);
     ImGui::Text("yaw = %.2f", yaw);
     ImGui::SliderFloat("steering", &steeringAngle, -40.0f, 40.0f);
@@ -173,6 +181,5 @@ void Car::gui() {
     ImGui::Begin("engine");
     ImGui::Text("rpm = %.0f", engineRpm);
     ImGui::Text("gear = %u", selectedGear + 1);
-
     ImGui::End();
 }

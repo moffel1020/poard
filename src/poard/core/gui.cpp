@@ -1,9 +1,11 @@
 #include "gui.h"
 #include "application.h"
+#include "implot/implot.h"
 
 Gui::Gui() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+    ImPlot::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
 
     ImGui::StyleColorsDark();
@@ -26,5 +28,6 @@ void Gui::end() {
 Gui::~Gui() {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
+    ImPlot::DestroyContext();
     ImGui::DestroyContext();
 }
