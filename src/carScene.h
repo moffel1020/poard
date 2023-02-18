@@ -13,7 +13,6 @@ public:
 private:
 
     std::unique_ptr<Car> car;
-    //Car car;
     Camera carCam = Camera(glm::vec3(0.0f, 0.0f, 0.0f), 80.0f);
 
     std::unique_ptr<Model> ground;

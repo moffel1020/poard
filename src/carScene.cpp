@@ -10,7 +10,7 @@ void CarScene::start() {
     carData.width = 1.854f;
     carData.height = 1.410f;
     carData.wheelBase = 2.693f;
-    carData.weightRatio = 0.53f;
+    carData.weightRatio = 0.50f;
     carData.automaticTransmission = true;
     carData.finalRatio = 3.46f;
     carData.gearRatios[0] = 4.11f;

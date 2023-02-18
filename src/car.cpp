@@ -15,7 +15,7 @@ float sign(float val) {
 
 float pacejka(float slipAngle) {
     float x = -slipAngle;
-    float B = 0.714f;
+    float B = 1.714f;
     float C = 1.40f;
     float D = 1.00f;
     float E = -0.20f;
@@ -104,7 +104,10 @@ void Car::update(float dt) {
 
     float engineTorque = lookupTorque(engineRpm);   // get torque at specific rpm value
 
+    // user input
     float gasInput = Input::isKeyDown(GLFW_KEY_W) ? 1.0f : 0.0f;
+    if (Input::isKeyDown(GLFW_KEY_D)) steeringAngle = -10.0f;
+    if (Input::isKeyDown(GLFW_KEY_A)) steeringAngle = 10.0f;
     brakeForce.x = Input::isKeyDown(GLFW_KEY_SPACE) ? -10000.0f : 0.0f;
 
     float wheelTorque = engineTorque * data.gearRatios[selectedGear] * data.finalRatio * gasInput;  // calculate torque on wheels based on engine torque
@@ -113,14 +116,16 @@ void Car::update(float dt) {
     slipAngleRear = atan2(velCar.z - angularVel * (1 - data.weightRatio) * data.wheelBase, abs(velCar.x));
 
     latForceFront = weightFront * pacejka(slipAngleFront);
-    latForceRear = weightFront * pacejka(slipAngleRear);
+    latForceRear = weightRear * pacejka(slipAngleRear);
 
     angularTorque = latForceFront * data.weightRatio * data.wheelBase - latForceRear * (1 - data.weightRatio) * data.wheelBase;
 
-    tractionForce.x = wheelTorque / wheel_bl->getRadius() * gasInput;
+    tractionForce.x = wheelTorque / wheel_bl->getRadius();
     lateralForce = cos(glm::radians(steeringAngle)) * latForceFront + latForceRear;
     dragForce = glm::length(velCar) * velCar * -data.dragConstant;
     rollForce = velCar * -data.rollConstant; 
+
+    angularTorque += rollForce.z;
 
     totalForce = tractionForce + dragForce + rollForce + brakeForce;
     totalForce.z += lateralForce;
@@ -134,7 +139,7 @@ void Car::update(float dt) {
     vel += dt * accel;
     pos += dt * vel;
 
-    angularAccel = angularTorque / (data.mass*1.7);
+    angularAccel = angularTorque / data.mass;
     angularVel += angularAccel * dt;
     yaw += angularVel * dt;
 }
@@ -206,14 +211,13 @@ void Car::gui() {
 
         if (count < 10000) {
             count++;
-            ImGui::BulletText("%d", count/10);
             if (count % 10 == 0) {
                 timeData[count/10] = glfwGetTime() - startTime;
                 rpm[count/10] = engineRpm;
                 rollX[count/10] = rollForce.x;
-                rollX[count/10] = rollForce.z;
+                rollZ[count/10] = rollForce.z;
                 dragX[count/10] = dragForce.x;
-                dragX[count/10] = dragForce.z;
+                dragZ[count/10] = dragForce.z;
                 tractionX[count/10] = tractionForce.x;
                 slipFrontData[count/10] = slipAngleFront;
                 slipRearData[count/10] = slipAngleRear;
@@ -235,7 +239,7 @@ void Car::gui() {
             ImPlot::EndPlot();
         }
 
-        if (ImPlot::BeginPlot("longtidudonal forces")) {
+        if (ImPlot::BeginPlot("longitudinal forces")) {
             ImPlot::SetupAxes("time", "force (N)", ImPlotAxisFlags_AutoFit, ImPlotAxisFlags_AutoFit);
             ImPlot::PlotLine("air resistance", timeData, dragX, count/10);
             ImPlot::PlotLine("roll resistance", timeData, rollX, count/10);
@@ -247,7 +251,6 @@ void Car::gui() {
             ImPlot::SetupAxes("time", "force (N)", ImPlotAxisFlags_AutoFit, ImPlotAxisFlags_AutoFit);
             ImPlot::PlotLine("air resistance", timeData, dragZ, count/10);
             ImPlot::PlotLine("roll resistance", timeData, rollZ, count/10);
-            ImPlot::PlotLine("traction", timeData, tractionX, count/10);
             ImPlot::PlotLine("rear wheels", timeData, latRear, count/10);
             ImPlot::PlotLine("front wheels", timeData, latFront, count/10);
             ImPlot::EndPlot();

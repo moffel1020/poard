@@ -20,7 +20,7 @@ private:
     float angularVel = 0.0f;    // rad/s
     float weight = 3678.0f;      // m * g, set by car
     float steeringAngle = 0.0f; // degrees
-    float rot = 0.0f;           // degrees rotation to make the tires roll
+    float rot = 0.0f;           // radians rotation to make the tires roll
 
     std::unique_ptr<Model> wheelModel;
     glm::vec3 position;
