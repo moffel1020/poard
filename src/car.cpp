@@ -2,9 +2,9 @@
 #define PI 3.14159265358979323846
 
 
-float lerp(float min, float max, float t) {
-    return min + (max - min) * t;
-}
+//float lerp(float min, float max, float t) {
+    //return min + (max - min) * t;
+//}
 
 float sign(float val) {
     if (!val) 
